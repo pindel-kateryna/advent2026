@@ -1,0 +1,11 @@
+# Personal references, original media, and local archives
+/references/
+
+# macOS and local tooling
+.DS_Store
+.AppleDouble
+._*
+.vercel/
+node_modules/
+__pycache__/
+*.pyc

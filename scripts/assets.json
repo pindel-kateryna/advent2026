@@ -1,0 +1,138 @@
+[
+  {
+    "source": "references/original-assets/day-01/captain-andre.png",
+    "output": "site/assets/day-01/captain-andre.jpg",
+    "format": "jpeg",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-03/chocolate-bear.png",
+    "output": "site/assets/day-03/chocolate-bear.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-03/katya-bear-reveal.png",
+    "output": "site/assets/day-03/katya-bear-reveal.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-04/andre-flex.png",
+    "output": "site/assets/day-04/andre-flex.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-04/shaker-body.png",
+    "output": "site/assets/day-04/shaker-body.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-04/shaker-lid.png",
+    "output": "site/assets/day-04/shaker-lid.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-05/ingredient-biscuits.png",
+    "output": "site/assets/day-05/ingredient-biscuits.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-05/ingredient-cream.png",
+    "output": "site/assets/day-05/ingredient-cream.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-05/ingredient-lotus.png",
+    "output": "site/assets/day-05/ingredient-lotus.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-05/stage-0-plate.png",
+    "output": "site/assets/day-05/stage-0-plate.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-05/stage-1-base.png",
+    "output": "site/assets/day-05/stage-1-base.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-05/stage-2-cream.png",
+    "output": "site/assets/day-05/stage-2-cream.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-05/stage-3-finished.png",
+    "output": "site/assets/day-05/stage-3-finished.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-06/massage.png",
+    "output": "site/assets/day-06/massage.jpg",
+    "format": "jpeg",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-07/couple-before.png",
+    "output": "site/assets/day-07/couple-before.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-07/couple-cuddle.png",
+    "output": "site/assets/day-07/couple-cuddle.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-07/couple-holding.png",
+    "output": "site/assets/day-07/couple-holding.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-07/mugs.png",
+    "output": "site/assets/day-07/mugs.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-07/room-light-off.png",
+    "output": "site/assets/day-07/room-light-off.jpg",
+    "format": "jpeg",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-07/room-light-on.png",
+    "output": "site/assets/day-07/room-light-on.jpg",
+    "format": "jpeg",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-08/tree-unlit.png",
+    "output": "site/assets/day-08/tree-unlit.png",
+    "format": "png",
+    "maxSize": 1448,
+    "alpha": false,
+    "copy": true
+  },
+  {
+    "source": "references/original-assets/day-08/tree-lit.png",
+    "output": "site/assets/day-08/tree-lit.png",
+    "format": "png",
+    "maxSize": 1448,
+    "alpha": false,
+    "copy": true
+  }
+]
