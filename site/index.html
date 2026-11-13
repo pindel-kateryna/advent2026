@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="css/styles.css">
 <script defer src="js/content.js"></script>
 <script defer src="js/day08.js"></script>
-<script defer src="js/app.js"></script>
+<script defer src="js/app.js?v=20261113-code"></script>
 </head>
 <body>
 <div class="wrap">
@@ -23,7 +23,13 @@
 <section class="timer px" aria-live="off"><div class="lab" id="lab"></div><div class="segs" id="segs"></div></section>
 <main class="grid" id="grid"></main>
 <aside class="test px">
-<button id="preview" aria-pressed="false" aria-controls="preview-note">Vorschau starten</button>
+<button id="preview" class="access-toggle" aria-label="Einstellungen" aria-expanded="false" aria-controls="preview-access">⚙</button>
+<form id="preview-access" class="access-form" hidden>
+<label for="preview-code">Zugangscode</label>
+<input id="preview-code" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" required aria-describedby="preview-error">
+<button type="submit">Freischalten</button>
+<p id="preview-error" role="status" aria-live="polite"></p>
+</form>
 <p id="preview-note" hidden>Alle 24 Päckchen sind freigeschaltet. Dein echter Fortschritt bleibt unverändert.</p>
 <button id="rs" hidden>Vorschau zurücksetzen</button>
 </aside>
@@ -32,12 +38,13 @@
 <div id="ov" role="dialog" aria-modal="true" aria-label="Geöffnetes Fundstück">
 <div class="stage" id="stage"></div>
 <div class="card px" id="card">
-<button class="x" id="x" aria-label="Schließen">X</button>
-<p class="n">NEUES FUNDSTÜCK</p><p class="big" id="cn"></p>
-<figure class="gift-photo" id="gift-photo" hidden><img data-src="assets/day-01/captain-andre.jpg" alt="Captain Andre im roten Piratenmantel auf einem Schiff" width="1024" height="1536" decoding="async"></figure>
-<section class="tree" id="tree" aria-label="Weihnachtszauber wecken" hidden>
-<p class="tree-help" id="tree-help" data-copy="treeInstructions"></p>
-<p class="tree-count" id="tree-count">0 / 3</p>
+<div class="gift-card-header"><p class="n">NEUES FUNDSTÜCK</p><p class="big" id="cn"></p><button class="x" id="x" aria-label="Schließen">X</button></div>
+<div class="gift-task" id="gift-generic-task"><p class="h" id="ch"></p></div>
+<figure class="gift-photo gift-panel" id="gift-photo" hidden><img data-src="assets/day-01/captain-andre.jpg" alt="Captain Andre im roten Piratenmantel auf einem Schiff" width="1024" height="1536" decoding="async"><figcaption class="gift-caption" id="photo-copy"></figcaption></figure>
+<section class="tree gift-panel" id="tree" aria-label="Weihnachtszauber wecken" hidden>
+<div class="gift-task" id="tree-task"></div>
+<p class="tree-help gift-instructions" id="tree-help" data-copy="treeInstructions"></p>
+<p class="tree-count gift-progress" id="tree-count">0 / 3</p>
 <div class="tree-scene" id="tree-scene" role="group" aria-label="Weihnachtsbaum mit drei kleinen Sternen">
 <img class="tree-image tree-unlit" data-src="assets/day-08/tree-unlit.png" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
 <img class="tree-image tree-light" id="tree-light-upper" data-src="assets/day-08/tree-lit.png" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
@@ -50,18 +57,19 @@
 <button class="tree-star" id="tree-star-middle" type="button" aria-label="Zweiten Stern finden" aria-disabled="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.8 15.1 8.1 22 9.1 17 14 18.2 20.9 12 17.6 5.8 20.9 7 14 2 9.1 8.9 8.1Z"/></svg></button>
 <button class="tree-star" id="tree-star-lower" type="button" aria-label="Dritten Stern finden" aria-disabled="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.8 15.1 8.1 22 9.1 17 14 18.2 20.9 12 17.6 5.8 20.9 7 14 2 9.1 8.9 8.1Z"/></svg></button>
 </div>
-<p class="tree-status" id="tree-status" role="status" aria-live="polite" aria-atomic="true"></p>
-<button class="tree-tip" id="tree-tip" type="button">Ein kleiner Tipp?</button>
-<button class="btn tree-again" id="tree-again" type="button" hidden>Nochmal zaubern</button>
+<p class="tree-status gift-feedback" id="tree-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="gift-actions"><button class="tree-tip gift-hint" id="tree-tip" type="button">Ein kleiner Tipp?</button>
+<button class="btn tree-again gift-repeat" id="tree-again" type="button" hidden>Nochmal zaubern</button></div>
 </section>
-<section class="movie" id="movie" aria-label="Unseren Filmabend vorbereiten" hidden>
-<p class="movie-help" data-copy="movieInstructions"></p>
-<p class="movie-count" id="movie-count">0 / 3</p>
+<section class="movie gift-panel" id="movie" aria-label="Unseren Filmabend vorbereiten" hidden>
+<div class="gift-task" id="movie-task"></div>
+<p class="movie-help gift-instructions" data-copy="movieInstructions"></p>
+<p class="movie-count gift-progress" id="movie-count">0 / 3</p>
 <div class="movie-room" id="movie-room" role="group" aria-label="Unser gemütliches Wohnzimmer">
 <img class="movie-decor movie-background" data-src="assets/day-07/room-light-on.jpg" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
 <img class="movie-decor movie-background movie-dark" data-src="assets/day-07/room-light-off.jpg" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
 <div class="movie-decor movie-screen" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4L21 12 7 20Z"/></svg><span data-copy="movieScreenLabel"></span></div>
-<div class="movie-decor movie-couple-stack" aria-hidden="true"><img class="movie-couple-main" id="movie-couple" data-src="assets/day-07/couple-before.png" alt="" width="1312" height="1199" draggable="false" decoding="async"><img class="movie-cuddle" data-src="assets/day-07/couple-cuddle.png" alt="" width="1312" height="1199" draggable="false" decoding="async"></div>
+<div class="movie-decor movie-couple-stack" aria-hidden="true"><img class="movie-couple-main" id="movie-couple" data-src="assets/day-07/couple-before-v2.png" alt="" width="1312" height="1199" draggable="false" decoding="async"><img class="movie-cuddle" data-src="assets/day-07/couple-cuddle-v2.png" alt="" width="1312" height="1199" draggable="false" decoding="async"></div>
 <img class="movie-decor movie-table" data-src="assets/day-07/room-light-on.jpg" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
 <img class="movie-decor movie-table movie-dark" data-src="assets/day-07/room-light-off.jpg" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
 <img class="movie-decor movie-mugs" id="movie-mugs" data-src="assets/day-07/mugs.png" alt="" width="1774" height="887" aria-hidden="true" draggable="false" decoding="async">
@@ -71,17 +79,18 @@
 <button class="movie-hotspot" id="movie-tvOn" data-find="tvOn" type="button" aria-label="Fernseher einschalten" aria-disabled="false"></button>
 <button class="movie-hotspot" id="movie-mugsTaken" data-find="mugsTaken" type="button" aria-label="Heiße Schokolade nehmen" aria-disabled="false"></button>
 </div>
-<p class="movie-status" id="movie-status" role="status" aria-live="polite" aria-atomic="true"></p>
-<button class="movie-tip" id="movie-tip" type="button">Ein kleiner Tipp?</button>
-<article class="movie-invitation" id="movie-invitation" hidden aria-labelledby="movie-invitation-title"><h2 id="movie-invitation-title" data-copy="movieInvitationTitle"></h2><p data-copy="movieInvitationCopy"></p></article>
-<button class="btn movie-again" id="movie-again" type="button" hidden>Nochmal entdecken</button>
+<p class="movie-status gift-feedback" id="movie-status" role="status" aria-live="polite" aria-atomic="true"></p>
+
+<article class="movie-invitation gift-reward" id="movie-invitation" hidden aria-labelledby="movie-invitation-title"><h2 id="movie-invitation-title" data-copy="movieInvitationTitle"></h2><p data-copy="movieInvitationCopy"></p></article>
+<div class="gift-actions"><button class="movie-tip gift-hint" id="movie-tip" type="button">Ein kleiner Tipp?</button>
+<button class="btn movie-again gift-repeat" id="movie-again" type="button" hidden>Nochmal entdecken</button></div>
 </section>
-<figure class="massage" id="massage" hidden><img data-src="assets/day-06/massage.jpg" alt="Andre genießt eine Kopfmassage, mit entspanntem Gesicht und gekreuzten Tierpfötchen" width="1086" height="1448" decoding="async"><figcaption data-copy="massageCaption"></figcaption></figure>
-<p class="h" id="ch"></p>
-<section class="lotus" id="lotus" aria-label="Deinen Lotus-Cheesecake zusammenstellen" hidden>
-<p class="lotus-help" id="lotus-help"><span data-copy="lotusInstructions"></span><span class="lotus-touch-help"><span data-copy="lotusTouchGuide"></span></span></p>
-<ol class="lotus-progress" aria-label="Die drei Zutaten-Schritte"><li id="lotus-progress-0">1 · Kekse</li><li id="lotus-progress-1">2 · Creme</li><li id="lotus-progress-2">3 · Lotus</li></ol>
-<p class="lotus-status" id="lotus-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<figure class="massage gift-panel" id="massage" hidden><img data-src="assets/day-06/massage.jpg" alt="Andre genießt eine Kopfmassage, mit entspanntem Gesicht und gekreuzten Tierpfötchen" width="1086" height="1448" decoding="async"><figcaption class="gift-caption" data-copy="massageCaption"></figcaption></figure>
+<section class="lotus gift-panel" id="lotus" aria-label="Deinen Lotus-Cheesecake zusammenstellen" hidden>
+<div class="gift-task" id="lotus-task"></div>
+<p class="lotus-help gift-instructions" id="lotus-help"><span data-copy="lotusInstructions"></span><span class="lotus-touch-help"><span data-copy="lotusTouchGuide"></span></span></p>
+<p class="gift-step" id="lotus-step"></p>
+<ol class="lotus-progress gift-progress" aria-label="Die drei Zutaten-Schritte"><li id="lotus-progress-0">1 · Kekse</li><li id="lotus-progress-1">2 · Creme</li><li id="lotus-progress-2">3 · Lotus</li></ol>
 <div class="lotus-plate" id="lotus-plate" role="group" aria-label="Teller: Zutaten hier ablegen">
 <img id="lotus-image" data-src="assets/day-05/stage-0-plate.png" alt="Leerer Teller" width="1254" height="1254" draggable="false" decoding="async">
 <div class="lotus-effects" id="lotus-effects" aria-hidden="true"></div>
@@ -91,38 +100,44 @@
 <button class="lotus-ingredient" id="lotus-ingredient-1" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-cream.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Creme</span></button>
 <button class="lotus-ingredient" id="lotus-ingredient-2" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-lotus.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Lotus-Aufstrich</span></button>
 </div>
-<article class="lotus-voucher" id="lotus-voucher" hidden aria-labelledby="lotus-voucher-title"><p class="lotus-eyebrow">Für Andre · von Katya</p><h2 id="lotus-voucher-title" data-copy="lotusVoucherTitle"></h2><p data-copy="lotusVoucherCopy"></p></article>
-<aside class="lotus-hint" id="lotus-hint" hidden><b>Dein Geschenk</b><p id="lotus-hint-text"></p></aside>
-<button class="btn lotus-again" id="lotus-again" type="button" hidden>Nochmal spielen</button>
+<p class="lotus-status gift-feedback sr-only" id="lotus-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<article class="lotus-voucher gift-reward" id="lotus-voucher" hidden aria-labelledby="lotus-voucher-title"><p class="lotus-eyebrow">Für Andre · von Katya</p><h2 id="lotus-voucher-title" data-copy="lotusVoucherTitle"></h2><p data-copy="lotusVoucherCopy"></p></article>
+<aside class="lotus-hint gift-reward" id="lotus-hint" hidden><b>Dein Geschenk</b><p id="lotus-hint-text"></p></aside>
+<div class="gift-actions"><button class="btn lotus-again gift-repeat" id="lotus-again" type="button" hidden>Nochmal spielen</button></div>
 </section>
-<section class="shaker" id="shaker" aria-label="Andre im Shaker" hidden>
+<section class="shaker gift-panel gift-animation" id="shaker" aria-label="Andre im Shaker" hidden>
+<div class="gift-task" id="shaker-task"></div>
 <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><clipPath id="shaker-body-clip" clipPathUnits="objectBoundingBox"><path d="M.5 .092 C.72 .092 .87 .104 .872 .126 L.872 .15 Q.888 .16 .876 .174 Q.895 .186 .88 .198 Q.898 .21 .88 .225 Q.897 .24 .88 .26 L.86 .28 .775 .911 Q.771 .947 .72 .95 Q.5 .97 .28 .95 Q.229 .947 .225 .911 L.14 .28 .12 .26 Q.103 .24 .12 .225 Q.102 .21 .12 .198 Q.105 .186 .124 .174 Q.112 .16 .128 .15 L.128 .126 C.13 .104 .28 .092 .5 .092Z"/></clipPath></defs></svg>
-<div class="shaker-scene" id="shaker-scene" role="img" aria-label="Geschlossener Shaker">
+<div class="gift-animation-viewport"><div class="shaker-scene" id="shaker-scene" role="img" aria-label="Geschlossener Shaker">
 <div class="shaker-puppet">
 <div class="shaker-person-window" aria-hidden="true"><img class="shaker-person" data-src="assets/day-04/andre-flex.png" alt="" width="1199" height="1312" draggable="false" decoding="async"></div>
 <img class="shaker-body" style="clip-path:url(#shaker-body-clip)" data-src="assets/day-04/shaker-body.png" alt="" width="1024" height="1536" draggable="false" aria-hidden="true" decoding="async">
 <div class="shaker-lid" aria-hidden="true"><img data-src="assets/day-04/shaker-lid.png" alt="" width="2172" height="724" draggable="false" decoding="async"></div>
 </div>
-</div>
-<p class="sr-only" id="shaker-status" role="status" aria-live="polite" aria-atomic="true"></p>
-<div class="shaker-controls"><button type="button" class="btn" id="shaker-start" aria-controls="shaker-scene" aria-disabled="false">Shake it!</button>
-<button type="button" class="btn shaker-again" id="shaker-again" aria-controls="shaker-scene" hidden>Nochmal</button></div>
+</div></div>
+<p class="gift-feedback sr-only" id="shaker-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="shaker-controls gift-actions"><button type="button" class="btn" id="shaker-start" aria-controls="shaker-scene" aria-disabled="false">Shake it!</button>
+<button type="button" class="btn shaker-again gift-repeat" id="shaker-again" aria-controls="shaker-scene" hidden>Nochmal</button></div>
 </section>
-<section class="bear" id="bear" aria-label="Schokoladenbär mit Überraschung" hidden>
-<button type="button" class="bear-scene" id="bear-scene" aria-label="Schokoladenbär antippen" aria-describedby="ch" aria-disabled="false">
+<section class="bear gift-panel gift-animation" id="bear" aria-label="Schokoladenbär mit Überraschung" hidden>
+<div class="gift-task" id="bear-task"></div>
+<div class="gift-animation-viewport"><button type="button" class="bear-scene" id="bear-scene" aria-label="Schokoladenbär antippen" aria-describedby="ch" aria-disabled="false">
 <span class="bear-layer bear-body" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
-<span class="bear-layer bear-katya-head" aria-hidden="true"><img data-src="assets/day-03/katya-bear-reveal.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
+<span class="bear-layer bear-katya-head" aria-hidden="true"><img data-src="assets/day-03/katya-bear-reveal-v2.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
 <span class="bear-layer bear-chocolate-head" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
-</button>
-<p class="sr-only" id="bear-status" role="status" aria-live="polite" aria-atomic="true"></p>
-<button type="button" class="btn bear-replay" id="bear-replay" hidden>Nochmal</button>
+</button></div>
+<p class="gift-feedback sr-only" id="bear-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="gift-actions"><button type="button" class="btn" id="bear-start" aria-controls="bear-scene" aria-disabled="false">Überraschung öffnen</button>
+<button type="button" class="btn bear-replay gift-repeat" id="bear-replay" hidden>Nochmal</button></div>
 </section>
-<section class="memory" id="memory" aria-label="Finde alle vier Paare" hidden>
+<section class="memory gift-panel" id="memory" aria-label="Finde alle vier Paare" hidden>
+<div class="gift-task" id="memory-task"></div>
+<p class="gift-progress" id="memory-progress" aria-label="Gefundene Paare">0 / 4</p>
 <div class="memory-grid" id="memory-grid"></div>
-<p class="memory-status" id="memory-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<p class="memory-status gift-feedback sr-only" id="memory-status" role="status" aria-live="polite" aria-atomic="true"></p>
 </section>
-<button class="btn" id="yes">Да, канєшно 💛</button>
-<div class="where" id="wh"></div>
+<div class="gift-actions" id="gift-default-actions"><button class="btn" id="yes">Да, канєшно 💛</button></div>
+<div class="where gift-reward" id="wh"></div>
 </div>
 </div>
 </body>

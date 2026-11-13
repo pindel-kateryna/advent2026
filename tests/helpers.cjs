@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const ROOT = path.resolve(__dirname, '..');
 const SITE = path.join(ROOT, 'site');
 const html = fs.readFileSync(path.join(SITE, 'index.html'), 'utf8');
-const code = [...html.matchAll(/<script\b[^>]*src="([^"]+)"/g)].map(match => fs.readFileSync(path.join(SITE, match[1]), 'utf8')).join('\n');
+const code = [...html.matchAll(/<script\b[^>]*src="([^"]+)"/g)].map(match => fs.readFileSync(path.join(SITE, match[1].split('?')[0]), 'utf8')).join('\n');
 
 function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
   const ids = {}, requests = [], writes = [], timers = new Map();
@@ -40,7 +40,7 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
         delete this.attrs[key];
         if (key.startsWith('data-')) delete this.dataset[key.slice(5).replace(/-([a-z])/g, (_, c) => c.toUpperCase())];
       },
-      appendChild(child) { child.parent = this; this.children.push(child); },
+      appendChild(child) { if (child.parent) child.parent.children = child.parent.children.filter(x => x !== child); child.parent = this; this.children.push(child); },
       remove() { if (this.parent) this.parent.children = this.parent.children.filter(x => x !== this); },
       addEventListener(type, fn, options) { this.listeners[type] = { fn, options }; },
       focus() { document.activeElement = this; },
@@ -85,6 +85,10 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
     clearTimeout(id) { timers.delete(id); }
   };
   vm.createContext(context); vm.runInContext(code, context);
+  if (preview) {
+    ids['preview-code'].value = '6652';
+    ids['preview-access'].onsubmit({ preventDefault() {} });
+  }
   return {
     ids, requests, writes, timers, state, storage, document,
     run(source) { return vm.runInContext(source, context); },

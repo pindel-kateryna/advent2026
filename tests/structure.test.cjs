@@ -4,12 +4,22 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { ROOT, SITE, html, setup } = require('./helpers.cjs');
 
+test('gift types keep the shared copy in the correct panel when switching days', () => {
+  const game = setup();
+  for (const [day, kind, slot] of [[1,'image','photo-copy'],[2,'game','memory-task'],[3,'animation','bear-task'],[4,'animation','shaker-task'],[5,'game','lotus-task'],[6,'image','gift-generic-task'],[7,'game','movie-task'],[8,'game','tree-task'],[3,'animation','bear-task']]) {
+    game.run(`setCard(${day},opened)`);
+    assert.equal(game.ids.card.dataset.kind, kind);
+    assert.equal(game.ids.ch.parent.attrs.id, slot);
+    assert.equal(game.ids['gift-default-actions'].hidden, day !== 1);
+  }
+});
+
 test('every static and dynamic asset reference resolves inside the public site', () => {
   const paths = [...html.matchAll(/\b(?:data-src|src|href)="([^"]+)"/g)]
-    .map(match => match[1]).filter(value => !/^(https?:|data:|#)/.test(value));
+    .map(match => match[1]).filter(value => !/^(https?:|data:|#)/.test(value)).map(value => value.split('?')[0]);
   const game = setup();
   paths.push(...game.run('LOTUS_STAGES.concat(LOTUS_INGREDIENTS).map(name=>LOTUS_ROOT+name)'));
-  paths.push(...['before', 'holding', 'cuddle'].map(pose => 'assets/day-07/couple-' + pose + '.png'));
+  paths.push(...['before', 'holding', 'cuddle'].map(pose => 'assets/day-07/couple-' + pose + '-v2.png'));
   for (const value of paths) {
     const resolved = path.resolve(SITE, value);
     assert(resolved.startsWith(SITE + path.sep), value);
@@ -32,7 +42,7 @@ test('the public folder contains only runtime files and prepared images', () => 
 });
 
 test('content loads before the app and every copy placeholder has a value', () => {
-  assert(html.indexOf('defer src="js/content.js"') < html.indexOf('defer src="js/app.js"'));
+  assert(html.indexOf('defer src="js/content.js"') < html.indexOf('defer src="js/app.js?'));
   assert(!/<img\b[^>]*\ssrc=/.test(html));
   assert(!html.includes('rel="preload"'));
   const game = setup();

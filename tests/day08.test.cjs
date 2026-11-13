@@ -7,7 +7,7 @@ const ids = ['upper', 'middle', 'lower'];
 const orders = [['upper','middle','lower'],['upper','lower','middle'],['middle','upper','lower'],['middle','lower','upper'],['lower','upper','middle'],['lower','middle','upper']];
 
 test('day 8 loads only its two scene assets on demand and starts without any lights', () => {
-  assert(html.indexOf('defer src="js/day08.js"') < html.indexOf('defer src="js/app.js"'));
+  assert(html.indexOf('defer src="js/day08.js"') < html.indexOf('defer src="js/app.js?'));
   const game = setup(); assert.deepEqual(game.requests, []); game.run('openDay(8)');
   assert.equal(game.ids.tree.hidden, false); assert.equal(game.ids['tree-count'].textContent, '0 / 3');
   assert.equal(game.ids['tree-scene'].classList.contains('tree-complete'), false);
@@ -148,7 +148,7 @@ test('soft masks cover every bulb on their own strand and leave the other strand
 });
 
 test('the supplied tree canvases are copied unchanged and the new scene reveals no package contents', () => {
-  const section = html.slice(html.indexOf('<section class="tree"'), html.indexOf('<section class="movie"'));
+  const section = html.slice(html.indexOf('<section class="tree '), html.indexOf('<section class="movie '));
   const dayCode = fs.readFileSync(path.join(SITE, 'js/day08.js'), 'utf8');
   assert(!/Bär|bear|ornament|Anhänger|Spielzeug|Versteck|Zimmer/i.test(section + dayCode));
   assert(!dayCode.includes('beep('));

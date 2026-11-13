@@ -8,7 +8,7 @@ const sectionId=DAY_MEDIA[day];if(!sectionId)return;
 const section=$(sectionId);if(!section)return;
 section.querySelectorAll('img[data-src]').forEach(img=>{img.src=img.dataset.src;img.removeAttribute('data-src')});
 // The intermediate holding pose is needed after the cups leave the table.
-if(day===7){const path=MOVIE_ROOT+'couple-holding.png';if(!preloadedMedia.has(path)){const image=new Image();image.src=path;preloadedMedia.set(path,image)}}
+if(day===7){const path=MOVIE_ROOT+'couple-holding-v2.png';if(!preloadedMedia.has(path)){const image=new Image();image.src=path;preloadedMedia.set(path,image)}}
 }
 
 let theme='g';
@@ -22,7 +22,7 @@ return `<svg viewBox='0 0 100 100'><g class='body'><rect x='${x}' y='${y}' width
 const art=i=>ART.g(i);
 // ---------- Texte ----------
 // ---------- Zustand ----------
-let preview=/vorschau/i.test(location.search),sound=false,actx;
+let preview=false,sound=false,actx;
 const realOpened=new Set(),previewOpened=new Set();
 try{JSON.parse(localStorage.getItem('adv26')||'[]').forEach(n=>realOpened.add(n))}catch(e){}
 let opened=preview?previewOpened:realOpened;
@@ -66,7 +66,7 @@ stopMemory();
 const deck=[0,0,1,1,2,2,3,3];
 for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}
 const game=memoryGame={deck,buttons:[],first:null,busy:false,pairs:0,timer:null,progress};
-$('memory-grid').innerHTML='';$('memory-status').textContent='0 von 4 Paaren gefunden';
+$('memory-grid').innerHTML='';$('memory-status').textContent='0 von 4 Paaren gefunden';$('memory-status').classList.add('sr-only');$('memory-progress').textContent='0 / 4';
 deck.forEach((symbol,index)=>{
 const button=document.createElement('button');button.type='button';button.className='memory-tile';
 button.setAttribute('aria-label',`Karte ${index+1}, verdeckt`);button.setAttribute('aria-pressed','false');
@@ -82,7 +82,7 @@ if(game.first===null){game.first=index;return}
 const first=game.first;game.first=null;
 if(game.deck[first]===game.deck[index]){
 for(const i of [first,index]){game.buttons[i].classList.add('matched');game.buttons[i].setAttribute('aria-disabled','true')}
-game.pairs++;beep(784,.12);
+game.pairs++;$('memory-progress').textContent=game.pairs+' / 4';$('memory-status').classList.toggle('sr-only',game.pairs<4);beep(784,.12);
 $('memory-status').textContent=`${game.pairs} von 4 Paaren gefunden`;
 if(game.pairs===4){
 game.busy=true;game.progress.add(2);save(game.progress);grid();
@@ -91,11 +91,11 @@ $('memory-status').textContent='Alle vier Paare gefunden! Dein Geschenk ist frei
 $('wh').classList.add('on');beep(1046,.2);
 }
 }else{
-game.busy=true;$('memory-status').textContent='Kein Paar. Versuch es noch einmal!';
+game.busy=true;$('memory-status').classList.remove('sr-only');$('memory-status').textContent='Kein Paar. Versuch es noch einmal!';
 game.timer=setTimeout(()=>{
 if(memoryGame!==game)return;
 for(const i of [first,index]){game.buttons[i].classList.remove('flipped');game.buttons[i].setAttribute('aria-pressed','false');game.buttons[i].setAttribute('aria-label',`Karte ${i+1}, verdeckt`)}
-game.busy=false;$('memory-status').textContent=`${game.pairs} von 4 Paaren gefunden`;
+game.busy=false;$('memory-status').classList.add('sr-only');$('memory-status').textContent=`${game.pairs} von 4 Paaren gefunden`;
 },1000);
 }}
 let bearGame=null;
@@ -103,7 +103,7 @@ function stopBear(){
 if(bearGame)clearTimeout(bearGame.timer);
 bearGame=null;$('bear-scene').classList.remove('bear-running','bear-done');
 $('bear-scene').setAttribute('aria-disabled','false');$('bear-scene').setAttribute('aria-busy','false');
-$('bear-replay').hidden=true;$('bear-status').textContent='';
+$('bear-replay').hidden=true;$('bear-start').hidden=false;$('bear-start').setAttribute('aria-disabled','false');$('bear-status').textContent='';
 }
 function startBear(progress){
 stopBear();bearGame={progress,busy:false,done:false,timer:null};
@@ -111,20 +111,20 @@ $('ch').textContent=BEAR_INTRO;$('bear-scene').setAttribute('aria-label','Schoko
 }
 function playBear(){
 const game=bearGame;if(!game||game.busy||game.done)return;
-game.busy=true;$('bear-scene').setAttribute('aria-disabled','true');$('bear-scene').setAttribute('aria-busy','true');
+game.busy=true;$('bear-start').setAttribute('aria-disabled','true');$('bear-scene').setAttribute('aria-disabled','true');$('bear-scene').setAttribute('aria-busy','true');
 const finish=()=>{
 if(bearGame!==game)return;
 game.busy=false;game.done=true;
 $('bear-scene').classList.remove('bear-running');$('bear-scene').classList.add('bear-done');
 $('bear-scene').setAttribute('aria-busy','false');$('bear-scene').setAttribute('aria-label','Katya im Schokoladenbären');
-$('ch').textContent=BEAR_REVEAL;$('bear-status').textContent=BEAR_REVEAL;
+$('ch').textContent=BEAR_REVEAL;$('bear-status').textContent=BEAR_REVEAL;$('bear-start').hidden=true;
 $('bear-replay').hidden=false;game.progress.add(3);save(game.progress);grid();
-if(document.activeElement===$('bear-scene'))$('bear-replay').focus();
+if(document.activeElement===$('bear-scene')||document.activeElement===$('bear-start'))$('bear-replay').focus();
 };
 if(matchMedia('(prefers-reduced-motion:reduce)').matches){finish();return}
 $('bear-scene').classList.add('bear-running');game.timer=setTimeout(finish,1800);
 }
-$('bear-scene').onclick=playBear;
+$('bear-scene').onclick=playBear;$('bear-start').onclick=playBear;
 $('bear-replay').onclick=()=>{
 if(!bearGame||bearGame.busy)return;
 const progress=bearGame.progress;startBear(progress);$('bear-scene').focus();
@@ -175,8 +175,9 @@ lotusGame=null;$('lotus-effects').innerHTML='';$('lotus-plate').removeAttribute(
 function renderLotus(){
 const game=lotusGame;if(!game)return;
 $('lotus-image').src=LOTUS_ROOT+LOTUS_STAGES[game.step];$('lotus-image').alt=LOTUS_ALTS[game.step];
-$('ch').textContent=game.step===3&&game.earned?LOTUS_WIN:LOTUS_TITLE;$('lotus-help').hidden=game.step===3;
-$('lotus-status').textContent=game.busy?'Ein kleiner Moment — dein Cheesecake wird verfeinert.':game.step===3?'3 von 3 Schritten geschafft! Dein Gutschein ist freigeschaltet.':`Schritt ${game.step+1} von 3: ${LOTUS_STEPS[game.step]}`;
+$('ch').textContent=LOTUS_TITLE;$('lotus-help').hidden=false;$('lotus-step').textContent=LOTUS_STEPS[Math.min(game.step,2)];
+$('lotus-status').textContent=game.busy?'Ein kleiner Moment — dein Cheesecake wird verfeinert.':game.step===3?LOTUS_WIN:`Schritt ${game.step+1} von 3: ${LOTUS_STEPS[game.step]}`;
+$('lotus-status').classList.toggle('sr-only',game.step!==3||game.busy);
 for(let i=0;i<3;i++){
 const used=i<game.step,button=$('lotus-ingredient-'+i),progress=$('lotus-progress-'+i);
 button.classList.toggle('lotus-needed',i===game.step);button.classList.toggle('lotus-used',used);
@@ -205,13 +206,13 @@ game.effectsTimer=setTimeout(()=>{if(lotusGame===game)$('lotus-effects').innerHT
 }
 async function addLotus(index){
 const game=lotusGame;if(!game||game.busy||game.step===3)return;
-if(index<game.step){$('lotus-status').textContent='Die Zutat ist schon dabei. '+LOTUS_STEPS[game.step];return}
-if(index!==game.step){$('lotus-status').textContent='Noch einen kleinen Moment: '+LOTUS_STEPS[game.step];return}
+if(index<game.step){$('lotus-status').classList.remove('sr-only');$('lotus-status').textContent='Die Zutat ist schon dabei. '+LOTUS_STEPS[game.step];return}
+if(index!==game.step){$('lotus-status').classList.remove('sr-only');$('lotus-status').textContent='Noch einen kleinen Moment: '+LOTUS_STEPS[game.step];return}
 endLotusDrag();clearTimeout(game.effectsTimer);game.effectsTimer=null;$('lotus-effects').innerHTML='';game.busy=true;renderLotus();$('lotus-plate').setAttribute('aria-busy','true');
 const next=game.step+1,reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
 // Keep the previous full state visible until the incoming full PNG has decoded.
 const image=new Image();image.src=LOTUS_ROOT+LOTUS_STAGES[next];
-try{await image.decode()}catch(error){if(lotusGame===game){game.busy=false;renderLotus();$('lotus-plate').setAttribute('aria-busy','false');$('lotus-status').textContent='Das Bild konnte gerade nicht laden. Tippe die Zutat bitte noch einmal an.'}return}
+try{await image.decode()}catch(error){if(lotusGame===game){game.busy=false;renderLotus();$('lotus-plate').setAttribute('aria-busy','false');$('lotus-status').classList.remove('sr-only');$('lotus-status').textContent='Das Bild konnte gerade nicht laden. Tippe die Zutat bitte noch einmal an.'}return}
 if(lotusGame!==game)return;
 game.step=next;renderLotus();$('lotus-plate').setAttribute('data-effect',reduced?'':next===2?'cream':next===1?'crumb':'caramel');
 if(!reduced&&next!==2)lotusParticles(next===1?'crumb':'caramel');
@@ -300,7 +301,7 @@ room.classList.toggle('lamp-off',game.flags.lampOff);room.classList.toggle('tv-o
 room.classList.toggle('movie-taking',game.mugsAnimating);room.classList.toggle('has-mugs',game.flags.mugsTaken&&!game.mugsAnimating);
 room.classList.toggle('movie-finished',game.finishing||game.finished);
 const pose=game.flags.mugsTaken&&!game.mugsAnimating?'holding':'before';
-if($('movie-couple').dataset.pose!==pose){$('movie-couple').src=MOVIE_ROOT+'couple-'+pose+'.png';$('movie-couple').dataset.pose=pose}
+if($('movie-couple').dataset.pose!==pose){$('movie-couple').src=MOVIE_ROOT+'couple-'+pose+'-v2.png';$('movie-couple').dataset.pose=pose}
 $('movie-mugs').hidden=game.flags.mugsTaken&&!game.mugsAnimating;
 $('movie-count').textContent=count+' / 3';$('movie-count').setAttribute('aria-label',count+' von 3 Handgriffen gefunden');
 for(const key of MOVIE_KEYS){const button=$('movie-'+key);button.setAttribute('aria-disabled',String(game.flags[key]));button.setAttribute('aria-label',MOVIE_LABELS[key][game.flags[key]?1:0]);if(game.flags[key])button.classList.remove('movie-hint')}
@@ -348,13 +349,21 @@ const progress=game.progress,earned=game.earned||progress.has(7),state={...blank
 if(progress===realOpened){realMovieState=state;try{localStorage.setItem('adv26-day7',JSON.stringify(state))}catch(error){}}else previewMovieState=state;
 startMovie(progress);$('movie-lampOff').focus();
 };
+function arrangeGift(day){
+const kind=[1,6].includes(day)?'image':[3,4].includes(day)?'animation':[2,5,7,8].includes(day)?'game':'message';
+const slots={1:'photo-copy',2:'memory-task',3:'bear-task',4:'shaker-task',5:'lotus-task',7:'movie-task',8:'tree-task'};
+const slot=$(slots[day]||'gift-generic-task');slot.appendChild($('ch'));slot.hidden=$('ch').hidden;
+$('card').dataset.kind=kind;$('card').dataset.hasTitle=String(!$('ch').hidden);
+$('ov').classList.toggle('gift-layout',day<=8);
+$('gift-default-actions').hidden=$('yes').style.display==='none';
+}
 function setCard(n,progress){
 stopMemory();stopBear();stopShaker();stopLotus();stopMovie();stopTree();$('tree').hidden=n!==8;$('movie').hidden=n!==7;$('massage').hidden=n!==6;$('ch').hidden=n===6||n===7;$('lotus').hidden=n!==5;$('gift-photo').hidden=n!==1;$('bear').hidden=n!==3;$('shaker').hidden=n!==4;
 $('cn').textContent=z(n);
 $('ch').textContent=n===2?'Das nächste Geschenk musst du dir erspielen. Finde alle vier Paare!':n===3?BEAR_INTRO:n===4?SHAKER_INTRO:n===5?LOTUS_TITLE:n===7?MOVIE_TITLE:n===8?TREE_TITLE:D[n-1][0];
 $('wh').innerHTML=`<b>Dein Fund</b>${D[n-1][1]}`;$('wh').classList.remove('on');
 $('yes').style.display=n===2||n===3||n===4||n===5||n===6||n===7||n===8?'none':'block';$('memory').hidden=n!==2;
-if(n===2)startMemory(progress);if(n===3)startBear(progress);if(n===4)startShaker(progress);if(n===5)startLotus(progress);if(n===7)startMovie(progress);if(n===8)startTree(progress);
+if(n===2)startMemory(progress);if(n===3)startBear(progress);if(n===4)startShaker(progress);if(n===5)startLotus(progress);if(n===7)startMovie(progress);if(n===8)startTree(progress);arrangeGift(n);
 }
 function openDay(n){loadDayMedia(n);const i=n-1,ov=$('ov'),st=$('stage'),cd=$('card'),progress=opened,first=!progress.has(n);
 openingTimers.forEach(clearTimeout);openingTimers=[];
@@ -374,12 +383,27 @@ $('snd').onclick=()=>{sound=!sound;$('snd').setAttribute('aria-pressed',sound);$
 // ---------- Vorschau-Steuerung ----------
 function updatePreview(){
 opened=preview?previewOpened:realOpened;
-$('preview').setAttribute('aria-pressed',String(preview));
-$('preview').textContent=preview?'Vorschau beenden':'Vorschau starten';
+$('preview').setAttribute('aria-label',preview?'Vorschau beenden':'Einstellungen');
+$('preview').textContent=preview?'Vorschau beenden':'⚙';
+$('preview-access').hidden=true;$('preview').setAttribute('aria-expanded','false');
+$('preview-code').value='';$('preview-error').textContent='';
 $('preview-note').hidden=!preview;$('rs').hidden=!preview;
 grid();tick();
 }
-$('preview').onclick=()=>{preview=!preview;closeOv();updatePreview()};
+$('preview').onclick=()=>{
+if(preview){preview=false;closeOv();updatePreview();return}
+const form=$('preview-access');form.hidden=!form.hidden;
+$('preview').setAttribute('aria-expanded',String(!form.hidden));
+$('preview-error').textContent='';if(!form.hidden)$('preview-code').focus();
+};
+$('preview-access').onsubmit=e=>{
+e.preventDefault();
+if($('preview-code').value!=='6652'){
+$('preview-error').textContent='Der Code stimmt leider nicht. Versuch es noch einmal.';
+$('preview-code').setAttribute('aria-invalid','true');$('preview-code').value='';$('preview-code').focus();return;
+}
+$('preview-code').removeAttribute('aria-invalid');preview=true;closeOv();updatePreview();$('preview').focus();
+};
 $('rs').onclick=()=>{previewOpened.clear();previewMovieState=blankMovie();previewTreeState=null;grid()};
 function boot(){document.body.dataset.t='g';document.body.classList.add('v');
 $('gl').innerHTML=Array.from({length:14},(_,k)=>`<i style="--c:${['#ffc872','#ffe9b0','#e88a6a','#fff'][k%4]};animation-delay:${(k%4)*.4}s"></i>`).join('');

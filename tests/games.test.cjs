@@ -12,7 +12,7 @@ test('calendar starts without loading any gift images and loads only the selecte
   assert.equal(game.requests.length, firstCount);
   game.run('closeOv();openDay(7)');
   assert(game.requests.slice(firstCount).every(x => x.startsWith('assets/day-07/')));
-  assert(game.requests.includes('assets/day-07/couple-holding.png'));
+  assert(game.requests.includes('assets/day-07/couple-holding-v2.png'));
 });
 
 test('real dates still block future gifts and preview progress stays separate', () => {
@@ -20,9 +20,33 @@ test('real dates still block future gifts and preview progress stays separate', 
   game.run('tap(7,document.createElement("button"))');
   assert.equal(game.run('movieGame'), null);
   assert.deepEqual(game.requests, []);
-  game.ids.preview.onclick(); game.run('openDay(1)');
+  game.ids.preview.onclick();
+  game.ids['preview-code'].value = '6652';
+  game.ids['preview-access'].onsubmit({ preventDefault() {} });
+  game.run('openDay(1)');
   assert.equal(game.run('previewOpened.has(1)'), true);
   assert.equal(game.run('realOpened.has(1)'), false);
+  assert.equal(game.writes.length, 0);
+});
+
+test('preview requires the code, ignores the old URL flag and locks again on exit or reload', () => {
+  const game = setup({ preview: false });
+  game.run('location.search="?vorschau"');
+  assert.equal(game.run('preview'), false);
+  game.ids.preview.onclick();
+  assert.equal(game.ids['preview-access'].hidden, false);
+  game.ids['preview-code'].value = '1234';
+  game.ids['preview-access'].onsubmit({ preventDefault() {} });
+  assert.equal(game.run('preview'), false);
+  assert(game.ids['preview-error'].textContent.length > 0);
+  game.ids['preview-code'].value = '6652';
+  game.ids['preview-access'].onsubmit({ preventDefault() {} });
+  assert.equal(game.run('preview'), true);
+  assert.equal(game.ids['preview-access'].hidden, true);
+  assert.equal(game.ids['preview-code'].value, '');
+  game.ids.preview.onclick();
+  assert.equal(game.run('preview'), false);
+  assert.equal(setup({ preview: false, storage: game.storage }).run('preview'), false);
   assert.equal(game.writes.length, 0);
 });
 
@@ -134,7 +158,7 @@ test('movie hint highlights only one unfound target; taking cups first does not 
   assert.equal(game.ids['movie-lampOff'].classList.contains('movie-hint'), true); assert.equal(game.ids['movie-count'].textContent, '0 / 3');
   game.run('discoverMovie("mugsTaken")'); assert.equal(game.ids['movie-mugs'].hidden, false);
   const [id] = [...game.timers].find(([, timer]) => timer.delay === 450); game.fire(id);
-  assert.equal(game.ids['movie-mugs'].hidden, true); assert(game.ids['movie-couple'].src.endsWith('couple-holding.png'));
+  assert.equal(game.ids['movie-mugs'].hidden, true); assert(game.ids['movie-couple'].src.endsWith('couple-holding-v2.png'));
   assert.equal(game.ids['movie-room'].classList.contains('movie-finished'), false);
 });
 

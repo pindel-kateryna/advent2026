@@ -41,10 +41,10 @@ function renderTree() {
   $('tree-scene').classList.toggle('tree-complete', complete);
   $('tree-count').textContent = game.found.size + ' / 3';
   $('tree-count').setAttribute('aria-label', game.found.size + ' von 3 Sternen gefunden');
-  $('tree-help').hidden = complete;
+  $('tree-help').hidden = false;
   $('tree-tip').hidden = complete;
   $('tree-again').hidden = !game.earned;
-  $('ch').hidden = complete;
+  $('ch').hidden = false;
   $('ch').textContent = TREE_TITLE;
   $('tree-status').textContent = complete ? TREE_WIN : game.message;
   for (const star of TREE_STARS) {
