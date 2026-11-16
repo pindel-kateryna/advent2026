@@ -41,13 +41,12 @@ const SHAKER_REVEAL='Für große Gains braucht man den richtigen Shake. 💪';
 // Lotus game configuration and copy
 const LOTUS_CONFIG={giftHint:''};
 const LOTUS_ROOT='assets/day-05/';
-const LOTUS_STAGES=['stage-0-plate.png','stage-1-base.png','stage-2-cream.png','stage-3-finished.png'];
+const LOTUS_STAGES=['stage-0-plate-illustrated.png','stage-1-base-illustrated.png','stage-2-cream-illustrated.png','stage-3-finished-illustrated.png'];
 const LOTUS_ALTS=['Leerer Teller','Teller mit Keksboden','Cheesecake mit Cremeschicht','Fertiger Lotus-Cheesecake mit Keks'];
 const LOTUS_NAMES=['Kekse','Creme','Lotus-Aufstrich'];
-const LOTUS_INGREDIENTS=['ingredient-biscuits.png','ingredient-cream.png','ingredient-lotus.png'];
-const LOTUS_STEPS=['Zuerst der Keksboden.','Jetzt wird’s cremig.','Zum Schluss: dein Lieblingsaufstrich.'];
-const LOTUS_TITLE='Heute bist du der Cheesecake-Chef, Andre! 🤎';
-const LOTUS_WIN='Gut gemacht! Den echten backe ich für dich. 🤎';
+const LOTUS_INGREDIENTS=['ingredient-biscuits-illustrated.png','ingredient-cream-illustrated.png','ingredient-lotus-illustrated.png'];
+const LOTUS_TITLE='Heute bist du der Cheesecake-Chef!';
+const LOTUS_WIN='';
 
 // Movie game configuration and copy
 const MOVIE_ROOT='assets/day-07/';
@@ -59,10 +58,10 @@ const MOVIE_LABELS={lampOff:['Lampe ausschalten','Lampe ist ausgeschaltet'],tvOn
 // Gift text displayed in the HTML cards.
 const COPY={
   "massageCaption": "Kopf aus. Gänsehaut an. 🤤",
-  "lotusInstructions": "Zieh die Zutaten auf den Teller oder tippe sie an.",
+  "lotusInstructions": "Finde die richtige Reihenfolge! Zieh die Zutaten auf den Teller oder tippe sie an.",
   "lotusTouchGuide": "Zum Ziehen kurz gedrückt halten.",
-  "lotusVoucherTitle": "Gutschein für deinen Lieblings-Lotus-Cheesecake",
-  "lotusVoucherCopy": "Von mir gebacken, für dich gemacht. Du suchst dir den Tag aus — ich backe. Deine Katya 🤎",
+  "lotusVoucherTitle": "Ein süßes Versprechen",
+  "lotusVoucherCopy": "Ein bisschen knusprig, ein bisschen cremig und mit ganz viel Liebe. Was dahintersteckt? Das verrät dir dein Päckchen Nummer 05.",
   "movieInstructions": "Drei kleine Handgriffe fehlen noch. Findest du sie?",
   "movieScreenLabel": "Unser Filmabend",
   "movieInvitationTitle": "Unser Filmabend ist bereit 🤎",
@@ -70,7 +69,18 @@ const COPY={
 };
 
 // Sections whose images are loaded only when that gift is opened.
-const DAY_MEDIA={1:'gift-photo',3:'bear',4:'shaker',5:'lotus',6:'massage',7:'movie',8:'tree'};
+const ENERGY_TITLE='Neue Energie für Andre! ⚡';
+const ENERGY_WIN='';
+const ENERGY_HELP='';
+const ENERGY_CALM_HELP='Wähle die Batterien mit Tab und Enter oder tippe sie an. Sammle fünf Stück.';
+const ENERGY_BATTERY='assets/day-09/battery.png';
+const ENERGY_STEPS=['Andre hat nur noch 3 % Akku. Fang die Batterien!','Ein bisschen Strom. Weiter so!','Er blinzelt schon. Noch drei!','Fast wach. Noch zwei!','Er lächelt! Noch eine!','Akku voll! Der Abspann ist in Reichweite.'];
+const ENERGY_MOODS={sleepy:'Andre schläft auf dem Sofa',awake:'Andre wird langsam wach',happy:'Andre lächelt',cheer:'Andre jubelt mit beiden Armen in der Luft'};
+const MATCH_TITLE='Bärchen sammeln, Päckchen öffnen! 🤎';
+const MATCH_ROOT='assets/day-10/';
+const MIRROR_TITLE='Beschlagener Spiegel ✨';
+const MIRROR_STEPS=['Der Spiegel ist beschlagen. Wisch mit dem Finger darüber.','Da ist etwas … wisch weiter.','Fast frei. Man ahnt schon, was da steht.','Gleich hast du es.'];
+const DAY_MEDIA={1:'gift-photo',3:'bear',4:'shaker',5:'lotus',6:'massage',7:'movie',8:'tree',9:'energy',10:'match',12:'cookie'};
 
 // Day 8: room-relative star positions and bulb centers on the supplied full images.
 const TREE_ROOT='assets/day-08/';
@@ -87,3 +97,5 @@ const TREE_BULBS={
  lower:[[20.9,59.8],[26.1,61.8],[31.9,63.3],[38.4,64.3],[45.6,64.8],[52.9,64.6],[59.9,64],[66.4,62.6],[72.2,61.3],[77.4,59.7]]
 };
 COPY.treeInstructions='Drei kleine Sterne bringen ihn zurück.';
+
+const COOKIE_TITLE='Knusprig außen, karamellig innen. Zimt gibt’s gratis.';

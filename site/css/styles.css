@@ -118,12 +118,10 @@ body[data-t=g] .grid{gap:24px 12px}
 .memory-front{transform:rotateY(180deg)}
 .memory-tile.matched .memory-front{border-color:var(--mint);background:#354641}
 .memory-status{min-height:24px;color:var(--mint);margin:8px 0;font-size:14px}
-#ov.memory-mode .stage{display:none}
 /* Day 1: portrait */
 .gift-photo{position:relative;margin:0 0 18px;overflow:hidden;border-radius:12px;background:var(--bg);border:1px solid #ffc87266}
 .gift-photo[hidden]{display:none}
 .gift-photo img{display:block;width:100%;height:auto;object-fit:contain}
-#ov.photo-mode .stage{display:none}
 /* Day 3: three independent layers share the exact same canvas and neck seam.
    The body always comes from the original PNG; only the two heads move.
    The Katya mask follows the long hair and excludes the second chocolate body. */
@@ -160,7 +158,6 @@ body[data-t=g] .grid{gap:24px 12px}
 65%{opacity:1;transform:translateY(-2%) scale(1.025)}
 82%{opacity:1;transform:translateY(1%) scale(.99)}
 100%{opacity:1;transform:none}}
-#ov.bear-mode .stage{display:none}
 @media(prefers-reduced-motion:reduce){.bear-running .bear-chocolate-head{visibility:hidden}.bear-running .bear-katya-head{visibility:visible;opacity:1;transform:none}}
 /* Day 4: shared normalized stage; source transparent margins are accounted for.
    Body front: x 33–67%, mouth y 53%, base y 98%. Lid bottom overlaps the rim.
@@ -190,7 +187,6 @@ body[data-t=g] .grid{gap:24px 12px}
 @keyframes shaker-lid-fly{0%{transform:none;opacity:1}35%{transform:translate(8%,-230%) rotate(18deg)}60%{transform:translate(40%,-280%) rotate(35deg);opacity:1}100%{transform:translate(145%,40%) rotate(100deg);opacity:0}}
 @keyframes shaker-window-open{0%{clip-path:inset(53% 33% 47% 33%)}35%{clip-path:inset(12% 5% 46% 5%)}65%,100%{clip-path:inset(0 0 46% 0)}}
 @keyframes shaker-andre-pop{0%{transform:translateY(62%) scale(.78)}65%{transform:translateY(-3%) scale(1.025)}82%{transform:translateY(1%) scale(.99)}100%{transform:none}}
-#ov.shaker-mode .stage{display:none}
 @media(max-height:740px){.shaker-scene{max-width:260px}}
 @media(prefers-reduced-motion:reduce){.shaker-running .shaker-lid{visibility:hidden}.shaker-running .shaker-person-window{visibility:visible;clip-path:inset(0 0 46% 0)}.shaker-running .shaker-person{transform:none}}
 /* Day 5: full 1254-square states share one uncropped, stationary image slot. */
@@ -209,7 +205,6 @@ body[data-t=g] .grid{gap:24px 12px}
 .lotus-ingredients{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 18px}
 .lotus-ingredient{position:relative;min-width:0;min-height:112px;padding:7px 4px 10px;background:var(--bg);border:2px solid var(--edge);border-radius:12px;color:var(--text);font:800 13px/1.35 Nunito,system-ui,sans-serif;cursor:grab;-webkit-touch-callout:none;user-select:none;touch-action:auto}
 .lotus-ingredient img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
-.lotus-ingredient.lotus-needed{border-color:var(--gold);box-shadow:0 0 0 1px #ffc87244}
 .lotus-ingredient.lotus-used{border-color:var(--mint);cursor:default}
 .lotus-check{display:none;position:absolute;top:4px;right:5px;padding:1px 5px;border-radius:50%;background:var(--mint);color:var(--bg);font-size:15px}
 .lotus-used .lotus-check{display:block}
@@ -232,7 +227,6 @@ body[data-t=g] .grid{gap:24px 12px}
 @keyframes lotus-caramel{from{transform:translateY(-16px) scaleY(.5);opacity:0}25%{opacity:.8}to{transform:translateY(38px) scaleY(1.2);opacity:0}}
 @keyframes lotus-heart{from{transform:translateY(0) scale(.65);opacity:0}25%{opacity:.85}to{transform:translateY(-70px) scale(1);opacity:0}}
 @keyframes lotus-cream{from{opacity:.75;filter:brightness(.95)}to{opacity:1;filter:none}}
-#ov.lotus-mode .stage{display:none}
 @media(max-width:370px){.lotus-ingredients{gap:5px}.lotus-ingredient{font-size:12px;padding-left:2px;padding-right:2px}}
 @media(prefers-reduced-motion:reduce){.lotus-particle{display:none}.lotus-plate[data-effect=cream] img{animation:none}}
 /* Day 6: full portrait, natural aspect ratio, caption underneath. */
@@ -240,7 +234,6 @@ body[data-t=g] .grid{gap:24px 12px}
 .massage{margin:0}
 .massage img{display:block;width:100%;height:auto;object-fit:contain;border-radius:12px}
 .massage figcaption{margin:16px 0 0;font:800 19px/1.5 Nunito,system-ui,sans-serif;color:var(--text)}
-#ov.massage-mode .stage{display:none}
 /* Day 7: every layer and hit area shares this one 1086 × 1448 room.
    Pair hips meet the seat around y=68%; the original table is a foreground occluder.
    The equal 1312 × 1199 pair canvases keep shoes and furniture stationary. */
@@ -291,7 +284,6 @@ body[data-t=g] .grid{gap:24px 12px}
 .movie-invitation h2{font:800 23px/1.3 Fraunces,Georgia,serif;color:var(--gold);margin:0 0 12px}
 .movie-invitation p{font-size:15px;line-height:1.6;margin:0}
 .movie-again{margin-top:16px}
-#ov.movie-mode .stage{display:none}
 @keyframes movie-mugs-lift{from{transform:none;opacity:1}to{transform:translateY(-160%) scale(.75);opacity:0}}
 @keyframes movie-steam{from{transform:translateY(0);opacity:.3}to{transform:translateY(-6px);opacity:.7}}
 @keyframes movie-heart{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
@@ -326,7 +318,6 @@ body[data-t=g] .grid{gap:24px 12px}
 .tree-tip{margin:12px 0 0;background:transparent;border:1px solid var(--edge);border-radius:10px;color:var(--mute);font:800 14px Nunito,system-ui,sans-serif;min-height:44px;padding:8px 16px;cursor:pointer}
 .tree-tip:focus-visible,.tree-again:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .tree-again{margin-top:16px}
-#ov.tree-mode .stage{display:none}
 @keyframes tree-star-flash{0%,100%{transform:scale(1)}40%{transform:scale(1.25);filter:drop-shadow(0 0 7px #ffd36b);opacity:1}}
 @keyframes tree-spark-fade{from{transform:translate(0,0) scale(1);opacity:.85}to{transform:translate(var(--spark-x),var(--spark-y)) scale(.3);opacity:0}}
 @media(prefers-reduced-motion:reduce){.tree-light,.tree-full,.tree-package{transition:none!important}.tree-star.tree-flash svg,.tree-spark{animation:none!important}.tree-spark{display:none}.tree-complete .tree-package{transform:none}}
@@ -334,6 +325,9 @@ body[data-t=g] .grid{gap:24px 12px}
 /* Shared gift layout: image / animation / game. Scene coordinates stay internal. */
 :root{--gift-space:14px;--gift-copy:18px;--gift-animation-height:min(40svh,340px)}
 #ov.gift-layout{justify-content:flex-start}
+#ov.gift-opening{justify-content:center}
+#ov.gift-opening .stage{display:block}
+#ov.gift-opening .card{display:none}
 #ov .card{max-width:350px;padding:22px;margin-top:0;max-height:calc(100dvh - 40px - env(safe-area-inset-bottom,0px));overflow-y:auto;flex-shrink:1}
 #ov:not(.gift-layout) .card{margin-top:22px}
 #ov .gift-card-header{position:relative;padding:0 36px 16px;margin-bottom:18px;border-bottom:1px solid #cfbacb24}
@@ -378,9 +372,125 @@ body[data-t=g] .grid{gap:24px 12px}
 /* Stable task/result slots and accessible controls on short screens. */
 #ov .gift-card-header{position:sticky;top:0;z-index:8;background:var(--panel);margin-top:0;padding-top:0}
 #ov .gift-card-header .x{top:0}
+#ov.lotus-mode .gift-card-header::before{content:"";position:absolute;top:-22px;left:-22px;right:-22px;height:22px;background:var(--panel);pointer-events:none}
 #ov .gift-animation>.gift-task{min-height:81px}
 #ov .gift-actions[hidden],#ov .gift-actions [hidden]{display:none!important}
 #ov #gift-default-actions{margin-top:var(--gift-space)}
 #ov #wh.on{margin-top:var(--gift-space)}
 #ov .lotus .lotus-plate{width:min(100%,24svh);margin:0 auto!important}
 #ov .lotus .lotus-ingredient img{height:68px;aspect-ratio:auto;object-fit:contain}
+
+/* Keep the opened package above every gift, including games and illustrations. */
+#ov.gift-layout .card{margin-top:22px;max-height:calc(100dvh - 166px - env(safe-area-inset-bottom,0px))}
+
+/* Day 9: tap batteries, which fly to seated Andre from day 7. */
+.energy-play{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;scroll-margin-top:110px}
+.energy>.gift-task{min-height:27px}
+.energy-prompt{min-height:45px}
+.energy-progress{display:flex;align-items:center;justify-content:center;gap:12px;width:100%}
+.energy-meter{display:flex;gap:4px;width:128px;height:16px}
+.energy-meter i{flex:1;border:1px solid var(--edge);background:#2a2233;border-radius:4px;transition:background .3s,box-shadow .3s}
+.energy-meter i.is-on{background:var(--gold);border-color:#ffe9b0;box-shadow:0 0 6px #ffc87255}
+.energy-scene{position:relative;height:min(43svh,350px);aspect-ratio:3/4;max-width:100%;border-radius:14px;overflow:hidden;isolation:isolate;background:#463550;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.energy-scene:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.energy-backdrop,.energy-table{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.energy-table{z-index:3;clip-path:inset(81.8% 0 0 0)}
+.energy-player{position:absolute;left:18%;top:39.5%;width:64%;aspect-ratio:1;pointer-events:none;z-index:2}
+.energy-player img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain}
+.energy-player img[hidden]{display:none}
+.energy-pulse img{animation:energy-pulse .22s ease-in-out}
+.energy-done .energy-player{animation:energy-cheer .55s ease-in-out 3;transform-origin:50% 85%}
+.energy-drops,.energy-effects{position:absolute;inset:0;pointer-events:none;z-index:4}
+.energy-effects{z-index:6;overflow:hidden}
+.energy-drop{position:absolute;width:56px;height:76px;display:flex;align-items:center;justify-content:center;padding:0;border:0;border-radius:10px;background:transparent;transform:translate(-50%,-50%);pointer-events:auto;touch-action:manipulation;cursor:pointer;opacity:1;will-change:transform,top,left;-webkit-tap-highlight-color:transparent}
+.energy-drop img{display:block;width:72px;max-width:none;height:72px;object-fit:contain;pointer-events:none}
+.energy-drop:focus-visible{outline:3px solid var(--gold);outline-offset:-3px;background:#ffc87220}
+.energy-drop:disabled{pointer-events:none;cursor:default}
+.energy-drop[aria-hidden=true]{pointer-events:none}
+.energy-start{position:absolute;z-index:5;right:8px;top:8px;min-height:44px;padding:6px 10px;border:1px solid #cfbacb66;border-radius:10px;background:#463550ed;color:var(--text);font:800 13px/1.4 Nunito,system-ui,sans-serif;cursor:pointer}
+.energy-ready .energy-start{top:28%;left:50%;right:auto;transform:translateX(-50%);padding:10px 18px;background:var(--rose);color:#43243e;border:0;box-shadow:0 4px 0 #43243e;font-size:16px;white-space:nowrap}
+.energy-start:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.energy-scene [hidden]{display:none!important}
+.energy-spark{position:absolute;width:5px;height:7px;border-radius:2px;pointer-events:none}
+.energy-reward{border:1px solid #ffc87266;background:#ffc87208}
+#card[data-day="9"] .gift-card-header::before{content:"";position:absolute;top:-22px;left:-22px;right:-22px;height:22px;background:var(--panel);pointer-events:none}
+@keyframes energy-pulse{50%{filter:brightness(1.15)}}
+@keyframes energy-cheer{50%{transform:translateY(-6px)}}
+.energy-calm .energy-player,.energy-calm .energy-player img{animation:none!important}
+@media(prefers-reduced-motion:reduce){.energy-player,.energy-player img{animation:none!important}.energy-meter i{transition:none}}
+
+/* Day 10: painted gummy bears, five columns so touch targets stay at least 44px. */
+.match-play{display:flex;flex-direction:column;gap:12px;scroll-margin-top:110px;width:min(100%,max(236px,calc((100dvh - 380px)*.833333)));align-self:center}
+.match-goals{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.match-target{display:flex;align-items:center;justify-content:center;gap:6px;min-height:52px;padding:4px 8px;border:1px solid #cfbacb33;border-radius:12px;background:#2a223366;font:700 13px/1.4 Nunito,system-ui,sans-serif}
+.match-target img{width:35px;height:40px;object-fit:contain}
+.match-target span{display:flex;flex-direction:column;gap:2px}
+.match-target b{color:var(--gold);font-size:16px}
+.match-target.is-complete{border-color:var(--mint);background:#c8e0a812}
+.match-target.is-complete b{color:var(--mint)}
+.match-board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;isolation:isolate;overflow:hidden;border-radius:10px}
+.match-row{display:contents}
+.match-cell{min-width:0;aspect-ratio:1}
+.match-bear{display:block;position:relative;width:100%;height:100%;min-height:44px;padding:0;border:1px solid #cfbacb24;border-radius:10px;background:#2a223388;color:var(--text);cursor:pointer;touch-action:pinch-zoom;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.match-bear img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.match-bear:focus-visible{outline:3px solid var(--mint);outline-offset:-2px;z-index:2}
+.match-bear.match-selected{border-color:var(--gold);box-shadow:inset 0 0 0 2px var(--gold);background:#ffc87222;z-index:1}
+.match-bear.match-removing img{animation:match-pop .18s ease-in both}
+.match-bear.match-hinted{box-shadow:inset 0 0 0 2px var(--gold);background:#ffc87224}
+.match-bear[aria-disabled=true]{cursor:default}
+.match-status{font-size:14px!important}
+.match-reward{border:1px solid #ffc87266;background:#ffc87208}
+#card[data-day="10"] .gift-card-header::before{content:"";position:absolute;top:-22px;left:-22px;right:-22px;height:22px;background:var(--panel);pointer-events:none}
+#card[data-day="10"] .gift-card-header{isolation:isolate;transform:translateZ(0)}
+@keyframes match-pop{to{transform:scale(.45);opacity:0}}
+@media(hover:hover){.match-bear:not([aria-disabled=true]):hover{background:#ffc87214}}
+@media(prefers-reduced-motion:reduce){.match-bear img{animation:none!important}}
+
+/* Day 11: the owner's fog-wiping mechanic in the calendar's mirror scene. */
+.mirror-scene{position:relative;width:min(100%,43svh,360px);aspect-ratio:1;align-self:center;overflow:hidden;isolation:isolate;border:3px solid #bc9c79;border-radius:18px;background:#302439;box-shadow:0 0 0 3px #bc9c7920,0 8px 22px #160f2440;container-type:inline-size}
+.mirror-reflection{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 36%,#76546f,#463550 60%,#2a2233);pointer-events:none}
+.mirror-light{position:absolute;border-radius:50%;filter:blur(10px)}
+.mirror-light.one{left:8%;top:15%;width:70px;height:70px;background:#ffc87240}
+.mirror-light.two{right:0;bottom:9%;width:110px;height:110px;background:#e88a6a30}
+.mirror-message{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 18px;gap:22px;text-align:center;outline:none}
+.mirror-message p{margin:0;color:var(--text);font:800 clamp(18px,8cqw,23px)/1.4 Fraunces,Georgia,serif;text-shadow:0 0 16px #ffc87225}
+.mirror-message span{font:800 clamp(14px,6cqw,16px)/1.5 Nunito,system-ui,sans-serif;color:var(--gold)}
+.mirror-fog{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;opacity:1}
+.mirror-no-canvas .mirror-fog{background:linear-gradient(135deg,#dcd3e8,#bcaed2)}
+.mirror-clear .mirror-fog{opacity:0;pointer-events:none;transition:opacity .9s ease}
+.mirror-restored .mirror-fog{transition:none}
+.mirror-sparks{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+.mirror-spark{position:absolute;width:5px;height:5px;border-radius:1px;background:var(--gold);box-shadow:0 0 5px #ffe6aa66;pointer-events:none}
+.mirror-mist{position:absolute;bottom:-70px;width:150px;height:150px;border-radius:50%;background:radial-gradient(#ffffff22,transparent 70%);opacity:0}
+.mirror-mist.one{left:0}.mirror-mist.two{right:-30px}
+.mirror-clear .mirror-mist{animation:mirror-mist 7s ease-out infinite}
+.mirror-clear .mirror-mist.two{animation-delay:2.4s}
+.mirror-status{min-height:3em}
+.mirror-status[hidden]{display:none}
+#card[data-day="11"] .gift-card-header::before{content:"";position:absolute;top:-22px;left:-22px;right:-22px;height:22px;background:var(--panel);pointer-events:none}
+@keyframes mirror-mist{0%{opacity:0;transform:translateY(0) scale(.7)}25%{opacity:.7}100%{opacity:0;transform:translateY(-340px) scale(1.5)}}
+@media(prefers-reduced-motion:reduce){.mirror-fog{transition:none!important}.mirror-mist{display:none}}
+
+/* Day 12: the day-five biscuits, split along the same jagged seam. */
+.cookie-stage{position:relative;aspect-ratio:1;max-height:360px;width:min(100%,43svh,360px);align-self:center;overflow:hidden;border-radius:18px;background:radial-gradient(70% 55% at 50% 45%,#7a4a3a,#3a2a4d 65%,#241a30);isolation:isolate;user-select:none;-webkit-user-select:none}
+.cookie-tap{position:absolute;inset:5%;width:90%;height:90%;padding:0;border:0;background:none;cursor:pointer;touch-action:manipulation;filter:drop-shadow(0 10px 14px #0005);border-radius:16px}
+.cookie-tap:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.cookie-half{position:absolute;inset:0;pointer-events:none;transition:transform .55s cubic-bezier(.3,1.5,.5,1),opacity .5s .35s}
+.cookie-half img{display:block;width:100%;height:100%;object-fit:contain}
+.cookie-left{clip-path:polygon(0 0,50% 0,50% 24%,54% 34%,47% 44%,55% 54%,48% 65%,53% 75%,50% 84%,50% 100%,0 100%);transform-origin:25% 90%}
+.cookie-right{clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%,50% 84%,53% 75%,48% 65%,55% 54%,47% 44%,54% 34%,50% 24%);transform-origin:75% 90%}
+.cookie-cracks{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cookie-crack{opacity:0;transition:opacity .15s}
+.cookie-level-1 .crack-one,.cookie-level-2 .crack-one,.cookie-level-2 .crack-two{opacity:1}
+.cookie-broken .cookie-left{transform:translate(-60%,20%) rotate(-22deg);opacity:0}
+.cookie-broken .cookie-right{transform:translate(60%,20%) rotate(22deg);opacity:0}
+.cookie-broken .cookie-tap{pointer-events:none}
+.cookie-message{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;opacity:0;transform:scale(.8);transition:opacity .5s .2s,transform .6s .2s cubic-bezier(.3,1.5,.5,1);pointer-events:none;outline:none}
+.cookie-message span{font:800 clamp(16px,4.5vw,19px)/1.4 Nunito,system-ui,sans-serif;max-width:260px}
+.cookie-message b{display:block;margin-top:8px;font:800 84px/1 Fraunces,Georgia,serif;color:var(--gold);text-shadow:0 0 24px #ffc87266}
+.cookie-broken .cookie-message{opacity:1;transform:none}
+.cookie-crumbs{position:absolute;inset:0;pointer-events:none}
+.cookie-crumb{position:absolute;pointer-events:none;background:#c8823a;border-radius:40% 55% 45% 60%;z-index:3}
+.cookie-restored .cookie-half,.cookie-restored .cookie-message{transition:none}
+#card[data-day="12"] .gift-card-header::before{content:"";position:absolute;top:-22px;left:-22px;right:-22px;height:22px;background:var(--panel);pointer-events:none}
+@media(prefers-reduced-motion:reduce){.cookie-half,.cookie-message,.cookie-crack{transition:none!important}}

@@ -59,7 +59,7 @@ function beep(f,d,t=0){if(!sound)return;try{actx=actx||new (window.AudioContext|
 function burst(){const st=$('stage'),cols=['#ffd36b','#ff8fab','#8fe0d4','#b9a6f5','#fff'];
 for(let k=0;k<22;k++){const e=document.createElement('i');e.className='spk';e.style.background=cols[k%5];const a=Math.random()*6.28,r=60+Math.random()*60,s=4+Math.floor(Math.random()*3)*2;e.style.width=e.style.height=s+'px';st.appendChild(e);
 e.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r-24}px) scale(.3)`,opacity:0}],{duration:800+Math.random()*400,easing:'steps(7)'}).onfinish=()=>e.remove()}}
-let memoryGame=null,openingTimers=[];
+let memoryGame=null,openingTimers=[],openingFlight=null;
 function stopMemory(){if(memoryGame){clearTimeout(memoryGame.timer);memoryGame=null}}
 function startMemory(progress){
 stopMemory();
@@ -175,16 +175,17 @@ lotusGame=null;$('lotus-effects').innerHTML='';$('lotus-plate').removeAttribute(
 function renderLotus(){
 const game=lotusGame;if(!game)return;
 $('lotus-image').src=LOTUS_ROOT+LOTUS_STAGES[game.step];$('lotus-image').alt=LOTUS_ALTS[game.step];
-$('ch').textContent=LOTUS_TITLE;$('lotus-help').hidden=false;$('lotus-step').textContent=LOTUS_STEPS[Math.min(game.step,2)];
-$('lotus-status').textContent=game.busy?'Ein kleiner Moment — dein Cheesecake wird verfeinert.':game.step===3?LOTUS_WIN:`Schritt ${game.step+1} von 3: ${LOTUS_STEPS[game.step]}`;
+$('ch').textContent=LOTUS_TITLE;$('lotus-help').hidden=false;
+$('lotus-status').textContent=game.busy?'Ein kleiner Moment — dein Cheesecake wird verfeinert.':game.step===3?LOTUS_WIN:`${game.step} von 3 Zutaten hinzugefügt.`;
 $('lotus-status').classList.toggle('sr-only',game.step!==3||game.busy);
 for(let i=0;i<3;i++){
 const used=i<game.step,button=$('lotus-ingredient-'+i),progress=$('lotus-progress-'+i);
-button.classList.toggle('lotus-needed',i===game.step);button.classList.toggle('lotus-used',used);
+button.classList.toggle('lotus-used',used);
 button.setAttribute('aria-disabled',String(used||game.busy||game.step===3));
-button.setAttribute('aria-label',LOTUS_NAMES[i]+(used?', hinzugefügt':i===game.step?', jetzt hinzufügen':''));
+button.setAttribute('aria-label',LOTUS_NAMES[i]+(used?', hinzugefügt':''));
 button.draggable=!used&&!game.busy&&game.step<3;
-progress.classList.toggle('lotus-complete',used);progress.textContent=(used?'✓':String(i+1))+' · '+LOTUS_NAMES[i];
+progress.classList.toggle('lotus-complete',used);progress.textContent=used?'✓':String(i+1);
+progress.setAttribute('aria-label',`Schritt ${i+1}${used?', geschafft':''}`);
 if(i===game.step)progress.setAttribute('aria-current','step');else progress.removeAttribute('aria-current');
 }
 $('lotus-voucher').hidden=!game.earned;$('lotus-again').hidden=!game.earned;$('lotus-again').setAttribute('aria-disabled',String(game.busy));
@@ -193,6 +194,10 @@ const hint=LOTUS_CONFIG.giftHint.trim();$('lotus-hint').hidden=!game.earned||!hi
 function startLotus(progress,replay=false){
 stopLotus();const earned=progress.has(5);
 lotusGame={progress,step:earned&&!replay?3:0,earned,busy:false,timer:null,effectsTimer:null,suppressClickUntil:0};renderLotus();
+// Ingredient placement must not give away the recipe order.
+const order=[0,1,2];for(let i=2;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]]}
+if(order.every((value,index)=>value===index))order.push(order.shift());
+for(const index of order)$('lotus-ingredients').appendChild($('lotus-ingredient-'+index));
 }
 function lotusParticles(kind){
 if(matchMedia('(prefers-reduced-motion:reduce)').matches||!lotusGame)return;
@@ -206,8 +211,8 @@ game.effectsTimer=setTimeout(()=>{if(lotusGame===game)$('lotus-effects').innerHT
 }
 async function addLotus(index){
 const game=lotusGame;if(!game||game.busy||game.step===3)return;
-if(index<game.step){$('lotus-status').classList.remove('sr-only');$('lotus-status').textContent='Die Zutat ist schon dabei. '+LOTUS_STEPS[game.step];return}
-if(index!==game.step){$('lotus-status').classList.remove('sr-only');$('lotus-status').textContent='Noch einen kleinen Moment: '+LOTUS_STEPS[game.step];return}
+if(index<game.step){$('lotus-status').classList.remove('sr-only');$('lotus-status').textContent='Die Zutat ist schon dabei. Probier eine andere!';return}
+if(index!==game.step){$('lotus-status').classList.remove('sr-only');$('lotus-status').textContent='Das passt hier noch nicht ganz. Probier eine andere Zutat!';return}
 endLotusDrag();clearTimeout(game.effectsTimer);game.effectsTimer=null;$('lotus-effects').innerHTML='';game.busy=true;renderLotus();$('lotus-plate').setAttribute('aria-busy','true');
 const next=game.step+1,reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
 // Keep the previous full state visible until the incoming full PNG has decoded.
@@ -275,7 +280,7 @@ $('lotus-plate').ondrop=event=>{
 const drag=lotusDrag;if(!drag||drag.type!=='mouse'||drag.game!==lotusGame)return;
 event.preventDefault();drag.game.suppressClickUntil=Date.now()+500;const index=drag.index;endLotusDrag();addLotus(index);
 };
-$('lotus-again').onclick=()=>{if(!lotusGame||lotusGame.busy)return;const progress=lotusGame.progress;startLotus(progress,true);$('lotus-ingredient-0').focus()};
+$('lotus-again').onclick=()=>{if(!lotusGame||lotusGame.busy)return;const progress=lotusGame.progress;startLotus(progress,true);$('lotus-ingredient-0').focus({preventScroll:true});$('card').scrollTop=0};
 const blankMovie=()=>({lampOff:false,tvOn:false,mugsTaken:false,finished:false,earned:false});
 let realMovieState=blankMovie(),previewMovieState=blankMovie(),movieGame=null;
 try{
@@ -350,35 +355,41 @@ if(progress===realOpened){realMovieState=state;try{localStorage.setItem('adv26-d
 startMovie(progress);$('movie-lampOff').focus();
 };
 function arrangeGift(day){
-const kind=[1,6].includes(day)?'image':[3,4].includes(day)?'animation':[2,5,7,8].includes(day)?'game':'message';
-const slots={1:'photo-copy',2:'memory-task',3:'bear-task',4:'shaker-task',5:'lotus-task',7:'movie-task',8:'tree-task'};
+const kind=[1,6].includes(day)?'image':[3,4].includes(day)?'animation':[2,5,7,8,9,10,11,12].includes(day)?'game':'message';
+const slots={1:'photo-copy',2:'memory-task',3:'bear-task',4:'shaker-task',5:'lotus-task',7:'movie-task',8:'tree-task',9:'energy-task',10:'match-task',11:'mirror-task',12:'cookie-task'};
 const slot=$(slots[day]||'gift-generic-task');slot.appendChild($('ch'));slot.hidden=$('ch').hidden;
-$('card').dataset.kind=kind;$('card').dataset.hasTitle=String(!$('ch').hidden);
-$('ov').classList.toggle('gift-layout',day<=8);
+$('card').dataset.kind=kind;$('card').dataset.day=String(day);$('card').dataset.hasTitle=String(!$('ch').hidden);
+$('ov').classList.toggle('gift-layout',day<=12);
 $('gift-default-actions').hidden=$('yes').style.display==='none';
 }
 function setCard(n,progress){
-stopMemory();stopBear();stopShaker();stopLotus();stopMovie();stopTree();$('tree').hidden=n!==8;$('movie').hidden=n!==7;$('massage').hidden=n!==6;$('ch').hidden=n===6||n===7;$('lotus').hidden=n!==5;$('gift-photo').hidden=n!==1;$('bear').hidden=n!==3;$('shaker').hidden=n!==4;
+stopMemory();stopBear();stopShaker();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();$('tree').hidden=n!==8;$('energy').hidden=n!==9;$('match').hidden=n!==10;$('mirror').hidden=n!==11;$('cookie').hidden=n!==12;$('movie').hidden=n!==7;$('massage').hidden=n!==6;$('ch').hidden=n===6||n===7;$('lotus').hidden=n!==5;$('gift-photo').hidden=n!==1;$('bear').hidden=n!==3;$('shaker').hidden=n!==4;
 $('cn').textContent=z(n);
-$('ch').textContent=n===2?'Das nächste Geschenk musst du dir erspielen. Finde alle vier Paare!':n===3?BEAR_INTRO:n===4?SHAKER_INTRO:n===5?LOTUS_TITLE:n===7?MOVIE_TITLE:n===8?TREE_TITLE:D[n-1][0];
+$('ch').textContent=n===2?'Das nächste Geschenk musst du dir erspielen. Finde alle vier Paare!':n===3?BEAR_INTRO:n===4?SHAKER_INTRO:n===5?LOTUS_TITLE:n===7?MOVIE_TITLE:n===8?TREE_TITLE:n===9?ENERGY_TITLE:n===10?MATCH_TITLE:n===11?MIRROR_TITLE:n===12?COOKIE_TITLE:D[n-1][0];
 $('wh').innerHTML=`<b>Dein Fund</b>${D[n-1][1]}`;$('wh').classList.remove('on');
-$('yes').style.display=n===2||n===3||n===4||n===5||n===6||n===7||n===8?'none':'block';$('memory').hidden=n!==2;
-if(n===2)startMemory(progress);if(n===3)startBear(progress);if(n===4)startShaker(progress);if(n===5)startLotus(progress);if(n===7)startMovie(progress);if(n===8)startTree(progress);arrangeGift(n);
+$('yes').style.display=n===2||n===3||n===4||n===5||n===6||n===7||n===8||n===9||n===10||n===11||n===12?'none':'block';$('memory').hidden=n!==2;
+if(n===2)startMemory(progress);if(n===3)startBear(progress);if(n===4)startShaker(progress);if(n===5)startLotus(progress);if(n===7)startMovie(progress);if(n===8)startTree(progress);if(n===9)startEnergy(progress);if(n===10)startMatch(progress);if(n===11)startMirror(progress);if(n===12)startCookie(progress);arrangeGift(n);
 }
-function openDay(n){loadDayMedia(n);const i=n-1,ov=$('ov'),st=$('stage'),cd=$('card'),progress=opened,first=!progress.has(n);
+function openDay(n){loadDayMedia(n);const i=n-1,ov=$('ov'),st=$('stage'),cd=$('card'),progress=opened,first=!progress.has(n),earnsOnOpen=![2,3,4,5,7,8,9,10,11,12].includes(n);
 openingTimers.forEach(clearTimeout);openingTimers=[];
+if(openingFlight){openingFlight.cancel();openingFlight=null}
+const activeOpening=openingTimers;
 st.className='stage';st.innerHTML=art(i);cd.classList.remove('on');setCard(n,progress);ov.classList.toggle('memory-mode',n===2);ov.classList.toggle('photo-mode',n===1);ov.classList.toggle('bear-mode',n===3);ov.classList.toggle('shaker-mode',n===4);ov.classList.toggle('lotus-mode',n===5);ov.classList.toggle('massage-mode',n===6);ov.classList.toggle('movie-mode',n===7);ov.classList.toggle('tree-mode',n===8);ov.classList.add('on');ov.dataset.n=n;
-const show=()=>{st.classList.add('small','pop');cd.classList.add('on');$('x').focus()};
-if(n===4||n===5||n===7||n===8){show();grid();return}
-if(!first||RM){if(first&&n!==2&&n!==3){progress.add(n);save(progress)}show();grid();return}
-beep(330,.1);st.classList.add('wob');
-openingTimers.push(setTimeout(()=>{st.classList.add('pop');if(n!==2&&n!==3)burst();beep(660,.1);beep(880,.1,.1);beep(1320,.2,.2)},650));
-openingTimers.push(setTimeout(()=>{show();if(n!==2&&n!==3){progress.add(n);save(progress)}grid()},1300))}
-function closeOv(){openingTimers.forEach(clearTimeout);openingTimers=[];stopMemory();stopBear();stopShaker();stopLotus();stopMovie();stopTree();$('ov').classList.remove('on','memory-mode','photo-mode','bear-mode','shaker-mode','lotus-mode','massage-mode','movie-mode','tree-mode')}
+const show=()=>{
+const origin=ov.classList.contains('gift-opening')&&!RM?st.getBoundingClientRect():null;
+ov.classList.remove('gift-opening');st.classList.add('small','pop');cd.classList.add('on');
+if(origin){const target=st.getBoundingClientRect();openingFlight=st.animate([{transform:`translate(${origin.left-target.left}px,${origin.top-target.top}px)`},{transform:'translate(0,0)'}],{duration:500,easing:'cubic-bezier(.22,.68,0,1)'})}
+$('x').focus()
+};
+if(!first||RM){if(first&&earnsOnOpen){progress.add(n);save(progress)}show();grid();return}
+ov.classList.add('gift-opening');beep(330,.1);st.classList.add('wob');
+openingTimers.push(setTimeout(()=>{if(openingTimers!==activeOpening)return;st.classList.add('pop');burst();beep(660,.1);beep(880,.1,.1);beep(1320,.2,.2)},650));
+openingTimers.push(setTimeout(()=>{if(openingTimers!==activeOpening)return;show();if(earnsOnOpen){progress.add(n);save(progress)}grid()},1300))}
+function closeOv(){openingTimers.forEach(clearTimeout);openingTimers=[];if(openingFlight){openingFlight.cancel();openingFlight=null}stopMemory();stopBear();stopShaker();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();$('ov').classList.remove('on','gift-opening','memory-mode','photo-mode','bear-mode','shaker-mode','lotus-mode','massage-mode','movie-mode','tree-mode')}
 $('x').onclick=closeOv;
 $('ov').addEventListener('click',e=>{if(e.target.id==='ov'&&$('card').classList.contains('on'))closeOv()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOv()});
-$('yes').onclick=()=>{if(['2','3','4','5','6','7','8'].includes($('ov').dataset.n))return;$('wh').classList.add('on');$('yes').style.display='none';beep(784,.12)};
+$('yes').onclick=()=>{if(['2','3','4','5','6','7','8','9','10','11','12'].includes($('ov').dataset.n))return;$('wh').classList.add('on');$('yes').style.display='none';beep(784,.12)};
 $('snd').onclick=()=>{sound=!sound;$('snd').setAttribute('aria-pressed',sound);$('snd').innerHTML=sound?'TON<br>AN':'TON<br>AUS';beep(660,.1)};
 // ---------- Vorschau-Steuerung ----------
 function updatePreview(){
@@ -404,9 +415,9 @@ $('preview-code').setAttribute('aria-invalid','true');$('preview-code').value=''
 }
 $('preview-code').removeAttribute('aria-invalid');preview=true;closeOv();updatePreview();$('preview').focus();
 };
-$('rs').onclick=()=>{previewOpened.clear();previewMovieState=blankMovie();previewTreeState=null;grid()};
+$('rs').onclick=()=>{previewOpened.clear();previewMovieState=blankMovie();previewTreeState=null;previewEnergyState=null;previewMatchState=null;previewMirrorState=null;previewCookieState=null;grid()};
 function boot(){document.body.dataset.t='g';document.body.classList.add('v');
 $('gl').innerHTML=Array.from({length:14},(_,k)=>`<i style="--c:${['#ffc872','#ffe9b0','#e88a6a','#fff'][k%4]};animation-delay:${(k%4)*.4}s"></i>`).join('');
 for(let k=0;k<26;k++){const e=document.createElement('i');e.className='fl';const z=3+k%3*2;e.style.cssText=`left:${Math.random()*100}%;width:${z}px;height:${z}px;background:#fff;opacity:${.35+Math.random()*.5};animation-name:fall;animation-duration:${7+Math.random()*9}s;animation-delay:-${Math.random()*14}s`;document.body.appendChild(e)}
 grid()}
-applyGiftCopy();initTree();boot();updatePreview();setInterval(tick,1000);
+applyGiftCopy();initTree();initEnergy();initMatch();initMirror();initCookie();boot();updatePreview();setInterval(tick,1000);

@@ -8,7 +8,7 @@ const html = fs.readFileSync(path.join(SITE, 'index.html'), 'utf8');
 const code = [...html.matchAll(/<script\b[^>]*src="([^"]+)"/g)].map(match => fs.readFileSync(path.join(SITE, match[1].split('?')[0]), 'utf8')).join('\n');
 
 function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
-  const ids = {}, requests = [], writes = [], timers = new Map();
+  const ids = {}, requests = [], writes = [], timers = new Map(), frames = new Map();
   const state = { reduced, failImage: false, now: '2026-11-13T12:00:00Z' };
   let nextTimer = 0, document;
   function element(tag = 'div') {
@@ -44,7 +44,10 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
       remove() { if (this.parent) this.parent.children = this.parent.children.filter(x => x !== this); },
       addEventListener(type, fn, options) { this.listeners[type] = { fn, options }; },
       focus() { document.activeElement = this; },
-      getBoundingClientRect() { return { left: 10, right: 310, top: 10, bottom: 310 }; },
+      scrollIntoView() {},
+      setPointerCapture() {},
+      animate() { return { onfinish: null, cancel() {} }; },
+      getBoundingClientRect() { return { left: 10, right: 310, top: 10, bottom: 310, width: 300, height: 300 }; },
       querySelectorAll(selector) {
         const matches = item => selector === '[data-copy]' ? 'copy' in item.dataset : selector === 'img[data-src]' ? item.tag === 'img' && 'src' in item.dataset : false;
         const found = [];
@@ -81,6 +84,8 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
     matchMedia: () => ({ matches: state.reduced }),
     Image: class { set src(value) { this._src = value; requests.push(value); } get src() { return this._src; } decode() { return state.failImage ? Promise.reject(Error('offline')) : Promise.resolve(); } },
     setInterval() {},
+    requestAnimationFrame(fn) { frames.set(++nextTimer, fn); return nextTimer; },
+    cancelAnimationFrame(id) { frames.delete(id); },
     setTimeout(fn, delay) { timers.set(++nextTimer, { fn, delay }); return nextTimer; },
     clearTimeout(id) { timers.delete(id); }
   };
@@ -90,7 +95,7 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
     ids['preview-access'].onsubmit({ preventDefault() {} });
   }
   return {
-    ids, requests, writes, timers, state, storage, document,
+    ids, requests, writes, timers, frames, state, storage, document,
     run(source) { return vm.runInContext(source, context); },
     fire(id) { const timer = timers.get(id); if (!timer) throw Error('Missing timer: ' + id); timers.delete(id); timer.fn(); }
   };

@@ -2,6 +2,48 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { setup } = require('./helpers.cjs');
 
+test('all 24 gifts use the same first-opening sequence without awarding unfinished games', () => {
+  for (let day = 1; day <= 24; day++) {
+    const game = setup({ reduced: false }); game.run(`openDay(${day})`);
+    assert(game.ids.ov.classList.contains('gift-opening'), `day ${day}`);
+    assert(game.ids.stage.classList.contains('wob'));
+    assert(!game.ids.card.classList.contains('on'));
+    const timers = game.run('openingTimers.slice()');
+    assert.equal(game.timers.get(timers[0]).delay, 650);
+    assert.equal(game.timers.get(timers[1]).delay, 1300);
+    game.fire(timers[0]);
+    assert(game.ids.stage.classList.contains('pop'));
+    assert(!game.ids.card.classList.contains('on'));
+    game.fire(timers[1]);
+    assert(game.run('openingFlight !== null'));
+    assert(game.ids.card.classList.contains('on'));
+    assert(!game.ids.ov.classList.contains('gift-opening'));
+    assert.equal(game.run(`opened.has(${day})`), ![2,3,4,5,7,8,9,10,11,12].includes(day));
+    game.run(`opened.add(${day});closeOv();openDay(${day})`);
+    assert(!game.ids.ov.classList.contains('gift-opening'));
+    assert(game.ids.card.classList.contains('on'));
+  }
+});
+
+test('reduced motion skips the shared opening and closing invalidates stale callbacks', () => {
+  for (let day = 1; day <= 24; day++) {
+    const game = setup(); game.run(`openDay(${day})`);
+    assert(!game.ids.ov.classList.contains('gift-opening'));
+    assert.equal(game.run('openingTimers.length'), 0);
+    assert.equal(game.run('openingFlight'), null);
+    assert(game.ids.card.classList.contains('on'));
+    assert.equal(game.run(`opened.has(${day})`), ![2,3,4,5,7,8,9,10,11,12].includes(day));
+  }
+  const game = setup({ reduced: false }); game.run('openDay(4)');
+  const stale = game.run('openingTimers.slice()').map(id => game.timers.get(id).fn);
+  game.run('closeOv();openDay(8)');
+  stale.forEach(callback => callback());
+  assert(game.ids.ov.classList.contains('gift-opening'));
+  assert(!game.ids.card.classList.contains('on'));
+  assert(!game.ids.stage.classList.contains('pop'));
+  assert.equal(game.run('opened.has(4)||opened.has(8)'), false);
+});
+
 test('calendar starts without loading any gift images and loads only the selected day', () => {
   const game = setup();
   assert.deepEqual(game.requests, []);
@@ -91,7 +133,7 @@ test('massage keeps its caption below the full image without leaking into other 
 test('Lotus preserves ingredient order, rejects fast repeats, saves the voucher and allows replay', async () => {
   const game = setup({ reduced: false }); game.run('openDay(5)');
   await game.run('addLotus(2)'); assert.equal(game.run('lotusGame.step'), 0);
-  assert(game.ids['lotus-status'].textContent.includes('Zuerst der Keksboden.'));
+  assert.equal(game.ids['lotus-status'].textContent, 'Das passt hier noch nicht ganz. Probier eine andere Zutat!');
   for (let i = 0; i < 3; i++) {
     const first = game.run(`addLotus(${i})`); await game.run(`addLotus(${i})`); await first;
     assert.equal(game.run('lotusGame.step'), i + 1);
@@ -104,6 +146,27 @@ test('Lotus preserves ingredient order, rejects fast repeats, saves the voucher 
   game.run('previewOpened.add(1);closeOv();openDay(5)'); assert.equal(game.run('lotusGame.step'), 3);
   game.ids['lotus-again'].onclick(); assert.equal(game.run('lotusGame.step'), 0);
   assert.equal(game.ids['lotus-voucher'].hidden, false); assert.equal(game.run('previewOpened.has(1)&&previewOpened.has(5)'), true);
+});
+
+test('Lotus is a sequence puzzle without recipe hints or a highlighted answer', async () => {
+  const game = setup(); game.run('openDay(5)');
+  const order = game.ids['lotus-ingredients'].children.filter(node => node.tag === 'button').map(node => node.attrs.id);
+  assert.equal(order.length, 3);
+  assert.notDeepEqual(order, [0,1,2].map(index => 'lotus-ingredient-' + index));
+  assert.equal(game.ids['lotus-step'], undefined);
+  for (let step = 0; step < 3; step++) {
+    for (let index = 0; index < 3; index++) {
+      assert.equal(game.ids['lotus-ingredient-' + index].classList.contains('lotus-needed'), false);
+      assert(!game.ids['lotus-ingredient-' + index].getAttribute('aria-label').includes('jetzt'));
+      assert(!game.ids['lotus-progress-' + index].textContent.includes('Kekse'));
+    }
+    await game.run(`addLotus(${step === 2 ? 0 : 2})`);
+    assert.equal(game.run('lotusGame.step'), step);
+    assert(!/Keksboden|Crem|Aufstrich/.test(game.ids['lotus-status'].textContent));
+    await game.run(`addLotus(${step})`);
+  }
+  assert.equal(game.run('lotusGame.step'), 3);
+  assert.equal(game.ids['lotus-voucher'].hidden, false);
 });
 
 test('Lotus retains the previous state if the next image cannot decode', async () => {

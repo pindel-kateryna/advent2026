@@ -7,10 +7,14 @@
 <title>Honeys Adventskalender</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Fraunces:wght@600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
-<script defer src="js/content.js"></script>
+<link rel="stylesheet" href="css/styles.css?v=20261116-cookie">
+<script defer src="js/content.js?v=20261116-cookie"></script>
 <script defer src="js/day08.js"></script>
-<script defer src="js/app.js?v=20261113-code"></script>
+<script defer src="js/day09.js?v=20261115-sofa-clean"></script>
+<script defer src="js/day10.js?v=20261115-match-no-labels"></script>
+<script defer src="js/day11.js?v=20261116-cookie"></script>
+<script defer src="js/day12.js?v=20261116-cookie"></script>
+<script defer src="js/app.js?v=20261116-cookie"></script>
 </head>
 <body>
 <div class="wrap">
@@ -89,19 +93,18 @@
 <section class="lotus gift-panel" id="lotus" aria-label="Deinen Lotus-Cheesecake zusammenstellen" hidden>
 <div class="gift-task" id="lotus-task"></div>
 <p class="lotus-help gift-instructions" id="lotus-help"><span data-copy="lotusInstructions"></span><span class="lotus-touch-help"><span data-copy="lotusTouchGuide"></span></span></p>
-<p class="gift-step" id="lotus-step"></p>
-<ol class="lotus-progress gift-progress" aria-label="Die drei Zutaten-Schritte"><li id="lotus-progress-0">1 · Kekse</li><li id="lotus-progress-1">2 · Creme</li><li id="lotus-progress-2">3 · Lotus</li></ol>
+<ol class="lotus-progress gift-progress" aria-label="Fortschritt: drei Schritte"><li id="lotus-progress-0">1</li><li id="lotus-progress-1">2</li><li id="lotus-progress-2">3</li></ol>
 <div class="lotus-plate" id="lotus-plate" role="group" aria-label="Teller: Zutaten hier ablegen">
-<img id="lotus-image" data-src="assets/day-05/stage-0-plate.png" alt="Leerer Teller" width="1254" height="1254" draggable="false" decoding="async">
+<img id="lotus-image" data-src="assets/day-05/stage-0-plate-illustrated.png" alt="Leerer Teller" width="1254" height="1254" draggable="false" decoding="async">
 <div class="lotus-effects" id="lotus-effects" aria-hidden="true"></div>
 </div>
 <div class="lotus-ingredients" id="lotus-ingredients" aria-label="Zutaten">
-<button class="lotus-ingredient" id="lotus-ingredient-0" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-biscuits.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Kekse</span></button>
-<button class="lotus-ingredient" id="lotus-ingredient-1" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-cream.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Creme</span></button>
-<button class="lotus-ingredient" id="lotus-ingredient-2" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-lotus.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Lotus-Aufstrich</span></button>
+<button class="lotus-ingredient" id="lotus-ingredient-0" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-biscuits-illustrated.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Kekse</span></button>
+<button class="lotus-ingredient" id="lotus-ingredient-1" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-cream-illustrated.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Creme</span></button>
+<button class="lotus-ingredient" id="lotus-ingredient-2" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-lotus-illustrated.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Lotus-Aufstrich</span></button>
 </div>
 <p class="lotus-status gift-feedback sr-only" id="lotus-status" role="status" aria-live="polite" aria-atomic="true"></p>
-<article class="lotus-voucher gift-reward" id="lotus-voucher" hidden aria-labelledby="lotus-voucher-title"><p class="lotus-eyebrow">Für Andre · von Katya</p><h2 id="lotus-voucher-title" data-copy="lotusVoucherTitle"></h2><p data-copy="lotusVoucherCopy"></p></article>
+<article class="lotus-voucher gift-reward" id="lotus-voucher" hidden aria-labelledby="lotus-voucher-title"><h2 id="lotus-voucher-title" data-copy="lotusVoucherTitle"></h2><p data-copy="lotusVoucherCopy"></p></article>
 <aside class="lotus-hint gift-reward" id="lotus-hint" hidden><b>Dein Geschenk</b><p id="lotus-hint-text"></p></aside>
 <div class="gift-actions"><button class="btn lotus-again gift-repeat" id="lotus-again" type="button" hidden>Nochmal spielen</button></div>
 </section>
@@ -135,6 +138,69 @@
 <p class="gift-progress" id="memory-progress" aria-label="Gefundene Paare">0 / 4</p>
 <div class="memory-grid" id="memory-grid"></div>
 <p class="memory-status gift-feedback sr-only" id="memory-status" role="status" aria-live="polite" aria-atomic="true"></p>
+</section>
+<section class="energy gift-panel" id="energy" aria-label="Andre aufladen" hidden>
+<div class="gift-task" id="energy-task"></div>
+<p class="gift-instructions" id="energy-help"></p>
+<p class="gift-feedback energy-prompt" id="energy-prompt" role="status" aria-live="polite" aria-atomic="true"></p>
+<div id="energy-play" class="energy-play">
+<div class="energy-progress"><div class="energy-meter" id="energy-meter" role="progressbar" aria-label="Andres Ladestand" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><i id="energy-cell-0"></i><i id="energy-cell-1"></i><i id="energy-cell-2"></i><i id="energy-cell-3"></i><i id="energy-cell-4"></i></div><span class="gift-progress" id="energy-count">0 / 5 · 3 %</span></div>
+<div class="energy-scene" id="energy-scene" tabindex="0" role="group" aria-label="Spielfeld: fallende Batterien antippen" aria-describedby="energy-help">
+<img class="energy-backdrop" data-src="assets/day-07/room-light-on.jpg" alt="" width="720" height="960" draggable="false" decoding="async">
+<div class="energy-player" id="energy-player" role="img" aria-label="Andre schläft auf dem Sofa">
+<img id="energy-sleepy" data-src="assets/day-09/andre-sleepy.png" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true">
+<img id="energy-awake" data-src="assets/day-09/andre-awake.png" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true" hidden>
+<img id="energy-happy" data-src="assets/day-09/andre-happy.png" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true" hidden>
+<img id="energy-cheer" data-src="assets/day-09/andre-cheer.png" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true" hidden>
+</div>
+<img class="energy-table" data-src="assets/day-07/room-light-on.jpg" alt="" width="720" height="960" draggable="false" decoding="async" aria-hidden="true">
+<div class="energy-drops" id="energy-drops"></div><div class="energy-effects" id="energy-effects" aria-hidden="true"></div>
+<button class="energy-start" id="energy-start" type="button">Aufladen!</button>
+</div>
+</div>
+<p class="gift-feedback sr-only" id="energy-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<article class="gift-reward energy-reward" id="energy-reward" hidden tabindex="-1" aria-labelledby="energy-reward-title"><h2 id="energy-reward-title">Ein kleines Energie-Upgrade ⚡</h2><p>Für neue Abenteuer, große Pläne und alles, was wir noch zusammen vorhaben. Such dein Päckchen Nummer 09.</p></article>
+<div class="gift-actions"><button class="gift-hint" id="energy-calm" type="button">Ruhig spielen</button><button class="btn gift-repeat" id="energy-again" type="button" hidden>Nochmal spielen</button></div>
+</section>
+<section class="match gift-panel" id="match" aria-label="Gummibärchen: Drei in einer Reihe" hidden>
+<div class="gift-task" id="match-task"></div>
+<p class="gift-instructions">Tausche zwei Nachbarn und bilde Reihen aus mindestens drei gleichen Bärchen. Tippe oder wische.</p>
+<div class="match-play" id="match-play">
+<div class="match-goals" role="group" aria-label="Sammelziele">
+<div class="match-target" id="match-target-red"><img data-src="assets/day-10/bear-red.png" alt="" width="512" height="512" draggable="false"><span>Rot <b id="match-goal-red">0 / 5</b></span></div>
+<div class="match-target" id="match-target-yellow"><img data-src="assets/day-10/bear-yellow.png" alt="" width="512" height="512" draggable="false"><span>Gelb <b id="match-goal-yellow">0 / 10</b></span></div>
+</div>
+<div class="match-board" id="match-board" role="grid" aria-label="Bärchenfeld: Pfeiltasten zum Bewegen, Enter zum Auswählen" aria-rowcount="6" aria-colcount="5"></div>
+</div>
+<p class="gift-feedback match-status" id="match-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<article class="gift-reward match-reward" id="match-reward" hidden tabindex="-1" aria-labelledby="match-reward-title"><h2 id="match-reward-title">Eine bärenstarke Überraschung 🤎</h2><p>Gut kombiniert! Öffne dein Päckchen Nummer 10.</p></article>
+<div class="gift-actions"><button class="gift-hint" id="match-tip" type="button">Ein kleiner Tipp?</button><button class="btn gift-repeat" id="match-again" type="button" hidden>Nochmal spielen</button></div>
+</section>
+<section class="mirror gift-panel" id="mirror" aria-label="Beschlagenen Spiegel freiwischen" hidden>
+<div class="gift-task" id="mirror-task"></div>
+<p class="gift-instructions mirror-status" id="mirror-status"></p>
+<div class="mirror-scene" id="mirror-scene" role="group" aria-label="Spiegel mit einer versteckten Botschaft">
+<div class="mirror-reflection" aria-hidden="true"><i class="mirror-light one"></i><i class="mirror-light two"></i><i class="mirror-mist one"></i><i class="mirror-mist two"></i></div>
+<div class="mirror-message" id="mirror-message" tabindex="-1" role="group" aria-label="Deine Botschaft" aria-hidden="true"><p>Man sieht es nicht,<br>aber man bemerkt es sofort.</p><span>Such dein Päckchen Nummer 11.</span></div>
+<canvas class="mirror-fog" id="mirror-fog" width="640" height="880" aria-hidden="true"></canvas>
+<div class="mirror-sparks" id="mirror-sparks" aria-hidden="true"></div>
+</div>
+<p class="sr-only" id="mirror-live" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="gift-actions"><button class="gift-hint" id="mirror-skip" type="button" aria-controls="mirror-scene">Direkt aufdecken</button><button class="btn gift-repeat" id="mirror-again" type="button" hidden>Nochmal beschlagen</button></div>
+</section>
+<section class="cookie gift-panel" id="cookie" aria-label="Keks knacken" hidden>
+<div class="gift-task" id="cookie-task"></div>
+<p class="gift-instructions" id="cookie-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="cookie-stage" id="cookie-stage">
+<div class="cookie-message" id="cookie-message" role="group" aria-label="Dein Päckchen" tabindex="-1" aria-hidden="true"><span>Such dein Geschenk unter der Nummer</span><b>12</b></div>
+<button class="cookie-tap" id="cookie-tap" type="button" aria-label="Keks antippen: 0 von 3">
+<span class="cookie-half cookie-left" aria-hidden="true"><img data-src="assets/day-05/ingredient-biscuits-illustrated.png" alt="" width="960" height="960" draggable="false"></span>
+<span class="cookie-half cookie-right" aria-hidden="true"><img data-src="assets/day-05/ingredient-biscuits-illustrated.png" alt="" width="960" height="960" draggable="false"></span>
+<svg class="cookie-cracks" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#663b21" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path class="cookie-crack crack-one" d="M50 24L54 34L47 44"/><path class="cookie-crack crack-two" d="M47 44L55 54L48 65"/><path class="cookie-crack crack-three" d="M48 65L53 75L50 84"/></g></svg>
+</button>
+<div class="cookie-crumbs" id="cookie-crumbs" aria-hidden="true"></div>
+</div>
+<div class="gift-actions"><button class="btn gift-repeat" id="cookie-again" type="button" hidden>Nochmal knacken</button></div>
 </section>
 <div class="gift-actions" id="gift-default-actions"><button class="btn" id="yes">Да, канєшно 💛</button></div>
 <div class="where gift-reward" id="wh"></div>

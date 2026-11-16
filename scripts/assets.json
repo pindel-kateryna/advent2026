@@ -36,44 +36,44 @@
     "maxSize": 960
   },
   {
-    "source": "references/original-assets/day-05/ingredient-biscuits.png",
-    "output": "site/assets/day-05/ingredient-biscuits.png",
+    "source": "references/original-assets/day-05-illustrated/ingredient-biscuits.png",
+    "output": "site/assets/day-05/ingredient-biscuits-illustrated.png",
     "format": "png",
     "maxSize": 960
   },
   {
-    "source": "references/original-assets/day-05/ingredient-cream.png",
-    "output": "site/assets/day-05/ingredient-cream.png",
+    "source": "references/original-assets/day-05-illustrated/ingredient-cream.png",
+    "output": "site/assets/day-05/ingredient-cream-illustrated.png",
     "format": "png",
     "maxSize": 960
   },
   {
-    "source": "references/original-assets/day-05/ingredient-lotus.png",
-    "output": "site/assets/day-05/ingredient-lotus.png",
+    "source": "references/original-assets/day-05-illustrated/ingredient-lotus.png",
+    "output": "site/assets/day-05/ingredient-lotus-illustrated.png",
     "format": "png",
     "maxSize": 960
   },
   {
-    "source": "references/original-assets/day-05/stage-0-plate.png",
-    "output": "site/assets/day-05/stage-0-plate.png",
+    "source": "references/original-assets/day-05-illustrated/stage-0-plate.png",
+    "output": "site/assets/day-05/stage-0-plate-illustrated.png",
     "format": "png",
     "maxSize": 960
   },
   {
-    "source": "references/original-assets/day-05/stage-1-base.png",
-    "output": "site/assets/day-05/stage-1-base.png",
+    "source": "references/original-assets/day-05-illustrated/stage-1-base.png",
+    "output": "site/assets/day-05/stage-1-base-illustrated.png",
     "format": "png",
     "maxSize": 960
   },
   {
-    "source": "references/original-assets/day-05/stage-2-cream.png",
-    "output": "site/assets/day-05/stage-2-cream.png",
+    "source": "references/original-assets/day-05-illustrated/stage-2-cream.png",
+    "output": "site/assets/day-05/stage-2-cream-illustrated.png",
     "format": "png",
     "maxSize": 960
   },
   {
-    "source": "references/original-assets/day-05/stage-3-finished.png",
-    "output": "site/assets/day-05/stage-3-finished.png",
+    "source": "references/original-assets/day-05-illustrated/stage-3-finished.png",
+    "output": "site/assets/day-05/stage-3-finished-illustrated.png",
     "format": "png",
     "maxSize": 960
   },
@@ -134,5 +134,65 @@
     "maxSize": 1448,
     "alpha": false,
     "copy": true
+  },
+  {
+    "source": "references/original-assets/day-09/battery.png",
+    "output": "site/assets/day-09/battery.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-09-sofa/andre-sleepy.png",
+    "output": "site/assets/day-09/andre-sleepy.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-09-sofa/andre-awake.png",
+    "output": "site/assets/day-09/andre-awake.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-09-sofa/andre-happy.png",
+    "output": "site/assets/day-09/andre-happy.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-09-sofa/andre-cheer.png",
+    "output": "site/assets/day-09/andre-cheer.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-10/bear-red.png",
+    "output": "site/assets/day-10/bear-red.png",
+    "format": "png",
+    "maxSize": 512
+  },
+  {
+    "source": "references/original-assets/day-10/bear-yellow.png",
+    "output": "site/assets/day-10/bear-yellow.png",
+    "format": "png",
+    "maxSize": 512
+  },
+  {
+    "source": "references/original-assets/day-10/bear-green.png",
+    "output": "site/assets/day-10/bear-green.png",
+    "format": "png",
+    "maxSize": 512
+  },
+  {
+    "source": "references/original-assets/day-10/bear-blue.png",
+    "output": "site/assets/day-10/bear-blue.png",
+    "format": "png",
+    "maxSize": 512
+  },
+  {
+    "source": "references/original-assets/day-10/bear-purple.png",
+    "output": "site/assets/day-10/bear-purple.png",
+    "format": "png",
+    "maxSize": 512
   }
 ]
