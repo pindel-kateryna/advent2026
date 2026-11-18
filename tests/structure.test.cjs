@@ -6,11 +6,11 @@ const { ROOT, SITE, html, setup } = require('./helpers.cjs');
 
 test('gift types keep the shared copy in the correct panel when switching days', () => {
   const game = setup();
-  for (const [day, kind, slot] of [[1,'image','photo-copy'],[2,'game','memory-task'],[3,'animation','bear-task'],[4,'animation','shaker-task'],[5,'game','lotus-task'],[6,'image','gift-generic-task'],[7,'game','movie-task'],[8,'game','tree-task'],[9,'game','energy-task'],[3,'animation','bear-task']]) {
+  for (const [day, kind, slot] of [[1,'game','pirate-task'],[2,'game','memory-task'],[3,'animation','bear-task'],[4,'game','elixir-task'],[5,'game','lotus-task'],[6,'image','gift-generic-task'],[7,'game','movie-task'],[8,'game','tree-task'],[9,'game','energy-task'],[3,'animation','bear-task']]) {
     game.run(`setCard(${day},opened)`);
     assert.equal(game.ids.card.dataset.kind, kind);
     assert.equal(game.ids.ch.parent.attrs.id, slot);
-    assert.equal(game.ids['gift-default-actions'].hidden, day !== 1);
+    assert.equal(game.ids['gift-default-actions'].hidden, true);
   }
 });
 
@@ -29,7 +29,7 @@ test('every static and dynamic asset reference resolves inside the public site',
 
 test('the public folder contains only runtime files and prepared images', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'scripts/assets.json'), 'utf8'));
-  const expected = new Set(['index.html', 'css/styles.css', 'js/content.js', 'js/app.js', 'js/day08.js', 'js/day09.js', 'js/day10.js', 'js/day11.js', 'js/day12.js', ...manifest.map(item => item.output.slice('site/'.length))]);
+  const expected = new Set(['index.html', 'css/styles.css', 'js/content.js', 'js/app.js', 'js/day01.js', 'js/day04.js', 'js/day08.js', 'js/day09.js', 'js/day10.js', 'js/day11.js', 'js/day12.js', 'js/day13.js', 'js/day14.js', ...manifest.map(item => item.output.slice('site/'.length))]);
   function walk(dir) {
     for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
       const file = path.join(dir, item.name);
@@ -51,17 +51,17 @@ test('content loads before the app and every copy placeholder has a value', () =
   assert.equal(copy, 'Du suchst den Film aus. Gekuschelt wird sowieso. Such dein Päckchen Nummer 07.');
 });
 
-test('document IDs are unique and the shaker mask still references the HTML document', () => {
+test('document IDs are unique and the elixir mask references the inline SVG', () => {
   const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
   assert.equal(ids.length, new Set(ids).size);
-  assert(html.includes('id="shaker-body-clip"'));
-  assert(html.includes('style="clip-path:url(#shaker-body-clip)"'));
+  assert(html.includes('id="elixir-liquid-clip"'));
+  assert(html.includes('clip-path="url(#elixir-liquid-clip)"'));
   assert(!fs.readFileSync(path.join(SITE, 'css/styles.css'), 'utf8').includes('url(#shaker-body-clip)'));
 });
 
 test('transparent images retain PNG alpha and all PNG web copies fit the resolution budget', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'scripts/assets.json'), 'utf8'));
-  assert.equal(manifest.length, 32);
+  assert.equal(manifest.length, 42);
   for (const item of manifest.filter(item => item.format === 'png')) {
     const png = fs.readFileSync(path.join(ROOT, item.output));
     assert.equal(png.subarray(1, 4).toString(), 'PNG');

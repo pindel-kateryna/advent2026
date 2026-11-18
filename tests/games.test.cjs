@@ -18,7 +18,7 @@ test('all 24 gifts use the same first-opening sequence without awarding unfinish
     assert(game.run('openingFlight !== null'));
     assert(game.ids.card.classList.contains('on'));
     assert(!game.ids.ov.classList.contains('gift-opening'));
-    assert.equal(game.run(`opened.has(${day})`), ![2,3,4,5,7,8,9,10,11,12].includes(day));
+    assert.equal(game.run(`opened.has(${day})`), ![1,2,3,4,5,7,8,9,10,11,12,13,14].includes(day));
     game.run(`opened.add(${day});closeOv();openDay(${day})`);
     assert(!game.ids.ov.classList.contains('gift-opening'));
     assert(game.ids.card.classList.contains('on'));
@@ -32,7 +32,7 @@ test('reduced motion skips the shared opening and closing invalidates stale call
     assert.equal(game.run('openingTimers.length'), 0);
     assert.equal(game.run('openingFlight'), null);
     assert(game.ids.card.classList.contains('on'));
-    assert.equal(game.run(`opened.has(${day})`), ![2,3,4,5,7,8,9,10,11,12].includes(day));
+    assert.equal(game.run(`opened.has(${day})`), ![1,2,3,4,5,7,8,9,10,11,12,13,14].includes(day));
   }
   const game = setup({ reduced: false }); game.run('openDay(4)');
   const stale = game.run('openingTimers.slice()').map(id => game.timers.get(id).fn);
@@ -57,7 +57,7 @@ test('calendar starts without loading any gift images and loads only the selecte
   assert(game.requests.includes('assets/day-07/couple-holding-v2.png'));
 });
 
-test('real dates still block future gifts and preview progress stays separate', () => {
+test('real dates still block future gifts and preview progress stays separate', async () => {
   const game = setup({ preview: false });
   game.run('tap(7,document.createElement("button"))');
   assert.equal(game.run('movieGame'), null);
@@ -66,6 +66,7 @@ test('real dates still block future gifts and preview progress stays separate', 
   game.ids['preview-code'].value = '6652';
   game.ids['preview-access'].onsubmit({ preventDefault() {} });
   game.run('openDay(1)');
+  await game.run('transformPirate()');
   assert.equal(game.run('previewOpened.has(1)'), true);
   assert.equal(game.run('realOpened.has(1)'), false);
   assert.equal(game.writes.length, 0);
@@ -109,8 +110,8 @@ test('all four memory pairs are required to reveal day 2', () => {
   assert.equal(game.run('previewOpened.has(2)'), true);
 });
 
-test('bear and shaker guard repeat clicks, complete once, and replay', () => {
-  for (const [day, name, play, replay, state] of [[3, 'bear', 'bear-scene', 'bear-replay', 'bearGame'], [4, 'shaker', 'shaker-start', 'shaker-again', 'shakerGame']]) {
+test('bear guards repeat clicks, completes once, and replays', () => {
+  for (const [day, name, play, replay, state] of [[3, 'bear', 'bear-scene', 'bear-replay', 'bearGame']]) {
     const game = setup({ reduced: false }); game.run(`openDay(${day})`);
     game.ids[play].onclick(); const timer = game.run(`${state}.timer`);
     game.ids[play].onclick(); assert.equal(game.run(`${state}.timer`), timer);
@@ -230,6 +231,6 @@ test('saved gifts use the same storage keys and reduced motion adds no scene ani
   const game = setup({ preview: false, storage }); game.run('openDay(5)'); assert.equal(game.run('lotusGame.step'), 3);
   game.run('closeOv();openDay(7)'); assert.equal(game.run('movieGame.finished'), true);
   game.run('closeOv();openDay(3);playBear()'); assert.equal(game.run('bearGame.done'), true);
-  game.run('closeOv();openDay(4);playShaker()'); assert.equal(game.run('shakerGame.done'), true);
+  game.run('closeOv();openDay(4)'); for(const id of ['moon','star','spark'])await game.run(`addElixir('${id}')`); assert.equal(game.run('elixirGame.done'), true);
   assert.equal(game.timers.size, 0); assert.equal(game.run('realOpened.has(1)&&realOpened.has(5)&&realOpened.has(7)'), true);
 });

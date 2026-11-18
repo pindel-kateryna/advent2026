@@ -74,7 +74,7 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
     activeElement: null, listeners: {}, body: root.children[0].children.find(x => x.tag === 'body'),
     getElementById(id) { return ids[id] || null; }, createElement: element,
     querySelectorAll(selector) { return root.querySelectorAll(selector); },
-    addEventListener(type, fn) { this.listeners[type] = fn; }
+    addEventListener(type, fn) { const previous=this.listeners[type]; this.listeners[type] = previous ? (...args)=>{previous(...args);fn(...args);} : fn; }
   };
   const context = {
     console, Intl, Math,

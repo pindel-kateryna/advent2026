@@ -1,7 +1,7 @@
 // Calendar copy and default package clues.
 const P=n=>`Dein Päckchen trägt die Nummer ${String(n).padStart(2,'0')}.`;
 const D=[
-["Das erste Abenteuer wird knusprig. Bereit, Captain Andre?",P(1)],
+["Das erste Abenteuer wird knusprig.",P(1)],
 ["Für die Tage ohne Hantel: Dein Kleiderschrank bekommt Verstärkung.",P(2)],
 ["Heute wird gerollt – aber nicht auf dem Sofa. Halte dir den Abend frei, wir gehen aus.","Kein Päckchen heute. Die Uhrzeit verrate ich dir beim Frühstück."],
 ["Heute versuchen wir, den Abspann gemeinsam zu erleben. Heißgetränk inklusive.","Kein Päckchen heute. Heute Abend: Sofa, Decke, ich sorge für den Rest."],
@@ -80,7 +80,7 @@ const MATCH_TITLE='Bärchen sammeln, Päckchen öffnen! 🤎';
 const MATCH_ROOT='assets/day-10/';
 const MIRROR_TITLE='Beschlagener Spiegel ✨';
 const MIRROR_STEPS=['Der Spiegel ist beschlagen. Wisch mit dem Finger darüber.','Da ist etwas … wisch weiter.','Fast frei. Man ahnt schon, was da steht.','Gleich hast du es.'];
-const DAY_MEDIA={1:'gift-photo',3:'bear',4:'shaker',5:'lotus',6:'massage',7:'movie',8:'tree',9:'energy',10:'match',12:'cookie'};
+const DAY_MEDIA={1:'pirate',3:'bear',4:'elixir',5:'lotus',6:'massage',7:'movie',8:'tree',9:'energy',10:'match',12:'cookie',13:'locker',14:'snack'};
 
 // Day 8: room-relative star positions and bulb centers on the supplied full images.
 const TREE_ROOT='assets/day-08/';
@@ -99,3 +99,5 @@ const TREE_BULBS={
 COPY.treeInstructions='Drei kleine Sterne bringen ihn zurück.';
 
 const COOKIE_TITLE='Knusprig außen, karamellig innen. Zimt gibt’s gratis.';
+
+const PIRATE_TITLE='Ein Abenteuer beginnt … 🏴‍☠️';

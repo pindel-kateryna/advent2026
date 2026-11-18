@@ -194,5 +194,65 @@
     "output": "site/assets/day-10/bear-purple.png",
     "format": "png",
     "maxSize": 512
+  },
+  {
+    "source": "references/original-assets/day-01-transformation/andre-before.png",
+    "output": "site/assets/day-01/andre-before.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-01-transformation/andre-pirate.png",
+    "output": "site/assets/day-01/andre-pirate.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-03-illustrated/chocolate-bear.png",
+    "output": "site/assets/day-03/chocolate-bear-illustrated.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-03-illustrated/katya-head.png",
+    "output": "site/assets/day-03/katya-head-illustrated.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-04-elixir/flask.png",
+    "output": "site/assets/day-04/elixir-flask.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-13/locker-door.png",
+    "output": "site/assets/day-13/locker-door.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-13/locker-door-flat-v2.png",
+    "output": "site/assets/day-13/locker-door-flat-v2.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-14/andre-thoughtful.png",
+    "output": "site/assets/day-14/andre-thoughtful.png",
+    "format": "png",
+    "maxSize": 960
+  },
+  {
+    "source": "references/original-assets/day-14/chocolate.png",
+    "output": "site/assets/day-14/chocolate.png",
+    "format": "png",
+    "maxSize": 512
+  },
+  {
+    "source": "references/original-assets/day-14/dumbbell.png",
+    "output": "site/assets/day-14/dumbbell.png",
+    "format": "png",
+    "maxSize": 512
   }
 ]

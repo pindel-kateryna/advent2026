@@ -2,11 +2,11 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { setup } = require('./helpers.cjs');
 
-test('day 3 uses the v2 head over the original body and replays the same animation', () => {
+test('day 3 uses an illustrated Katya head over a stationary illustrated bear body and replays', () => {
   const game = setup();
   game.run('openDay(3)');
-  assert(game.requests.includes('assets/day-03/katya-bear-reveal-v2.png'));
-  assert(game.requests.includes('assets/day-03/chocolate-bear.png'));
+  assert(game.requests.includes('assets/day-03/katya-head-illustrated.png'));
+  assert(game.requests.includes('assets/day-03/chocolate-bear-illustrated.png'));
   assert(!game.requests.includes('assets/day-03/katya-bear-reveal.png'));
   game.state.reduced = false;
   game.ids['bear-scene'].onclick();

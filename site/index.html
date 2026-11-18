@@ -7,14 +7,18 @@
 <title>Honeys Adventskalender</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Fraunces:wght@600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20261116-cookie">
-<script defer src="js/content.js?v=20261116-cookie"></script>
+<link rel="stylesheet" href="css/styles.css?v=20261117-snack">
+<script defer src="js/content.js?v=20261117-snack"></script>
+<script defer src="js/day01.js?v=20261117-snack"></script>
+<script defer src="js/day04.js?v=20261117-snack"></script>
 <script defer src="js/day08.js"></script>
 <script defer src="js/day09.js?v=20261115-sofa-clean"></script>
 <script defer src="js/day10.js?v=20261115-match-no-labels"></script>
-<script defer src="js/day11.js?v=20261116-cookie"></script>
-<script defer src="js/day12.js?v=20261116-cookie"></script>
-<script defer src="js/app.js?v=20261116-cookie"></script>
+<script defer src="js/day11.js?v=20261117-snack"></script>
+<script defer src="js/day12.js?v=20261117-snack"></script>
+<script defer src="js/day13.js?v=20261117-snack"></script>
+<script defer src="js/day14.js?v=20261117-snack"></script>
+<script defer src="js/app.js?v=20261117-snack"></script>
 </head>
 <body>
 <div class="wrap">
@@ -44,7 +48,19 @@
 <div class="card px" id="card">
 <div class="gift-card-header"><p class="n">NEUES FUNDSTÜCK</p><p class="big" id="cn"></p><button class="x" id="x" aria-label="Schließen">X</button></div>
 <div class="gift-task" id="gift-generic-task"><p class="h" id="ch"></p></div>
-<figure class="gift-photo gift-panel" id="gift-photo" hidden><img data-src="assets/day-01/captain-andre.jpg" alt="Captain Andre im roten Piratenmantel auf einem Schiff" width="1024" height="1536" decoding="async"><figcaption class="gift-caption" id="photo-copy"></figcaption></figure>
+<section class="pirate gift-panel" id="pirate" aria-label="Andre in einen Piraten verwandeln" hidden>
+<div class="gift-task" id="pirate-task"></div>
+
+<div class="pirate-scene" id="pirate-scene" role="group" aria-label="Andre und seine Verwandlung">
+<img class="pirate-person" id="pirate-before" data-src="assets/day-01/andre-before.png" alt="Andre im dunkelblauen Pullover" width="960" height="960" decoding="async" draggable="false">
+<img class="pirate-person" id="pirate-after" data-src="assets/day-01/andre-pirate.png" alt="Andre als Strohhut-Pirat mit roter Weste" width="960" height="960" decoding="async" draggable="false" hidden>
+<div class="pirate-cloud" aria-hidden="true"></div><div class="pirate-dust" id="pirate-dust" aria-hidden="true"></div>
+</div>
+<p class="gift-feedback pirate-status" id="pirate-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="pirate-hat-tray" id="pirate-hat-tray"><button class="pirate-hat" id="pirate-hat" type="button" aria-label="Strohhut auf Andre ziehen oder antippen"><svg viewBox="0 0 160 100" aria-hidden="true" focusable="false"><defs><pattern id="pirate-weave" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M0 2H8M2 0V8" stroke="#b98c47" stroke-width=".8" opacity=".55"/></pattern></defs><ellipse cx="80" cy="72" rx="72" ry="20" fill="#e8be69" stroke="#9c6c3a" stroke-width="3"/><path d="M38 66Q38 15 80 14Q122 15 122 66Z" fill="#efc978" stroke="#9c6c3a" stroke-width="3"/><path d="M38 66Q38 15 80 14Q122 15 122 66Z" fill="url(#pirate-weave)"/><path d="M39 52Q80 62 121 52L122 67Q80 79 38 67Z" fill="#cf4f47" stroke="#a83d38" stroke-width="2"/><path d="M19 75Q80 94 141 75" fill="none" stroke="#bd944f" stroke-width="2"/></svg><span>Strohhut</span></button></div>
+<div class="gift-reward pirate-result" id="pirate-result" role="group" tabindex="-1" aria-label="Dein erstes Abenteuer" hidden><p>Das erste Abenteuer wird knusprig.</p><p>Such dein Päckchen Nummer 01.</p></div>
+<div class="gift-actions"><button class="btn gift-repeat" id="pirate-again" type="button" hidden>Nochmal verwandeln</button></div>
+</section>
 <section class="tree gift-panel" id="tree" aria-label="Weihnachtszauber wecken" hidden>
 <div class="gift-task" id="tree-task"></div>
 <p class="tree-help gift-instructions" id="tree-help" data-copy="treeInstructions"></p>
@@ -108,26 +124,30 @@
 <aside class="lotus-hint gift-reward" id="lotus-hint" hidden><b>Dein Geschenk</b><p id="lotus-hint-text"></p></aside>
 <div class="gift-actions"><button class="btn lotus-again gift-repeat" id="lotus-again" type="button" hidden>Nochmal spielen</button></div>
 </section>
-<section class="shaker gift-panel gift-animation" id="shaker" aria-label="Andre im Shaker" hidden>
-<div class="gift-task" id="shaker-task"></div>
-<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><clipPath id="shaker-body-clip" clipPathUnits="objectBoundingBox"><path d="M.5 .092 C.72 .092 .87 .104 .872 .126 L.872 .15 Q.888 .16 .876 .174 Q.895 .186 .88 .198 Q.898 .21 .88 .225 Q.897 .24 .88 .26 L.86 .28 .775 .911 Q.771 .947 .72 .95 Q.5 .97 .28 .95 Q.229 .947 .225 .911 L.14 .28 .12 .26 Q.103 .24 .12 .225 Q.102 .21 .12 .198 Q.105 .186 .124 .174 Q.112 .16 .128 .15 L.128 .126 C.13 .104 .28 .092 .5 .092Z"/></clipPath></defs></svg>
-<div class="gift-animation-viewport"><div class="shaker-scene" id="shaker-scene" role="img" aria-label="Geschlossener Shaker">
-<div class="shaker-puppet">
-<div class="shaker-person-window" aria-hidden="true"><img class="shaker-person" data-src="assets/day-04/andre-flex.png" alt="" width="1199" height="1312" draggable="false" decoding="async"></div>
-<img class="shaker-body" style="clip-path:url(#shaker-body-clip)" data-src="assets/day-04/shaker-body.png" alt="" width="1024" height="1536" draggable="false" aria-hidden="true" decoding="async">
-<div class="shaker-lid" aria-hidden="true"><img data-src="assets/day-04/shaker-lid.png" alt="" width="2172" height="724" draggable="false" decoding="async"></div>
+<section class="elixir gift-panel" id="elixir" aria-label="Dein magisches Elixier mischen" hidden>
+<div class="gift-task" id="elixir-task"></div>
+<p class="gift-feedback elixir-status" id="elixir-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<p class="gift-progress" id="elixir-count" aria-label="Hinzugefügte Zutaten">0 / 3</p>
+<div class="elixir-scene" id="elixir-scene">
+<div class="elixir-vessel" id="elixir-stage-label" role="img" aria-label="Elixier: 0 von 3 Zutaten">
+<svg class="elixir-fill" viewBox="0 0 100 133.333" aria-hidden="true" focusable="false"><defs><clipPath id="elixir-liquid-clip" clipPathUnits="userSpaceOnUse"><path d="M43 19H57V35Q57 39 65 43C86 56 88 72 75 83Q50 91 25 83C12 72 14 56 35 43Q43 39 43 35Z"/></clipPath></defs><svg viewBox="0 0 100 100" width="100" height="133.333" preserveAspectRatio="none"><g clip-path="url(#elixir-liquid-clip)"><rect id="elixir-liquid" x="0" y="94" width="100" height="100" fill="#6ab8ff"/><g class="elixir-bubbles" fill="#fff7"><circle cx="35" cy="75" r="1.4"/><circle cx="54" cy="65" r="1.8"/><circle cx="66" cy="79" r="1"/><circle cx="44" cy="81" r="1.1"/></g></g></svg></svg>
+<img id="elixir-flask" data-src="assets/day-04/elixir-flask.png" alt="" width="720" height="960" decoding="async" draggable="false">
 </div>
-</div></div>
-<p class="gift-feedback sr-only" id="shaker-status" role="status" aria-live="polite" aria-atomic="true"></p>
-<div class="shaker-controls gift-actions"><button type="button" class="btn" id="shaker-start" aria-controls="shaker-scene" aria-disabled="false">Shake it!</button>
-<button type="button" class="btn shaker-again gift-repeat" id="shaker-again" aria-controls="shaker-scene" hidden>Nochmal</button></div>
+<div class="elixir-effects" id="elixir-effects" aria-hidden="true"></div>
+<div class="elixir-result" id="elixir-result" role="group" tabindex="-1" aria-label="Dein Päckchen" aria-hidden="true" hidden><span>Such dein Päckchen Nummer</span><b>04</b></div>
+</div>
+<div class="elixir-ingredients" id="elixir-ingredients" aria-label="Zutaten in beliebiger Reihenfolge hinzufügen">
+<button class="elixir-ingredient" id="elixir-ingredient-0" type="button"><span class="elixir-check" id="elixir-check-0" aria-hidden="true" hidden>✓</span><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d='M20 4C12 16 8 22 8 27a12 12 0 0 0 24 0c0-5-4-11-12-23z' fill='#6ab8ff'/><path d='M14 28a6 6 0 0 0 5 5' stroke='#fff' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg><span>Mondtau</span></button>
+<button class="elixir-ingredient" id="elixir-ingredient-1" type="button"><span class="elixir-check" id="elixir-check-1" aria-hidden="true" hidden>✓</span><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d='M20 4l4.5 11 11.5.8-9 7.5 3 11.2L20 28l-10 6.5 3-11.2-9-7.5 11.5-.8z' fill='#ffd36b'/></svg><span>Sternenstaub</span></button>
+<button class="elixir-ingredient" id="elixir-ingredient-2" type="button"><span class="elixir-check" id="elixir-check-2" aria-hidden="true" hidden>✓</span><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d='M20 3l4 13 13 4-13 4-4 13-4-13-13-4 13-4z' fill='#ff8aa8'/></svg><span>Zimtfunke</span></button>
+</div><div class="gift-actions"><button class="btn gift-repeat" id="elixir-again" type="button" hidden>Nochmal mischen</button></div>
 </section>
 <section class="bear gift-panel gift-animation" id="bear" aria-label="Schokoladenbär mit Überraschung" hidden>
 <div class="gift-task" id="bear-task"></div>
 <div class="gift-animation-viewport"><button type="button" class="bear-scene" id="bear-scene" aria-label="Schokoladenbär antippen" aria-describedby="ch" aria-disabled="false">
-<span class="bear-layer bear-body" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
-<span class="bear-layer bear-katya-head" aria-hidden="true"><img data-src="assets/day-03/katya-bear-reveal-v2.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
-<span class="bear-layer bear-chocolate-head" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
+<span class="bear-layer bear-body" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear-illustrated.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
+<span class="bear-layer bear-katya-head" aria-hidden="true"><img data-src="assets/day-03/katya-head-illustrated.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
+<span class="bear-layer bear-chocolate-head" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear-illustrated.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
 </button></div>
 <p class="gift-feedback sr-only" id="bear-status" role="status" aria-live="polite" aria-atomic="true"></p>
 <div class="gift-actions"><button type="button" class="btn" id="bear-start" aria-controls="bear-scene" aria-disabled="false">Überraschung öffnen</button>
@@ -201,6 +221,42 @@
 <div class="cookie-crumbs" id="cookie-crumbs" aria-hidden="true"></div>
 </div>
 <div class="gift-actions"><button class="btn gift-repeat" id="cookie-again" type="button" hidden>Nochmal knacken</button></div>
+</section>
+<section class="locker gift-panel" id="locker" aria-label="Zahlenschloss der Umkleide öffnen" hidden>
+<div class="gift-task" id="locker-task"></div>
+<p class="locker-status gift-feedback" id="locker-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="locker-scene" id="locker-scene">
+<div class="locker-frame">
+<div class="locker-interior" id="locker-interior" role="group" tabindex="-1" aria-label="Dein geöffnetes Päckchen" aria-hidden="true"><svg viewBox="0 0 100 80" aria-hidden="true" focusable="false"><path d="M50 30V22a7 7 0 1 1 7-7M50 30L10 62H90Z" fill="none" stroke="#e4c99c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Such dein Päckchen Nummer</span><b>13</b></div>
+<div class="locker-door" id="locker-door"><img id="locker-art" data-src="assets/day-13/locker-door-flat-v2.png" alt="" width="640" height="960" draggable="false" decoding="async"><span class="locker-tag" aria-hidden="true">HONEY</span><div class="locker-panel" role="group" aria-label="Dreistelliger Code">
+<div class="locker-wheel"><button id="locker-up-0" type="button" aria-label="Ziffer 1 erhöhen">▲</button><div class="locker-digit" id="locker-digit-0" role="spinbutton" tabindex="0" aria-label="Ziffer 1" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0">0</div><button id="locker-down-0" type="button" aria-label="Ziffer 1 verringern">▼</button></div>
+<div class="locker-wheel"><button id="locker-up-1" type="button" aria-label="Ziffer 2 erhöhen">▲</button><div class="locker-digit" id="locker-digit-1" role="spinbutton" tabindex="0" aria-label="Ziffer 2" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0">0</div><button id="locker-down-1" type="button" aria-label="Ziffer 2 verringern">▼</button></div>
+<div class="locker-wheel"><button id="locker-up-2" type="button" aria-label="Ziffer 3 erhöhen">▲</button><div class="locker-digit" id="locker-digit-2" role="spinbutton" tabindex="0" aria-label="Ziffer 3" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0">0</div><button id="locker-down-2" type="button" aria-label="Ziffer 3 verringern">▼</button></div>
+</div></div></div><div class="locker-confetti" id="locker-confetti" aria-hidden="true"></div></div>
+<div class="gift-actions"><button class="btn" id="locker-go" type="button">Öffnen</button><button class="gift-hint" id="locker-tip" type="button" aria-expanded="false" aria-controls="locker-hint">Ein kleiner Tipp?</button></div>
+<p class="locker-hint gift-feedback" id="locker-hint" hidden></p>
+<div class="gift-actions"><button class="btn gift-repeat" id="locker-again" type="button" hidden>Nochmal knacken</button></div>
+</section>
+<section class="snack gift-panel" id="snack" aria-label="Andres geheime Snack-Mission" hidden>
+<div class="gift-task" id="snack-task"></div>
+<p class="gift-instructions" id="snack-intro">Training geschafft. Aber irgendetwas fehlt noch … 🤔</p>
+<p class="gift-instructions" id="snack-instruction">Sammle Crunch und Schoko. Die Hanteln haben heute Pause!</p>
+<div class="snack-meters" id="snack-meters">
+<div class="snack-meter" id="snack-meter-crunch" role="progressbar" aria-label="Crunch" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span>Crunch <b id="snack-count-crunch">0 / 5</b></span><div class="snack-track"><i id="snack-fill-crunch"></i></div></div>
+<div class="snack-meter" id="snack-meter-schoko" role="progressbar" aria-label="Schoko" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span>Schoko <b id="snack-count-schoko">0 / 5</b></span><div class="snack-track"><i id="snack-fill-schoko"></i></div></div>
+</div>
+<div class="gift-actions" id="snack-start-actions"><button class="btn" id="snack-start" type="button">Los geht’s!</button></div>
+<div class="snack-scene" id="snack-scene">
+<div class="snack-field" id="snack-field" role="group" tabindex="-1" aria-label="Spielfeld: Knusper-Kekse und Schokostücke sammeln, Hanteln auslassen"></div>
+<div class="snack-portrait" aria-hidden="true"><img id="snack-thoughtful" data-src="assets/day-14/andre-thoughtful.png" alt="" width="960" height="960" draggable="false" decoding="async"><img id="snack-happy" data-src="assets/day-01/andre-before.png" alt="" width="960" height="960" draggable="false" decoding="async" hidden></div>
+<div class="snack-thought" id="snack-thought" role="img" aria-label="Andre denkt an einen unbekannten Snack"><span class="snack-mystery"></span></div>
+<div class="snack-package" id="snack-package" role="img" aria-label="Geschlossenes Päckchen Nummer 14"></div>
+<div class="snack-effects" id="snack-effects" aria-hidden="true"></div>
+</div>
+<p class="sr-only" id="snack-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="gift-actions"><button class="gift-hint" id="snack-calm" type="button">In Ruhe spielen</button><button class="btn gift-repeat" id="snack-again" type="button" hidden>Nochmal spielen</button></div>
+<div class="gift-reward snack-reward" id="snack-reward" role="group" aria-label="Deine Snack-Mission ist geschafft" tabindex="-1" hidden><p>Ein bisschen Crunch, ein bisschen Schoko — ganz viel Honey-Power!</p><p>Jetzt darfst du Päckchen Nr. 14 öffnen. 🤎</p></div>
+<div id="snack-preload" hidden aria-hidden="true"><img id="snack-preload-crunch" data-src="assets/day-05/ingredient-biscuits-illustrated.png" alt="" width="960" height="960" decoding="async"><img id="snack-preload-schoko" data-src="assets/day-14/chocolate.png" alt="" width="512" height="512" decoding="async"><img id="snack-preload-hantel" data-src="assets/day-14/dumbbell.png" alt="" width="512" height="512" decoding="async"></div>
 </section>
 <div class="gift-actions" id="gift-default-actions"><button class="btn" id="yes">Да, канєшно 💛</button></div>
 <div class="where gift-reward" id="wh"></div>

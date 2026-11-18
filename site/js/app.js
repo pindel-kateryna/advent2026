@@ -131,36 +131,6 @@ const progress=bearGame.progress;startBear(progress);$('bear-scene').focus();
 // The next frame starts a new CSS animation after the previous classes are removed.
 void $('bear-scene').offsetWidth;playBear();
 };
-let shakerGame=null;
-function stopShaker(){
-if(shakerGame)clearTimeout(shakerGame.timer);shakerGame=null;
-$('shaker-scene').classList.remove('shaker-running','shaker-done');
-$('shaker-scene').setAttribute('aria-busy','false');$('shaker-scene').setAttribute('aria-label','Geschlossener Shaker');
-$('shaker-start').hidden=false;$('shaker-start').setAttribute('aria-disabled','false');
-$('shaker-again').hidden=true;$('shaker-status').textContent='';
-}
-function startShaker(progress){stopShaker();shakerGame={progress,busy:false,done:false,timer:null};$('ch').textContent=SHAKER_INTRO}
-function playShaker(){
-const game=shakerGame;if(!game||game.busy||game.done)return;
-game.busy=true;$('shaker-start').setAttribute('aria-disabled','true');$('shaker-scene').setAttribute('aria-busy','true');
-const finish=()=>{
-if(shakerGame!==game)return;
-game.busy=false;game.done=true;$('shaker-scene').classList.remove('shaker-running');$('shaker-scene').classList.add('shaker-done');
-$('shaker-scene').setAttribute('aria-busy','false');$('shaker-scene').setAttribute('aria-label','Andre zeigt beide Bizeps im offenen Shaker');
-$('ch').textContent=SHAKER_REVEAL;$('shaker-status').textContent=SHAKER_REVEAL;
-const restoreFocus=document.activeElement===$('shaker-start');
-$('shaker-start').hidden=true;$('shaker-again').hidden=false;
-game.progress.add(4);save(game.progress);grid();if(restoreFocus)$('shaker-again').focus();
-};
-if(matchMedia('(prefers-reduced-motion:reduce)').matches){finish();return}
-$('shaker-scene').classList.add('shaker-running');game.timer=setTimeout(finish,2500);
-}
-$('shaker-start').onclick=playShaker;
-$('shaker-again').onclick=()=>{
-if(!shakerGame||shakerGame.busy)return;
-const progress=shakerGame.progress;startShaker(progress);$('shaker-start').focus();
-void $('shaker-scene').offsetWidth;playShaker();
-};
 // Day 5 configuration: enter the actual hiding-place hint here when ready.
 // The previous D[4] breakfast text is not a location for the new Lotus gift.
 let lotusGame=null,lotusDrag=null;
@@ -355,22 +325,22 @@ if(progress===realOpened){realMovieState=state;try{localStorage.setItem('adv26-d
 startMovie(progress);$('movie-lampOff').focus();
 };
 function arrangeGift(day){
-const kind=[1,6].includes(day)?'image':[3,4].includes(day)?'animation':[2,5,7,8,9,10,11,12].includes(day)?'game':'message';
-const slots={1:'photo-copy',2:'memory-task',3:'bear-task',4:'shaker-task',5:'lotus-task',7:'movie-task',8:'tree-task',9:'energy-task',10:'match-task',11:'mirror-task',12:'cookie-task'};
+const kind=[6].includes(day)?'image':[3].includes(day)?'animation':[1,2,4,5,7,8,9,10,11,12,13,14].includes(day)?'game':'message';
+const slots={1:'pirate-task',2:'memory-task',3:'bear-task',4:'elixir-task',5:'lotus-task',7:'movie-task',8:'tree-task',9:'energy-task',10:'match-task',11:'mirror-task',12:'cookie-task',13:'locker-task',14:'snack-task'};
 const slot=$(slots[day]||'gift-generic-task');slot.appendChild($('ch'));slot.hidden=$('ch').hidden;
 $('card').dataset.kind=kind;$('card').dataset.day=String(day);$('card').dataset.hasTitle=String(!$('ch').hidden);
-$('ov').classList.toggle('gift-layout',day<=12);
+$('ov').classList.toggle('gift-layout',day<=14);
 $('gift-default-actions').hidden=$('yes').style.display==='none';
 }
 function setCard(n,progress){
-stopMemory();stopBear();stopShaker();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();$('tree').hidden=n!==8;$('energy').hidden=n!==9;$('match').hidden=n!==10;$('mirror').hidden=n!==11;$('cookie').hidden=n!==12;$('movie').hidden=n!==7;$('massage').hidden=n!==6;$('ch').hidden=n===6||n===7;$('lotus').hidden=n!==5;$('gift-photo').hidden=n!==1;$('bear').hidden=n!==3;$('shaker').hidden=n!==4;
+stopPirate();stopMemory();stopBear();stopElixir();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();stopLocker();stopSnack();$('tree').hidden=n!==8;$('energy').hidden=n!==9;$('match').hidden=n!==10;$('mirror').hidden=n!==11;$('cookie').hidden=n!==12;$('locker').hidden=n!==13;$('snack').hidden=n!==14;$('movie').hidden=n!==7;$('massage').hidden=n!==6;$('ch').hidden=n===6||n===7;$('lotus').hidden=n!==5;$('pirate').hidden=n!==1;$('bear').hidden=n!==3;$('elixir').hidden=n!==4;
 $('cn').textContent=z(n);
-$('ch').textContent=n===2?'Das nächste Geschenk musst du dir erspielen. Finde alle vier Paare!':n===3?BEAR_INTRO:n===4?SHAKER_INTRO:n===5?LOTUS_TITLE:n===7?MOVIE_TITLE:n===8?TREE_TITLE:n===9?ENERGY_TITLE:n===10?MATCH_TITLE:n===11?MIRROR_TITLE:n===12?COOKIE_TITLE:D[n-1][0];
+$('ch').textContent=n===1?PIRATE_TITLE:n===2?'Das nächste Geschenk musst du dir erspielen. Finde alle vier Paare!':n===3?BEAR_INTRO:n===4?ELIXIR_TITLE:n===5?LOTUS_TITLE:n===7?MOVIE_TITLE:n===8?TREE_TITLE:n===9?ENERGY_TITLE:n===10?MATCH_TITLE:n===11?MIRROR_TITLE:n===12?COOKIE_TITLE:n===13?LOCKER_TITLE:n===14?SNACK_TITLE:D[n-1][0];
 $('wh').innerHTML=`<b>Dein Fund</b>${D[n-1][1]}`;$('wh').classList.remove('on');
-$('yes').style.display=n===2||n===3||n===4||n===5||n===6||n===7||n===8||n===9||n===10||n===11||n===12?'none':'block';$('memory').hidden=n!==2;
-if(n===2)startMemory(progress);if(n===3)startBear(progress);if(n===4)startShaker(progress);if(n===5)startLotus(progress);if(n===7)startMovie(progress);if(n===8)startTree(progress);if(n===9)startEnergy(progress);if(n===10)startMatch(progress);if(n===11)startMirror(progress);if(n===12)startCookie(progress);arrangeGift(n);
+$('yes').style.display=n===1||n===2||n===3||n===4||n===5||n===6||n===7||n===8||n===9||n===10||n===11||n===12||n===13||n===14?'none':'block';$('memory').hidden=n!==2;
+if(n===1)startPirate(progress);if(n===2)startMemory(progress);if(n===3)startBear(progress);if(n===4)startElixir(progress);if(n===5)startLotus(progress);if(n===7)startMovie(progress);if(n===8)startTree(progress);if(n===9)startEnergy(progress);if(n===10)startMatch(progress);if(n===11)startMirror(progress);if(n===12)startCookie(progress);if(n===13)startLocker(progress);if(n===14)startSnack(progress);arrangeGift(n);
 }
-function openDay(n){loadDayMedia(n);const i=n-1,ov=$('ov'),st=$('stage'),cd=$('card'),progress=opened,first=!progress.has(n),earnsOnOpen=![2,3,4,5,7,8,9,10,11,12].includes(n);
+function openDay(n){loadDayMedia(n);const i=n-1,ov=$('ov'),st=$('stage'),cd=$('card'),progress=opened,first=!progress.has(n),earnsOnOpen=![1,2,3,4,5,7,8,9,10,11,12,13,14].includes(n);
 openingTimers.forEach(clearTimeout);openingTimers=[];
 if(openingFlight){openingFlight.cancel();openingFlight=null}
 const activeOpening=openingTimers;
@@ -385,11 +355,11 @@ if(!first||RM){if(first&&earnsOnOpen){progress.add(n);save(progress)}show();grid
 ov.classList.add('gift-opening');beep(330,.1);st.classList.add('wob');
 openingTimers.push(setTimeout(()=>{if(openingTimers!==activeOpening)return;st.classList.add('pop');burst();beep(660,.1);beep(880,.1,.1);beep(1320,.2,.2)},650));
 openingTimers.push(setTimeout(()=>{if(openingTimers!==activeOpening)return;show();if(earnsOnOpen){progress.add(n);save(progress)}grid()},1300))}
-function closeOv(){openingTimers.forEach(clearTimeout);openingTimers=[];if(openingFlight){openingFlight.cancel();openingFlight=null}stopMemory();stopBear();stopShaker();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();$('ov').classList.remove('on','gift-opening','memory-mode','photo-mode','bear-mode','shaker-mode','lotus-mode','massage-mode','movie-mode','tree-mode')}
+function closeOv(){openingTimers.forEach(clearTimeout);openingTimers=[];if(openingFlight){openingFlight.cancel();openingFlight=null}stopPirate();stopMemory();stopBear();stopElixir();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();stopLocker();stopSnack();$('ov').classList.remove('on','gift-opening','memory-mode','photo-mode','bear-mode','shaker-mode','lotus-mode','massage-mode','movie-mode','tree-mode')}
 $('x').onclick=closeOv;
 $('ov').addEventListener('click',e=>{if(e.target.id==='ov'&&$('card').classList.contains('on'))closeOv()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOv()});
-$('yes').onclick=()=>{if(['2','3','4','5','6','7','8','9','10','11','12'].includes($('ov').dataset.n))return;$('wh').classList.add('on');$('yes').style.display='none';beep(784,.12)};
+$('yes').onclick=()=>{if(['1','2','3','4','5','6','7','8','9','10','11','12','13','14'].includes($('ov').dataset.n))return;$('wh').classList.add('on');$('yes').style.display='none';beep(784,.12)};
 $('snd').onclick=()=>{sound=!sound;$('snd').setAttribute('aria-pressed',sound);$('snd').innerHTML=sound?'TON<br>AN':'TON<br>AUS';beep(660,.1)};
 // ---------- Vorschau-Steuerung ----------
 function updatePreview(){
@@ -415,9 +385,9 @@ $('preview-code').setAttribute('aria-invalid','true');$('preview-code').value=''
 }
 $('preview-code').removeAttribute('aria-invalid');preview=true;closeOv();updatePreview();$('preview').focus();
 };
-$('rs').onclick=()=>{previewOpened.clear();previewMovieState=blankMovie();previewTreeState=null;previewEnergyState=null;previewMatchState=null;previewMirrorState=null;previewCookieState=null;grid()};
+$('rs').onclick=()=>{previewOpened.clear();previewMovieState=blankMovie();previewTreeState=null;previewEnergyState=null;previewMatchState=null;previewMirrorState=null;previewCookieState=null;previewPirateState=null;previewElixirState=null;previewLockerState=null;previewSnackState=null;grid()};
 function boot(){document.body.dataset.t='g';document.body.classList.add('v');
 $('gl').innerHTML=Array.from({length:14},(_,k)=>`<i style="--c:${['#ffc872','#ffe9b0','#e88a6a','#fff'][k%4]};animation-delay:${(k%4)*.4}s"></i>`).join('');
 for(let k=0;k<26;k++){const e=document.createElement('i');e.className='fl';const z=3+k%3*2;e.style.cssText=`left:${Math.random()*100}%;width:${z}px;height:${z}px;background:#fff;opacity:${.35+Math.random()*.5};animation-name:fall;animation-duration:${7+Math.random()*9}s;animation-delay:-${Math.random()*14}s`;document.body.appendChild(e)}
 grid()}
-applyGiftCopy();initTree();initEnergy();initMatch();initMirror();initCookie();boot();updatePreview();setInterval(tick,1000);
+applyGiftCopy();initPirate();initElixir();initTree();initEnergy();initMatch();initMirror();initCookie();initLocker();initSnack();boot();updatePreview();setInterval(tick,1000);
