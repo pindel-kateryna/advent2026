@@ -14,11 +14,11 @@ const D=[
 ["Etwas zum Zergehen – im Mund, nicht in der Tasche. Bitte nicht in der Sonne parken.",P(11)],
 ["Kakao-Energie in kompakter Form. Das Sofa kann zusehen.",P(12)],
 ["Für den seltenen Fall, dass das Sofa wieder stärker ist als du.",P(13)],
-["Flüssiger Buff, gut gekühlt. Das Croissant bleibt heute im Backfach.",P(14)],
-["Ein Schluck Wachbleiben für den Serienabend. Ich zähle die Minuten mit.",P(15)],
+["Ein kleines Genuss-Geheimnis",P(14)],
+["Eine funkelnde Spur",P(15)],
 ["Das Croissant hat heute trainingsfrei. Zeit für Plan B.",P(16)],
-["Eine Probe-Portion für den Pump. Ein Löffelchen Zukunft, sozusagen.",P(17)],
-["Kompakter Muskelsnack für unterwegs. Passt in jede Jackentasche.",P(18)],
+["Hier fehlt noch der letzte Schliff …",P(17)],
+["Bereit für einen kleinen Höhenflug?",P(18)],
 ["Zum Reinbeißen zwischen zwei Sätzen. Der Pump sagt danke.",P(19)],
 ["Plan B braucht ein Gefäß. Schütteln, nicht rühren, Herr Honey.",P(20)],
 ["Ein bisschen Gänsehaut. Diesmal bist du dabei noch wach.",P(21)],
@@ -41,10 +41,10 @@ const SHAKER_REVEAL='Für große Gains braucht man den richtigen Shake. 💪';
 // Lotus game configuration and copy
 const LOTUS_CONFIG={giftHint:''};
 const LOTUS_ROOT='assets/day-05/';
-const LOTUS_STAGES=['stage-0-plate-illustrated.png','stage-1-base-illustrated.png','stage-2-cream-illustrated.png','stage-3-finished-illustrated.png'];
+const LOTUS_STAGES=['stage-0-plate-illustrated.webp','stage-1-base-illustrated.webp','stage-2-cream-illustrated.webp','stage-3-finished-illustrated.webp'];
 const LOTUS_ALTS=['Leerer Teller','Teller mit Keksboden','Cheesecake mit Cremeschicht','Fertiger Lotus-Cheesecake mit Keks'];
 const LOTUS_NAMES=['Kekse','Creme','Lotus-Aufstrich'];
-const LOTUS_INGREDIENTS=['ingredient-biscuits-illustrated.png','ingredient-cream-illustrated.png','ingredient-lotus-illustrated.png'];
+const LOTUS_INGREDIENTS=['ingredient-biscuits-illustrated.webp','ingredient-cream-illustrated.webp','ingredient-lotus-illustrated.webp'];
 const LOTUS_TITLE='Heute bist du der Cheesecake-Chef!';
 const LOTUS_WIN='';
 
@@ -73,14 +73,14 @@ const ENERGY_TITLE='Neue Energie für Andre! ⚡';
 const ENERGY_WIN='';
 const ENERGY_HELP='';
 const ENERGY_CALM_HELP='Wähle die Batterien mit Tab und Enter oder tippe sie an. Sammle fünf Stück.';
-const ENERGY_BATTERY='assets/day-09/battery.png';
+const ENERGY_BATTERY='assets/day-09/battery.webp';
 const ENERGY_STEPS=['Andre hat nur noch 3 % Akku. Fang die Batterien!','Ein bisschen Strom. Weiter so!','Er blinzelt schon. Noch drei!','Fast wach. Noch zwei!','Er lächelt! Noch eine!','Akku voll! Der Abspann ist in Reichweite.'];
 const ENERGY_MOODS={sleepy:'Andre schläft auf dem Sofa',awake:'Andre wird langsam wach',happy:'Andre lächelt',cheer:'Andre jubelt mit beiden Armen in der Luft'};
 const MATCH_TITLE='Bärchen sammeln, Päckchen öffnen! 🤎';
 const MATCH_ROOT='assets/day-10/';
 const MIRROR_TITLE='Beschlagener Spiegel ✨';
 const MIRROR_STEPS=['Der Spiegel ist beschlagen. Wisch mit dem Finger darüber.','Da ist etwas … wisch weiter.','Fast frei. Man ahnt schon, was da steht.','Gleich hast du es.'];
-const DAY_MEDIA={1:'pirate',3:'bear',4:'elixir',5:'lotus',6:'massage',7:'movie',8:'tree',9:'energy',10:'match',12:'cookie',13:'locker',14:'snack'};
+const DAY_MEDIA={1:'pirate',3:'bear',4:'elixir',5:'lotus',6:'massage',7:'movie',8:'tree',9:'energy',10:'match',12:'cookie',13:'locker',14:'snack',17:'syrniki',18:'rocket'};
 
 // Day 8: room-relative star positions and bulb centers on the supplied full images.
 const TREE_ROOT='assets/day-08/';

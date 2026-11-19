@@ -1,5 +1,7 @@
 # Подарунки й наповнення
 
+Після оптимізації 18.11.2026 усі поточні вебкопії в `site/assets/` мають формат WebP. Нижче також збережено історію створення PNG-оригіналів. Поточні шляхи — у `scripts/assets.json`; подробиці завантаження й прокрутки — у [performance.md](performance.md).
+
 День 10 використовує `site/js/day10.js`: поле 5 × 6, п’ять кольорів, обмін двох сусідів і збіги від трьох. Цілі — 5 червоних та 10 жовтих ведмедиків. Каскади зараховуються, перетини рахуються один раз. Невдалий обмін повертається назад без штрафу. Якщо ходів немає, поле перемішується без втрати зібраного. Таймера й програшу немає; підказка показує можливий обмін.
 
 Керування дня 10: два натискання, свайп або стрілки з Enter/Space. клітинки мають доступні назви. При зменшеному русі анімації пропускаються. `adv26-day10` зберігає стабільне поле, лічильники й отриманий подарунок. Результат каскадів зберігається до їх візуалізації, тому закриття під час руху не губить прогрес. Повторна гра скидає лише цей день, залишаючи подарунок та інші дні. Перегляд за кодом ізольований.
@@ -23,8 +25,11 @@
 | 11 | Витерти запітніле дзеркало й відкрити послання | Canvas і CSS, без растрових зображень |
 | 12 | Розламати печиво трьома натисканнями | Незмінене мальоване печиво з дня 5 |
 | 13 | Відкрити шафку кодом із трьох цифр | `site/assets/day-13/locker-door.png` |
-| 14 | Зібрати по 5 Crunch і Schoko, пропускаючи гантелі | `site/assets/day-14/`, наявні Andre і печиво |
-| 15–24 | Поточні підказки з масиву `D` | Поки без окремих ілюстрацій |
+| 14 | Schiebepuzzle 3x3: secret post-workout snack | New Andre illustration in the day 7 style |
+| 15 | З’єднати 12 точок і відкрити таємний контур | SVG, без нових растрових файлів |
+| 17 | Прикрасити сирники шоколадним візерунком | `site/assets/day-17/`, SVG-малювання з маскою |
+| 18 | Launch Andre: three hits in the gold zone | Transparent rocket sprite, stars and closed package 18 |
+| 16, 18–24 | Поточні підказки з масиву `D` | Поки без окремих ілюстрацій |
 
 ## Тексти
 
@@ -113,14 +118,47 @@
 
 Браузерна перевірка: 390 × 844 і 1100 × 900, стрілки, свайп, клавіатура, три неправильні спроби, підказка, часткове й фінальне повторне відкриття, рух дверцят і повтор гри. Помилок консолі немає. Скриншоти — `references/qa/day13-locker/`. Автоматично перевірені також перезавантаження, старі збереження, закриття під час анімації/декодування, ізоляція прогресу, правила дат і помилка завантаження зображення.
 
-## Секретний перекус — день 14
+## Schiebepuzzle - day 14
 
-`site/js/day14.js`: натискання на нерухомі предмети, що ненадовго з’являються у шести безпечних позиціях верхньої частини сцени. Одночасно до трьох предметів; зони 60 × 60px, навіть при ширині 320px не перекриваються. Печиво додає Crunch, шоколад — Schoko, обидві цілі по 5. Гантеля віднімає один пункт із більш заповненої шкали (при рівності — Crunch), нижня межа 0, верхня 5. Пропуски без штрафу. Предмети не падають, Andre не рухається.
+`site/js/day14.js` replaces the former pop-up game with a 3x3 sliding picture puzzle. Eight numbered fragments move into one empty square, using taps, Enter/Space, arrow keys, or directional swipes. Only adjacent moves are legal. Repeated input is guarded during the 180ms slide. Reduced motion changes positions instantly without sparks. No timer, attempts limit, loss or automatic sound.
 
-Появи через 3 / 2,7 / 2,4 секунди при поступовому прогресі, час видимості 5,2 / 4,6 / 4 секунди. Збалансований розклад і пріоритет відсталої шкали; тест ідеального проходження займає близько 34 секунд. Немає таймера, програшу чи ліміту спроб. Сфокусований клавіатурою предмет чекає на натискання. «In Ruhe spielen» залишає предмети на місці; при reduced motion цей режим увімкнений автоматично, без частинок, руху й пульсацій. В ньому одночасно не більше однієї гантелі, щоб поле не заповнилося лише пастками. При приховуванні вкладки гра зупиняється з можливістю «Weiter».
+The built-in imagegen illustration matches Andre and the room from day 7: purple sofa, warm lights, a covered cream plate, biscuit crumbs and tiny chocolate flakes. The waffle, snack bar, packaging and brand are not shown. Original PNG and exact prompt: `references/original-assets/day-14/secret-snack-puzzle.png` and `puzzle-prompt.md`. Runtime WebP `site/assets/day-14/secret-snack-puzzle.webp` is 960x960 and 70 KiB. It loads only with this day, and the decoded image supplies an absolute URL for all CSS tiles, including local file previews.
 
-Використано існуючого щасливого Andre `day-01/andre-before.png` і печиво `day-05/ingredient-biscuits-illustrated.png`. Built-in imagegen створив за референсами три прозорі PNG: задумливого Andre зі збереженням одягу/пози та окремі шоколад і гантелю. Оригінали й точні промпти — `references/original-assets/day-14/`; вебкопії — `site/assets/day-14/`. Хмаринка з абстрактним силуетом, закритий пакунок 14 й іскри — CSS/SVG. Упаковок чи прямої назви фізичного подарунка в сцені та доступних назвах немає.
+Shuffle uses 18 legal moves without immediate reversals and a minimum Manhattan distance of 8. Every board is solvable. The hint button temporarily shows the full picture without changing the board. On completion, the ninth fragment fills the empty square and numbers/seams disappear. The reward permits opening package 14. Replay creates a new solvable board while retaining the earned gift and other days.
 
-У фіналі обидві шкали повні, предмети прибрані, Andre усміхається, закритий пакунок підстрибує та світиться; показано точні німецькі тексти користувачки. `adv26-day14` зберігає обидві шкали й нагороду; частковий і готовий стани відновлюються. Перегляд за кодом ізольований. «Nochmal spielen» скидає тільки гру, залишаючи отриманий подарунок та інші дні. Старий отриманий день 14 сумісний. Перед запуском картинки декодуються; повторний запуск під час завантаження захищений.
+`adv26-day14` version 2 stores the exact permutation and earned flag. Reads validate all nine unique integers and even inversion parity. Corrupt states recover to a playable board. Finished legacy Crunch/Schoko games remain earned; unfinished legacy games start the new puzzle. Code-unlocked preview progress is separate. The former implementation and tests are archived in `references/archive/day14-before-puzzle/`. The shared spark styling used by day 17 remains intact.
 
-Браузерна перевірка: 390 × 844, 1100 × 900 і зони дотику при 320 × 740; звичайне проходження до перемоги, помилка з гантелею, дві шкали, спокійний режим, Enter/Space, часткове й готове повторне відкриття та повтор гри. Помилок консолі немає. Скриншоти — `references/qa/day14-snack/`. Автоматичні тести також перевіряють тривалість/межі/баланс, відсутність заповнення спокійного поля пастками, паузу, старі обробники, збереження, дати й помилки завантаження. DOM harness підтримує кілька обробників однієї події документа, як справжній браузер; це зберігає перевірку паузи дня 9.
+Browser QA: 390x844 and 1100x900, complete solves, wrong moves, Enter, swipes, hint, partial/finished reopen and replay. At 320x740 each target is about 79x79px. No console errors. Screenshots: `references/qa/day14-puzzle/`. All 102 automated tests pass, including shuffle solvability, migration, persistence, date access, rapid input, stale callbacks and reduced motion.
+
+
+## З’єднай блискавки — день 15
+
+`site/js/day15.js`: 12 послідовних точок на закритому зигзагоподібному контурі SVG. Гра активна одразу після відкриття та повторного запуску, видно тільки точки й номери; кожне правильне натискання продовжує золотисту лінію. Помилка дає м’який відгук і не скидає прогрес, використані точки не зараховуються вдруге. Після точки 12 контур замикається, заливається золотисто-жовтим, коротко сяє з електричними іскрами. Унизу — закритий пакунок 15 і задані німецькі тексти. Напій не показано й не названо, спільного перегляду аніме немає.
+
+`adv26-day15` зберігає кількість з’єднаних точок і отриманий доступ; частковий і завершений стани відновлюються. Перегляд за кодом має окремий стан. «Nochmal spielen» скидає тільки малюнок, зберігаючи отриманий подарунок. Кнопки підтримують Enter/Space; поточна точка пульсує, прогрес оголошує live-region. При reduced motion немає пульсації, іскор, спалаху або промальовування. Зони 44×44 px не перетинаються навіть при ширині поля 236 px (телефон 320 px). Інші ігри й зображення не змінюються.
+
+Перевірено в браузері: 390×844, 320×740 (зони дотику) та 1100×900; неправильні натискання, Enter/Space, усі 12 точок, часткове та фінальне повторне відкриття, повторна гра. Помилок консолі немає. Скриншоти: `references/qa/day15-tail/`. Збереження після перезавантаження й reduced motion додатково перевірені автоматично. Усі 99 тестів проходять.
+
+## Додай останній штрих — день 17
+
+`site/js/day17.js` додає вільне малювання поверх нової ілюстрації в стилі кімнати дня 7. Картинка, три еліпси маски й SVG-візерунок мають спільні нормалізовані координати 0–1000. Плавні криві з округлими краями мають коричневу основу та тонкий блиск; SVG clipPath обмежує їх поверхнями трьох сирників. Маска трохи всередині контурів, щоб сироп не потрапляв на боки чи тарілку. Розмір екрана не змінює відносного положення шарів.
+
+«Fertig!» з’являється після трьох штрихів із довжиною не менше 90 одиниць усередині маски. Випадковий дотик і рухи по фону не зараховуються. «Neu anfangen» очищає малюнок; фінал залишає його й додає три невеликі ягоди окремим шаром та делікатні іскри. «Nochmal spielen» очищає тільки цю гру, зберігаючи нагороду. `adv26-day17` містить нормалізовані штрихи, done та earned; часткова й фінальна композиції відновлюються. Перегляд за кодом ізольований; дати працюють як для інших днів. Дані перевіряються та обмежуються за обсягом при читанні.
+
+Pointer capture підтримує мишу й touch, touch-action:none застосовано лише до поля. Поза полем прокручується вікно подарунка. Клавіатура: стрілки рухають пензель, Space/Enter починає або закінчує штрих. Live-region повідомляє готовність. Reduced motion прибирає анімацію ягід та іскри. Звуку немає.
+
+Built-in imagegen створив основну сцену та прозору малину за референсами. Точні промпти й оригінали: `references/original-assets/day-17/`; легкі WebP у `site/assets/day-17/` разом важать близько 73 KiB. Упаковку, бренд і назву фізичного подарунка не показано.
+
+Перевірено в браузері на 390×844 та 1100×900: малювання з pointer capture, відсікання фонових штрихів, очищення, три повноцінні штрихи, фінальні ягоди, відновлення готового малюнка, повторна гра, незмінність SVG-шляхів при зміні розміру. Помилок консолі немає. Збережені скриншоти: `references/qa/day17-syrniki/`. Автоматично перевірено також клавіатуру, скасування жесту, відновлення після перезавантаження, reduced motion, ліміти некоректного збереження та ізоляцію прогресу. Усі 103 тести проходять.
+
+## Rocket launch - day 18
+
+`site/js/day18.js` adds three timing hits in a gold target zone (38-62 percent). The visible spark moves with requestAnimationFrame; its displayed position determines the result. Each hit charges one third of the motor. Misses do not subtract energy or limit attempts. Repeated taps are blocked during short feedback. Speed progresses gently from a 2400ms to 2100ms round trip. The existing date gate remains intact; the gift is earned only after hit three.
+
+After the third hit, the independent craft sprite shakes gently and rises with a small flame. Golden stars finish the 1.8-second launch; the final composition shows Andre above a closed package 18, the result text and replay. No can, brand or drink name is shown. No automatic sound. Calm mode removes timing: three deliberate taps charge the motor. Reduced motion selects calm mode automatically and skips shake, flight, particles and progress transitions.
+
+`adv26-day18` saves hits, earned and calm mode; code-unlocked preview has separate memory. Partial and final progress restore. Replay clears only this game's motor; it retains the earned package and other days. Completion is saved before the launch so closing during flight restores the finished result. Closing cancels frames, timers and animations. Background visibility pauses the moving spark, keeping earned energy.
+
+The built-in imagegen sprite uses the existing Andre illustration as an identity/style reference, with transparent background. Original and exact prompt are in `references/original-assets/day-18/`; `site/assets/day-18/andre-rocket.webp` is 960x960 and about 105 KiB. Sky, flame, sparks, target bar and closed package use existing CSS/SVG conventions.
+
+Browser QA: 390x844 normal timing, miss without penalty, Space key, three hits, launch, partial 2/3 restore and final reopen; 1100x900 calm-mode completion and replay. At 320x740 the tap button is 236x50px. No console errors. Screenshots: `references/qa/day18-rocket/`. All 108 tests pass, including reduced motion, visibility pause, stale launch callbacks, malformed saves, date access and preview isolation.

@@ -14,7 +14,7 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
   function element(tag = 'div') {
     const classes = new Set();
     const node = {
-      tag, attrs: {}, dataset: {}, style: { setProperty(key, value) { this[key] = String(value); } }, children: [], listeners: {}, hidden: false,
+      tag, attrs: {}, dataset: {}, style: { setProperty(key, value) { this[key] = String(value); }, removeProperty(key) { delete this[key]; } }, children: [], listeners: {}, hidden: false,
       get className() { return [...classes].join(' '); },
       set className(value) { classes.clear(); String(value).split(/\s+/).filter(Boolean).forEach(x => classes.add(x)); },
       classList: {
@@ -49,7 +49,7 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
       animate() { return { onfinish: null, cancel() {} }; },
       getBoundingClientRect() { return { left: 10, right: 310, top: 10, bottom: 310, width: 300, height: 300 }; },
       querySelectorAll(selector) {
-        const matches = item => selector === '[data-copy]' ? 'copy' in item.dataset : selector === 'img[data-src]' ? item.tag === 'img' && 'src' in item.dataset : false;
+        const matches = item => selector === '[data-copy]' ? 'copy' in item.dataset : selector === 'img[data-src]' ? item.tag === 'img' && 'src' in item.dataset : selector === 'img' ? item.tag === 'img' : false;
         const found = [];
         function walk(parent) { for (const child of parent.children) { if (matches(child)) found.push(child); walk(child); } }
         walk(this); return found;
@@ -71,12 +71,15 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
     if (!voidTags.has(tag) && !raw.endsWith('/>')) stack.push(node);
   }
   document = {
-    activeElement: null, listeners: {}, body: root.children[0].children.find(x => x.tag === 'body'),
-    getElementById(id) { return ids[id] || null; }, createElement: element,
+    documentElement:root.children[0], activeElement: null, listeners: {}, body: root.children[0].children.find(x => x.tag === 'body'),
+    getElementById(id) { if(!id)return null; if(ids[id])return ids[id]; const find=node=>{if(node.id===id)return node;for(const child of node.children){const found=find(child);if(found)return found}return null};return find(root); }, createElement: element,
     querySelectorAll(selector) { return root.querySelectorAll(selector); },
     addEventListener(type, fn) { const previous=this.listeners[type]; this.listeners[type] = previous ? (...args)=>{previous(...args);fn(...args);} : fn; }
   };
+  document.documentElement.clientWidth=390;
+  const browserWindow={scrollX:0,scrollY:0,innerWidth:390,scrollTo(x,y){this.scrollX=x;this.scrollY=y;}};
   const context = {
+    window:browserWindow,
     console, Intl, Math,
     Date: class extends Date { constructor(...args) { super(...(args.length ? args : [state.now])); } },
     location: { search: preview ? '?vorschau' : '' }, document,
@@ -95,7 +98,7 @@ function setup({ reduced = true, preview = true, storage = new Map() } = {}) {
     ids['preview-access'].onsubmit({ preventDefault() {} });
   }
   return {
-    ids, requests, writes, timers, frames, state, storage, document,
+    ids, requests, writes, timers, frames, state, storage, document, window:browserWindow,
     run(source) { return vm.runInContext(source, context); },
     fire(id) { const timer = timers.get(id); if (!timer) throw Error('Missing timer: ' + id); timers.delete(id); timer.fn(); }
   };

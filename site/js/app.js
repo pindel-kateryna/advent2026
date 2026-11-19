@@ -3,13 +3,7 @@ function applyGiftCopy(){
 document.querySelectorAll('[data-copy]').forEach(element=>{element.textContent=COPY[element.dataset.copy]});
 }
 const preloadedMedia=new Map();
-function loadDayMedia(day){
-const sectionId=DAY_MEDIA[day];if(!sectionId)return;
-const section=$(sectionId);if(!section)return;
-section.querySelectorAll('img[data-src]').forEach(img=>{img.src=img.dataset.src;img.removeAttribute('data-src')});
-// The intermediate holding pose is needed after the cups leave the table.
-if(day===7){const path=MOVIE_ROOT+'couple-holding-v2.png';if(!preloadedMedia.has(path)){const image=new Image();image.src=path;preloadedMedia.set(path,image)}}
-}
+function loadDayMedia(day){return prepareGiftMedia(day)}
 
 let theme='g';
 const ART={};
@@ -276,7 +270,7 @@ room.classList.toggle('lamp-off',game.flags.lampOff);room.classList.toggle('tv-o
 room.classList.toggle('movie-taking',game.mugsAnimating);room.classList.toggle('has-mugs',game.flags.mugsTaken&&!game.mugsAnimating);
 room.classList.toggle('movie-finished',game.finishing||game.finished);
 const pose=game.flags.mugsTaken&&!game.mugsAnimating?'holding':'before';
-if($('movie-couple').dataset.pose!==pose){$('movie-couple').src=MOVIE_ROOT+'couple-'+pose+'-v2.png';$('movie-couple').dataset.pose=pose}
+if($('movie-couple').dataset.pose!==pose){$('movie-couple').src=MOVIE_ROOT+'couple-'+pose+'-v2.webp';$('movie-couple').dataset.pose=pose}
 $('movie-mugs').hidden=game.flags.mugsTaken&&!game.mugsAnimating;
 $('movie-count').textContent=count+' / 3';$('movie-count').setAttribute('aria-label',count+' von 3 Handgriffen gefunden');
 for(const key of MOVIE_KEYS){const button=$('movie-'+key);button.setAttribute('aria-disabled',String(game.flags[key]));button.setAttribute('aria-label',MOVIE_LABELS[key][game.flags[key]?1:0]);if(game.flags[key])button.classList.remove('movie-hint')}
@@ -325,41 +319,45 @@ if(progress===realOpened){realMovieState=state;try{localStorage.setItem('adv26-d
 startMovie(progress);$('movie-lampOff').focus();
 };
 function arrangeGift(day){
-const kind=[6].includes(day)?'image':[3].includes(day)?'animation':[1,2,4,5,7,8,9,10,11,12,13,14].includes(day)?'game':'message';
-const slots={1:'pirate-task',2:'memory-task',3:'bear-task',4:'elixir-task',5:'lotus-task',7:'movie-task',8:'tree-task',9:'energy-task',10:'match-task',11:'mirror-task',12:'cookie-task',13:'locker-task',14:'snack-task'};
+const kind=[6].includes(day)?'image':[3].includes(day)?'animation':[1,2,4,5,7,8,9,10,11,12,13,14,15,17,18].includes(day)?'game':'message';
+const slots={1:'pirate-task',2:'memory-task',3:'bear-task',4:'elixir-task',5:'lotus-task',7:'movie-task',8:'tree-task',9:'energy-task',10:'match-task',11:'mirror-task',12:'cookie-task',13:'locker-task',14:'snack-task',15:'tail-task',17:'syrniki-task',18:'rocket-task'};
 const slot=$(slots[day]||'gift-generic-task');slot.appendChild($('ch'));slot.hidden=$('ch').hidden;
 $('card').dataset.kind=kind;$('card').dataset.day=String(day);$('card').dataset.hasTitle=String(!$('ch').hidden);
-$('ov').classList.toggle('gift-layout',day<=14);
+$('ov').classList.toggle('gift-layout',(day<=15||day===17||day===18));
 $('gift-default-actions').hidden=$('yes').style.display==='none';
 }
 function setCard(n,progress){
-stopPirate();stopMemory();stopBear();stopElixir();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();stopLocker();stopSnack();$('tree').hidden=n!==8;$('energy').hidden=n!==9;$('match').hidden=n!==10;$('mirror').hidden=n!==11;$('cookie').hidden=n!==12;$('locker').hidden=n!==13;$('snack').hidden=n!==14;$('movie').hidden=n!==7;$('massage').hidden=n!==6;$('ch').hidden=n===6||n===7;$('lotus').hidden=n!==5;$('pirate').hidden=n!==1;$('bear').hidden=n!==3;$('elixir').hidden=n!==4;
+stopPirate();stopMemory();stopBear();stopElixir();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();stopLocker();stopSnack();stopTail();stopSyrniki();stopRocket();$('tree').hidden=n!==8;$('energy').hidden=n!==9;$('match').hidden=n!==10;$('mirror').hidden=n!==11;$('cookie').hidden=n!==12;$('locker').hidden=n!==13;$('snack').hidden=n!==14;$('tail').hidden=n!==15;$('syrniki').hidden=n!==17;$('rocket').hidden=n!==18;$('movie').hidden=n!==7;$('massage').hidden=n!==6;$('ch').hidden=n===6||n===7;$('lotus').hidden=n!==5;$('pirate').hidden=n!==1;$('bear').hidden=n!==3;$('elixir').hidden=n!==4;
 $('cn').textContent=z(n);
-$('ch').textContent=n===1?PIRATE_TITLE:n===2?'Das nächste Geschenk musst du dir erspielen. Finde alle vier Paare!':n===3?BEAR_INTRO:n===4?ELIXIR_TITLE:n===5?LOTUS_TITLE:n===7?MOVIE_TITLE:n===8?TREE_TITLE:n===9?ENERGY_TITLE:n===10?MATCH_TITLE:n===11?MIRROR_TITLE:n===12?COOKIE_TITLE:n===13?LOCKER_TITLE:n===14?SNACK_TITLE:D[n-1][0];
+$('ch').textContent=n===1?PIRATE_TITLE:n===2?'Das nächste Geschenk musst du dir erspielen. Finde alle vier Paare!':n===3?BEAR_INTRO:n===4?ELIXIR_TITLE:n===5?LOTUS_TITLE:n===7?MOVIE_TITLE:n===8?TREE_TITLE:n===9?ENERGY_TITLE:n===10?MATCH_TITLE:n===11?MIRROR_TITLE:n===12?COOKIE_TITLE:n===13?LOCKER_TITLE:n===14?SNACK_TITLE:n===15?TAIL_TITLE:n===17?SYRNIKI_TITLE:n===18?ROCKET_TITLE:D[n-1][0];
 $('wh').innerHTML=`<b>Dein Fund</b>${D[n-1][1]}`;$('wh').classList.remove('on');
-$('yes').style.display=n===1||n===2||n===3||n===4||n===5||n===6||n===7||n===8||n===9||n===10||n===11||n===12||n===13||n===14?'none':'block';$('memory').hidden=n!==2;
-if(n===1)startPirate(progress);if(n===2)startMemory(progress);if(n===3)startBear(progress);if(n===4)startElixir(progress);if(n===5)startLotus(progress);if(n===7)startMovie(progress);if(n===8)startTree(progress);if(n===9)startEnergy(progress);if(n===10)startMatch(progress);if(n===11)startMirror(progress);if(n===12)startCookie(progress);if(n===13)startLocker(progress);if(n===14)startSnack(progress);arrangeGift(n);
+$('yes').style.display=n===1||n===2||n===3||n===4||n===5||n===6||n===7||n===8||n===9||n===10||n===11||n===12||n===13||n===14||n===15||n===17||n===18?'none':'block';$('memory').hidden=n!==2;
+if(n===1)startPirate(progress);if(n===2)startMemory(progress);if(n===3)startBear(progress);if(n===4)startElixir(progress);if(n===5)startLotus(progress);if(n===7)startMovie(progress);if(n===8)startTree(progress);if(n===9)startEnergy(progress);if(n===10)startMatch(progress);if(n===11)startMirror(progress);if(n===12)startCookie(progress);if(n===13)startLocker(progress);if(n===14)startSnack(progress);if(n===15)startTail(progress);if(n===17)startSyrniki(progress);if(n===18)startRocket(progress);arrangeGift(n);
 }
-function openDay(n){loadDayMedia(n);const i=n-1,ov=$('ov'),st=$('stage'),cd=$('card'),progress=opened,first=!progress.has(n),earnsOnOpen=![1,2,3,4,5,7,8,9,10,11,12,13,14].includes(n);
+function openDay(n){lockCalendarScroll();const media=loadDayMedia(n);let mediaDone=!media,mediaError=false,openingDone=false;const i=n-1,ov=$('ov'),st=$('stage'),cd=$('card'),progress=opened,first=!progress.has(n),earnsOnOpen=![1,2,3,4,5,7,8,9,10,11,12,13,14,15,17,18].includes(n);
 openingTimers.forEach(clearTimeout);openingTimers=[];
 if(openingFlight){openingFlight.cancel();openingFlight=null}
 const activeOpening=openingTimers;
+$('gift-loading').hidden=true;$('gift-loading-retry').hidden=true;ov.classList.remove('gift-loading');
 st.className='stage';st.innerHTML=art(i);cd.classList.remove('on');setCard(n,progress);ov.classList.toggle('memory-mode',n===2);ov.classList.toggle('photo-mode',n===1);ov.classList.toggle('bear-mode',n===3);ov.classList.toggle('shaker-mode',n===4);ov.classList.toggle('lotus-mode',n===5);ov.classList.toggle('massage-mode',n===6);ov.classList.toggle('movie-mode',n===7);ov.classList.toggle('tree-mode',n===8);ov.classList.add('on');ov.dataset.n=n;
 const show=()=>{
 const origin=ov.classList.contains('gift-opening')&&!RM?st.getBoundingClientRect():null;
-ov.classList.remove('gift-opening');st.classList.add('small','pop');cd.classList.add('on');
+openingDone=true;ov.classList.remove('gift-opening');st.classList.add('small','pop');
+if(!mediaDone||mediaError){ov.classList.add('gift-loading');$('gift-loading').hidden=false;$('gift-loading-retry').hidden=!mediaError;$('gift-loading-message').textContent=mediaError?'Die Bilder konnten nicht geladen werden. Bitte versuch es noch einmal.':'Dein Fundstück lädt …';$('gift-loading').setAttribute('aria-busy',String(!mediaError));$('gift-loading-close').focus({preventScroll:true});return}
+ov.classList.remove('gift-loading');$('gift-loading').hidden=true;cd.classList.add('on');
 if(origin){const target=st.getBoundingClientRect();openingFlight=st.animate([{transform:`translate(${origin.left-target.left}px,${origin.top-target.top}px)`},{transform:'translate(0,0)'}],{duration:500,easing:'cubic-bezier(.22,.68,0,1)'})}
 $('x').focus()
 };
+if(media)media.then(()=>{if(openingTimers!==activeOpening)return;mediaDone=true;if(openingDone)show()},()=>{if(openingTimers!==activeOpening)return;mediaError=true;if(openingDone)show()});
 if(!first||RM){if(first&&earnsOnOpen){progress.add(n);save(progress)}show();grid();return}
 ov.classList.add('gift-opening');beep(330,.1);st.classList.add('wob');
 openingTimers.push(setTimeout(()=>{if(openingTimers!==activeOpening)return;st.classList.add('pop');burst();beep(660,.1);beep(880,.1,.1);beep(1320,.2,.2)},650));
 openingTimers.push(setTimeout(()=>{if(openingTimers!==activeOpening)return;show();if(earnsOnOpen){progress.add(n);save(progress)}grid()},1300))}
-function closeOv(){openingTimers.forEach(clearTimeout);openingTimers=[];if(openingFlight){openingFlight.cancel();openingFlight=null}stopPirate();stopMemory();stopBear();stopElixir();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();stopLocker();stopSnack();$('ov').classList.remove('on','gift-opening','memory-mode','photo-mode','bear-mode','shaker-mode','lotus-mode','massage-mode','movie-mode','tree-mode')}
-$('x').onclick=closeOv;
+function closeOv(){openingTimers.forEach(clearTimeout);openingTimers=[];if(openingFlight){openingFlight.cancel();openingFlight=null}stopPirate();stopMemory();stopBear();stopElixir();stopLotus();stopMovie();stopTree();stopEnergy();stopMatch();stopMirror();stopCookie();stopLocker();stopSnack();stopTail();stopSyrniki();stopRocket();$('ov').classList.remove('on','gift-opening','memory-mode','photo-mode','bear-mode','shaker-mode','lotus-mode','massage-mode','movie-mode','tree-mode','gift-loading');$('gift-loading').hidden=true;unlockCalendarScroll()}
+$('x').onclick=closeOv;$('gift-loading-close').onclick=closeOv;$('gift-loading-retry').onclick=()=>openDay(Number($('ov').dataset.n));
 $('ov').addEventListener('click',e=>{if(e.target.id==='ov'&&$('card').classList.contains('on'))closeOv()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeOv()});
-$('yes').onclick=()=>{if(['1','2','3','4','5','6','7','8','9','10','11','12','13','14'].includes($('ov').dataset.n))return;$('wh').classList.add('on');$('yes').style.display='none';beep(784,.12)};
+$('yes').onclick=()=>{if(['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','17','18'].includes($('ov').dataset.n))return;$('wh').classList.add('on');$('yes').style.display='none';beep(784,.12)};
 $('snd').onclick=()=>{sound=!sound;$('snd').setAttribute('aria-pressed',sound);$('snd').innerHTML=sound?'TON<br>AN':'TON<br>AUS';beep(660,.1)};
 // ---------- Vorschau-Steuerung ----------
 function updatePreview(){
@@ -385,9 +383,9 @@ $('preview-code').setAttribute('aria-invalid','true');$('preview-code').value=''
 }
 $('preview-code').removeAttribute('aria-invalid');preview=true;closeOv();updatePreview();$('preview').focus();
 };
-$('rs').onclick=()=>{previewOpened.clear();previewMovieState=blankMovie();previewTreeState=null;previewEnergyState=null;previewMatchState=null;previewMirrorState=null;previewCookieState=null;previewPirateState=null;previewElixirState=null;previewLockerState=null;previewSnackState=null;grid()};
+$('rs').onclick=()=>{previewOpened.clear();previewMovieState=blankMovie();previewTreeState=null;previewEnergyState=null;previewMatchState=null;previewMirrorState=null;previewCookieState=null;previewPirateState=null;previewElixirState=null;previewLockerState=null;previewSnackState=null;previewTailState=null;previewSyrnikiState=null;previewRocketState=null;grid()};
 function boot(){document.body.dataset.t='g';document.body.classList.add('v');
 $('gl').innerHTML=Array.from({length:14},(_,k)=>`<i style="--c:${['#ffc872','#ffe9b0','#e88a6a','#fff'][k%4]};animation-delay:${(k%4)*.4}s"></i>`).join('');
 for(let k=0;k<26;k++){const e=document.createElement('i');e.className='fl';const z=3+k%3*2;e.style.cssText=`left:${Math.random()*100}%;width:${z}px;height:${z}px;background:#fff;opacity:${.35+Math.random()*.5};animation-name:fall;animation-duration:${7+Math.random()*9}s;animation-delay:-${Math.random()*14}s`;document.body.appendChild(e)}
 grid()}
-applyGiftCopy();initPirate();initElixir();initTree();initEnergy();initMatch();initMirror();initCookie();initLocker();initSnack();boot();updatePreview();setInterval(tick,1000);
+applyGiftCopy();initPirate();initElixir();initTree();initEnergy();initMatch();initMirror();initCookie();initLocker();initSnack();initTail();initSyrniki();initRocket();boot();updatePreview();setInterval(tick,1000);

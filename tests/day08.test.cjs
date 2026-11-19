@@ -12,7 +12,7 @@ test('day 8 loads only its two scene assets on demand and starts without any lig
   assert.equal(game.ids.tree.hidden, false); assert.equal(game.ids['tree-count'].textContent, '0 / 3');
   assert.equal(game.ids['tree-scene'].classList.contains('tree-complete'), false);
   assert.equal(game.ids['tree-again'].hidden, true); assert.equal(game.ids['tree-tip'].hidden, false);
-  assert.deepEqual([...new Set(game.requests)].sort(), ['assets/day-08/tree-lit.png', 'assets/day-08/tree-unlit.png']);
+  assert.deepEqual([...new Set(game.requests)].sort(), ['assets/day-08/tree-lit.webp', 'assets/day-08/tree-unlit.webp']);
   for (const id of ids) assert.equal(game.ids['tree-light-' + id].classList.contains('is-on'), false);
   assert.equal(game.run('previewOpened.has(8)'), false);
 });
@@ -147,17 +147,20 @@ test('soft masks cover every bulb on their own strand and leave the other strand
   }
 });
 
-test('the supplied tree canvases are copied unchanged and the new scene reveals no package contents', () => {
+test('the tree canvases keep their full dimensions after optimization and reveal no package contents', () => {
   const section = html.slice(html.indexOf('<section class="tree '), html.indexOf('<section class="movie '));
   const dayCode = fs.readFileSync(path.join(SITE, 'js/day08.js'), 'utf8');
   assert(!/Bär|bear|ornament|Anhänger|Spielzeug|Versteck|Zimmer/i.test(section + dayCode));
   assert(!dayCode.includes('beep('));
   assert(section.includes('>08</text>'));
   assert(!section.includes('Dein Geschenk'));
-  for (const name of ['tree-unlit.png', 'tree-lit.png']) {
+  const manifest=JSON.parse(fs.readFileSync(path.join(ROOT,'scripts/assets.json'),'utf8'));
+  for (const name of ['tree-unlit.webp', 'tree-lit.webp']) {
     const web = fs.readFileSync(path.join(SITE, 'assets/day-08', name));
-    assert.equal(web.readUInt32BE(16), 1086); assert.equal(web.readUInt32BE(20), 1448);
-    const original = path.join(ROOT, 'references/original-assets/day-08', name);
-    if (fs.existsSync(original)) assert(web.equals(fs.readFileSync(original)));
+    assert.equal(web.toString('ascii',8,12),'WEBP');
+    const entry=manifest.find(item=>item.output==='site/assets/day-08/'+name);
+    assert.equal(entry.width,1086);assert.equal(entry.height,1448);
+    const original=path.join(ROOT,'references/original-assets/day-08',name.replace('.webp','.png'));
+    if(fs.existsSync(original)){const png=fs.readFileSync(original);assert.equal(png.readUInt32BE(16),1086);assert.equal(png.readUInt32BE(20),1448);}
   }
 });

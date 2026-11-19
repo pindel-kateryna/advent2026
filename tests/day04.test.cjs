@@ -4,7 +4,7 @@ const {setup}=require('./helpers.cjs');
 const orders=[['moon','star','spark'],['moon','spark','star'],['star','moon','spark'],['star','spark','moon'],['spark','moon','star'],['spark','star','moon']];
 
 test('all six ingredient orders fill the flask and reveal parcel 04',async()=>{
-for(const order of orders){const game=setup();game.run('openDay(4)');assert.equal(game.ids.card.dataset.kind,'game');assert(game.requests.every(path=>path==='assets/day-04/elixir-flask.png'));assert.equal(game.run('opened.has(4)'),false);
+for(const order of orders){const game=setup();game.run('openDay(4)');assert.equal(game.ids.card.dataset.kind,'game');assert(game.requests.every(path=>path==='assets/day-04/elixir-flask.webp'));assert.equal(game.run('opened.has(4)'),false);
 for(let i=0;i<3;i++){await game.run(`addElixir('${order[i]}')`);assert.equal(game.run('elixirGame.added.size'),i+1);assert.equal(game.run('opened.has(4)'),i===2)}
 assert.equal(game.ids['elixir-liquid'].getAttribute('y'),'31');assert.equal(game.ids['elixir-result'].hidden,false);assert.equal(game.ids['elixir-again'].hidden,false);assert.equal(game.timers.size,0);assert.equal(game.run('elixirGame.animations.size'),0);assert.equal(game.run('sound'),false);
 }});

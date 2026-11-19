@@ -1,258 +1,462 @@
 [
   {
     "source": "references/original-assets/day-01/captain-andre.png",
-    "output": "site/assets/day-01/captain-andre.jpg",
-    "format": "jpeg",
-    "maxSize": 960
+    "output": "site/assets/day-01/captain-andre.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 640,
+    "height": 960,
+    "alpha": false
   },
   {
     "source": "references/original-assets/day-03/chocolate-bear.png",
-    "output": "site/assets/day-03/chocolate-bear.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-03/chocolate-bear.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 720,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-03/katya-bear-reveal-v2.png",
-    "output": "site/assets/day-03/katya-bear-reveal-v2.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-03/katya-bear-reveal-v2.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 720,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-04/andre-flex.png",
-    "output": "site/assets/day-04/andre-flex.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-04/andre-flex.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 877,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-04/shaker-body.png",
-    "output": "site/assets/day-04/shaker-body.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-04/shaker-body.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 640,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-04/shaker-lid.png",
-    "output": "site/assets/day-04/shaker-lid.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-04/shaker-lid.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 320,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-05-illustrated/ingredient-biscuits.png",
-    "output": "site/assets/day-05/ingredient-biscuits-illustrated.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-05/ingredient-biscuits-illustrated.webp",
+    "format": "webp",
+    "maxSize": 320,
+    "quality": 90,
+    "width": 320,
+    "height": 320,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-05-illustrated/ingredient-cream.png",
-    "output": "site/assets/day-05/ingredient-cream-illustrated.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-05/ingredient-cream-illustrated.webp",
+    "format": "webp",
+    "maxSize": 320,
+    "quality": 90,
+    "width": 320,
+    "height": 320,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-05-illustrated/ingredient-lotus.png",
-    "output": "site/assets/day-05/ingredient-lotus-illustrated.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-05/ingredient-lotus-illustrated.webp",
+    "format": "webp",
+    "maxSize": 320,
+    "quality": 90,
+    "width": 320,
+    "height": 320,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-05-illustrated/stage-0-plate.png",
-    "output": "site/assets/day-05/stage-0-plate-illustrated.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-05/stage-0-plate-illustrated.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-05-illustrated/stage-1-base.png",
-    "output": "site/assets/day-05/stage-1-base-illustrated.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-05/stage-1-base-illustrated.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-05-illustrated/stage-2-cream.png",
-    "output": "site/assets/day-05/stage-2-cream-illustrated.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-05/stage-2-cream-illustrated.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-05-illustrated/stage-3-finished.png",
-    "output": "site/assets/day-05/stage-3-finished-illustrated.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-05/stage-3-finished-illustrated.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-06/massage.png",
-    "output": "site/assets/day-06/massage.jpg",
-    "format": "jpeg",
-    "maxSize": 960
+    "output": "site/assets/day-06/massage.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 720,
+    "height": 960,
+    "alpha": false
   },
   {
     "source": "references/original-assets/day-07/couple-before-v2.png",
-    "output": "site/assets/day-07/couple-before-v2.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-07/couple-before-v2.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 877,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-07/couple-cuddle-v2.png",
-    "output": "site/assets/day-07/couple-cuddle-v2.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-07/couple-cuddle-v2.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 877,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-07/couple-holding-v2.png",
-    "output": "site/assets/day-07/couple-holding-v2.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-07/couple-holding-v2.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 877,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-07/mugs.png",
-    "output": "site/assets/day-07/mugs.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-07/mugs.webp",
+    "format": "webp",
+    "maxSize": 320,
+    "quality": 90,
+    "width": 320,
+    "height": 160,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-07/room-light-off.png",
-    "output": "site/assets/day-07/room-light-off.jpg",
-    "format": "jpeg",
-    "maxSize": 960
+    "output": "site/assets/day-07/room-light-off.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 720,
+    "height": 960,
+    "alpha": false
   },
   {
     "source": "references/original-assets/day-07/room-light-on.png",
-    "output": "site/assets/day-07/room-light-on.jpg",
-    "format": "jpeg",
-    "maxSize": 960
+    "output": "site/assets/day-07/room-light-on.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 720,
+    "height": 960,
+    "alpha": false
   },
   {
     "source": "references/original-assets/day-08/tree-unlit.png",
-    "output": "site/assets/day-08/tree-unlit.png",
-    "format": "png",
+    "output": "site/assets/day-08/tree-unlit.webp",
+    "format": "webp",
     "maxSize": 1448,
     "alpha": false,
-    "copy": true
+    "quality": 88,
+    "width": 1086,
+    "height": 1448
   },
   {
     "source": "references/original-assets/day-08/tree-lit.png",
-    "output": "site/assets/day-08/tree-lit.png",
-    "format": "png",
+    "output": "site/assets/day-08/tree-lit.webp",
+    "format": "webp",
     "maxSize": 1448,
     "alpha": false,
-    "copy": true
+    "quality": 88,
+    "width": 1086,
+    "height": 1448
   },
   {
     "source": "references/original-assets/day-09/battery.png",
-    "output": "site/assets/day-09/battery.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-09/battery.webp",
+    "format": "webp",
+    "maxSize": 256,
+    "quality": 88,
+    "width": 256,
+    "height": 256,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-09-sofa/andre-sleepy.png",
-    "output": "site/assets/day-09/andre-sleepy.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-09/andre-sleepy.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-09-sofa/andre-awake.png",
-    "output": "site/assets/day-09/andre-awake.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-09/andre-awake.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-09-sofa/andre-happy.png",
-    "output": "site/assets/day-09/andre-happy.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-09/andre-happy.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-09-sofa/andre-cheer.png",
-    "output": "site/assets/day-09/andre-cheer.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-09/andre-cheer.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-10/bear-red.png",
-    "output": "site/assets/day-10/bear-red.png",
-    "format": "png",
-    "maxSize": 512
+    "output": "site/assets/day-10/bear-red.webp",
+    "format": "webp",
+    "maxSize": 192,
+    "quality": 88,
+    "width": 192,
+    "height": 192,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-10/bear-yellow.png",
-    "output": "site/assets/day-10/bear-yellow.png",
-    "format": "png",
-    "maxSize": 512
+    "output": "site/assets/day-10/bear-yellow.webp",
+    "format": "webp",
+    "maxSize": 192,
+    "quality": 88,
+    "width": 192,
+    "height": 192,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-10/bear-green.png",
-    "output": "site/assets/day-10/bear-green.png",
-    "format": "png",
-    "maxSize": 512
+    "output": "site/assets/day-10/bear-green.webp",
+    "format": "webp",
+    "maxSize": 192,
+    "quality": 88,
+    "width": 192,
+    "height": 192,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-10/bear-blue.png",
-    "output": "site/assets/day-10/bear-blue.png",
-    "format": "png",
-    "maxSize": 512
+    "output": "site/assets/day-10/bear-blue.webp",
+    "format": "webp",
+    "maxSize": 192,
+    "quality": 88,
+    "width": 192,
+    "height": 192,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-10/bear-purple.png",
-    "output": "site/assets/day-10/bear-purple.png",
-    "format": "png",
-    "maxSize": 512
+    "output": "site/assets/day-10/bear-purple.webp",
+    "format": "webp",
+    "maxSize": 192,
+    "quality": 88,
+    "width": 192,
+    "height": 192,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-01-transformation/andre-before.png",
-    "output": "site/assets/day-01/andre-before.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-01/andre-before.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-01-transformation/andre-pirate.png",
-    "output": "site/assets/day-01/andre-pirate.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-01/andre-pirate.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-03-illustrated/chocolate-bear.png",
-    "output": "site/assets/day-03/chocolate-bear-illustrated.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-03/chocolate-bear-illustrated.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 720,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-03-illustrated/katya-head.png",
-    "output": "site/assets/day-03/katya-head-illustrated.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-03/katya-head-illustrated.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 720,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-04-elixir/flask.png",
-    "output": "site/assets/day-04/elixir-flask.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-04/elixir-flask.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 720,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-13/locker-door.png",
-    "output": "site/assets/day-13/locker-door.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-13/locker-door.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 640,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-13/locker-door-flat-v2.png",
-    "output": "site/assets/day-13/locker-door-flat-v2.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-13/locker-door-flat-v2.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 640,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-14/andre-thoughtful.png",
-    "output": "site/assets/day-14/andre-thoughtful.png",
-    "format": "png",
-    "maxSize": 960
+    "output": "site/assets/day-14/andre-thoughtful.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-14/chocolate.png",
-    "output": "site/assets/day-14/chocolate.png",
-    "format": "png",
-    "maxSize": 512
+    "output": "site/assets/day-14/chocolate.webp",
+    "format": "webp",
+    "maxSize": 256,
+    "quality": 88,
+    "width": 256,
+    "height": 256,
+    "alpha": true
   },
   {
     "source": "references/original-assets/day-14/dumbbell.png",
-    "output": "site/assets/day-14/dumbbell.png",
-    "format": "png",
-    "maxSize": 512
+    "output": "site/assets/day-14/dumbbell.webp",
+    "format": "webp",
+    "maxSize": 256,
+    "quality": 88,
+    "width": 256,
+    "height": 256,
+    "alpha": true
+  },
+  {
+    "source": "references/original-assets/day-17/syrniki-scene.png",
+    "output": "site/assets/day-17/syrniki-scene.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": false
+  },
+  {
+    "source": "references/original-assets/day-17/raspberry.png",
+    "output": "site/assets/day-17/raspberry.webp",
+    "format": "webp",
+    "maxSize": 256,
+    "quality": 90,
+    "width": 256,
+    "height": 256,
+    "alpha": true
+  },
+  {
+    "source": "references/original-assets/day-14/secret-snack-puzzle.png",
+    "output": "site/assets/day-14/secret-snack-puzzle.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": false
+  },
+  {
+    "source": "references/original-assets/day-18/andre-rocket.png",
+    "output": "site/assets/day-18/andre-rocket.webp",
+    "format": "webp",
+    "maxSize": 960,
+    "quality": 90,
+    "width": 960,
+    "height": 960,
+    "alpha": true
   }
 ]

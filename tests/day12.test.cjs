@@ -5,7 +5,7 @@ const {setup}=require('./helpers.cjs');
 test('three taps crack the day-five illustration and unlock only day twelve',()=>{
 const game=setup();game.run('openDay(12)');
 assert.equal(game.ids.card.dataset.kind,'game');assert.equal(game.ids.ch.parent.attrs.id,'cookie-task');
-assert(game.requests.every(path=>path==='assets/day-05/ingredient-biscuits-illustrated.png'));
+assert(game.requests.every(path=>path==='assets/day-05/ingredient-biscuits-illustrated.webp'));
 assert.equal(game.ids['gift-default-actions'].hidden,true);
 for(let count=1;count<=3;count++){game.ids['cookie-tap'].onclick();assert.equal(game.run('cookieGame.count'),count);assert.equal(game.run('opened.has(12)'),count===3)}
 assert.equal(game.ids['cookie-message'].getAttribute('aria-hidden'),'false');assert.equal(game.ids['cookie-tap'].disabled,true);

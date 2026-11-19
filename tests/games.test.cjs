@@ -18,7 +18,7 @@ test('all 24 gifts use the same first-opening sequence without awarding unfinish
     assert(game.run('openingFlight !== null'));
     assert(game.ids.card.classList.contains('on'));
     assert(!game.ids.ov.classList.contains('gift-opening'));
-    assert.equal(game.run(`opened.has(${day})`), ![1,2,3,4,5,7,8,9,10,11,12,13,14].includes(day));
+    assert.equal(game.run(`opened.has(${day})`), ![1,2,3,4,5,7,8,9,10,11,12,13,14,15,17,18].includes(day));
     game.run(`opened.add(${day});closeOv();openDay(${day})`);
     assert(!game.ids.ov.classList.contains('gift-opening'));
     assert(game.ids.card.classList.contains('on'));
@@ -32,7 +32,7 @@ test('reduced motion skips the shared opening and closing invalidates stale call
     assert.equal(game.run('openingTimers.length'), 0);
     assert.equal(game.run('openingFlight'), null);
     assert(game.ids.card.classList.contains('on'));
-    assert.equal(game.run(`opened.has(${day})`), ![1,2,3,4,5,7,8,9,10,11,12,13,14].includes(day));
+    assert.equal(game.run(`opened.has(${day})`), ![1,2,3,4,5,7,8,9,10,11,12,13,14,15,17,18].includes(day));
   }
   const game = setup({ reduced: false }); game.run('openDay(4)');
   const stale = game.run('openingTimers.slice()').map(id => game.timers.get(id).fn);
@@ -54,7 +54,7 @@ test('calendar starts without loading any gift images and loads only the selecte
   assert.equal(game.requests.length, firstCount);
   game.run('closeOv();openDay(7)');
   assert(game.requests.slice(firstCount).every(x => x.startsWith('assets/day-07/')));
-  assert(game.requests.includes('assets/day-07/couple-holding-v2.png'));
+  assert(game.requests.includes('assets/day-07/couple-holding-v2.webp'));
 });
 
 test('real dates still block future gifts and preview progress stays separate', async () => {
@@ -222,7 +222,7 @@ test('movie hint highlights only one unfound target; taking cups first does not 
   assert.equal(game.ids['movie-lampOff'].classList.contains('movie-hint'), true); assert.equal(game.ids['movie-count'].textContent, '0 / 3');
   game.run('discoverMovie("mugsTaken")'); assert.equal(game.ids['movie-mugs'].hidden, false);
   const [id] = [...game.timers].find(([, timer]) => timer.delay === 450); game.fire(id);
-  assert.equal(game.ids['movie-mugs'].hidden, true); assert(game.ids['movie-couple'].src.endsWith('couple-holding-v2.png'));
+  assert.equal(game.ids['movie-mugs'].hidden, true); assert(game.ids['movie-couple'].src.endsWith('couple-holding-v2.webp'));
   assert.equal(game.ids['movie-room'].classList.contains('movie-finished'), false);
 });
 

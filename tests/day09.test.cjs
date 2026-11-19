@@ -6,8 +6,8 @@ const reveal=game=>{for(const [id,timer] of [...game.timers])if(timer.delay===70
 
 test('day 9 loads existing room plus four poses lazily, and needs five tapped batteries',()=>{
 const game=setup({reduced:false});assert.deepEqual(game.requests,[]);game.run('openDay(9)');
-assert(game.requests.every(path=>path.startsWith('assets/day-09/')||path==='assets/day-07/room-light-on.jpg'));
-assert(game.requests.includes('assets/day-09/andre-cheer.png'));
+assert(game.requests.every(path=>path.startsWith('assets/day-09/')||path==='assets/day-07/room-light-on.webp'));
+assert(game.requests.includes('assets/day-09/andre-cheer.webp'));
 assert.equal(game.ids['gift-default-actions'].hidden,true);
 for(const id of game.run('openingTimers.slice()'))game.fire(id);
 assert.equal(game.run('opened.has(9)'),false);assert.equal(game.frames.size,0);

@@ -6,7 +6,7 @@ const { ROOT, SITE, html, setup } = require('./helpers.cjs');
 
 test('gift types keep the shared copy in the correct panel when switching days', () => {
   const game = setup();
-  for (const [day, kind, slot] of [[1,'game','pirate-task'],[2,'game','memory-task'],[3,'animation','bear-task'],[4,'game','elixir-task'],[5,'game','lotus-task'],[6,'image','gift-generic-task'],[7,'game','movie-task'],[8,'game','tree-task'],[9,'game','energy-task'],[3,'animation','bear-task']]) {
+  for (const [day, kind, slot] of [[1,'game','pirate-task'],[2,'game','memory-task'],[3,'animation','bear-task'],[4,'game','elixir-task'],[5,'game','lotus-task'],[6,'image','gift-generic-task'],[7,'game','movie-task'],[8,'game','tree-task'],[9,'game','energy-task'],[15,'game','tail-task'],[17,'game','syrniki-task'],[18,'game','rocket-task'],[18,'game','rocket-task'],[3,'animation','bear-task']]) {
     game.run(`setCard(${day},opened)`);
     assert.equal(game.ids.card.dataset.kind, kind);
     assert.equal(game.ids.ch.parent.attrs.id, slot);
@@ -19,7 +19,7 @@ test('every static and dynamic asset reference resolves inside the public site',
     .map(match => match[1]).filter(value => !/^(https?:|data:|#)/.test(value)).map(value => value.split('?')[0]);
   const game = setup();
   paths.push(...game.run('LOTUS_STAGES.concat(LOTUS_INGREDIENTS).map(name=>LOTUS_ROOT+name)'));
-  paths.push(...['before', 'holding', 'cuddle'].map(pose => 'assets/day-07/couple-' + pose + '-v2.png'));
+  paths.push(...['before', 'holding', 'cuddle'].map(pose => 'assets/day-07/couple-' + pose + '-v2.webp'));
   for (const value of paths) {
     const resolved = path.resolve(SITE, value);
     assert(resolved.startsWith(SITE + path.sep), value);
@@ -29,7 +29,7 @@ test('every static and dynamic asset reference resolves inside the public site',
 
 test('the public folder contains only runtime files and prepared images', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'scripts/assets.json'), 'utf8'));
-  const expected = new Set(['index.html', 'css/styles.css', 'js/content.js', 'js/app.js', 'js/day01.js', 'js/day04.js', 'js/day08.js', 'js/day09.js', 'js/day10.js', 'js/day11.js', 'js/day12.js', 'js/day13.js', 'js/day14.js', ...manifest.map(item => item.output.slice('site/'.length))]);
+  const expected = new Set(['index.html', 'css/styles.css', 'js/content.js', 'js/app.js', 'js/media.js', 'js/day01.js', 'js/day04.js', 'js/day08.js', 'js/day09.js', 'js/day10.js', 'js/day11.js', 'js/day12.js', 'js/day13.js', 'js/day14.js', 'js/day15.js', 'js/day17.js', 'js/day18.js', ...manifest.map(item => item.output.slice('site/'.length))]);
   function walk(dir) {
     for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
       const file = path.join(dir, item.name);
@@ -59,13 +59,21 @@ test('document IDs are unique and the elixir mask references the inline SVG', ()
   assert(!fs.readFileSync(path.join(SITE, 'css/styles.css'), 'utf8').includes('url(#shaker-body-clip)'));
 });
 
-test('transparent images retain PNG alpha and all PNG web copies fit the resolution budget', () => {
+test('WebP assets retain alpha, record dimensions and fit the resolution budget', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'scripts/assets.json'), 'utf8'));
-  assert.equal(manifest.length, 42);
-  for (const item of manifest.filter(item => item.format === 'png')) {
-    const png = fs.readFileSync(path.join(ROOT, item.output));
-    assert.equal(png.subarray(1, 4).toString(), 'PNG');
-    assert.equal(png[25], item.alpha === false ? 2 : 6, item.output);
-    assert(Math.max(png.readUInt32BE(16), png.readUInt32BE(20)) <= item.maxSize, item.output);
+  assert.equal(manifest.length, 46);
+  for (const item of manifest) {
+    assert.equal(item.format, 'webp');
+    const bytes=fs.readFileSync(path.join(ROOT,item.output));
+    assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');
+    let dimensions,alpha=false;
+    for(let offset=12;offset+8<bytes.length;){
+      const type=bytes.toString('ascii',offset,offset+4),length=bytes.readUInt32LE(offset+4),data=offset+8;
+      if(type==='VP8X'){dimensions=[bytes.readUIntLE(data+4,3)+1,bytes.readUIntLE(data+7,3)+1];alpha=Boolean(bytes[data]&16);break}
+      if(type==='VP8 '){dimensions=[bytes.readUInt16LE(data+6)&16383,bytes.readUInt16LE(data+8)&16383];break}
+      offset+=8+length+(length%2);
+    }
+    assert.deepEqual(dimensions,[item.width,item.height],item.output);assert.equal(alpha,item.alpha,item.output);
+    assert(Math.max(...dimensions)<=item.maxSize,item.output);
   }
 });

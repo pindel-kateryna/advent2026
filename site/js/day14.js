@@ -1,77 +1,40 @@
-// Stationary pop-up attention game. No falling objects or character movement.
-const SNACK_TITLE='Eine kleine Snack-Mission';
-const SNACK_GOAL=5;
-const SNACK_ART={crunch:'assets/day-05/ingredient-biscuits-illustrated.png',schoko:'assets/day-14/chocolate.png',hantel:'assets/day-14/dumbbell.png'};
-const SNACK_LABELS={crunch:'Knusper-Keks sammeln',schoko:'Schokostück sammeln',hantel:'Hantel – heute Pause'};
-const SNACK_PATTERN=['crunch','schoko','hantel','crunch','schoko','crunch','hantel','schoko'];
-const SNACK_SLOTS=[[17,25],[50,25],[83,25],[17,75],[50,75],[83,75]];
+// Sliding picture puzzle: only moves adjacent to the empty square are legal.
+const SNACK_TITLE='Hier fehlt noch ein Stück …';
+const SNACK_PICTURE='assets/day-14/secret-snack-puzzle.webp';
+const SNACK_SOLVED=[0,1,2,3,4,5,6,7,8];
 let realSnackState=null,previewSnackState=null,snackGame=null;
-function readSnackState(value){if(!value||typeof value!=='object')return null;const number=n=>Number.isInteger(n)&&n>=0&&n<=5?n:0;return{crunch:number(value.crunch),schoko:number(value.schoko),earned:value.earned===true}}
+function snackSolved(board){return board.every((tile,index)=>tile===index)}
+function snackNeighbors(index){return [index-3,index+3,index%3?index-1:-1,index%3<2?index+1:-1].filter(n=>n>=0&&n<9)}
+function validSnackBoard(board){if(!Array.isArray(board)||board.length!==9||new Set(board).size!==9||!board.every(n=>Number.isInteger(n)&&n>=0&&n<=8))return false;const tiles=board.filter(n=>n!==8);let inversions=0;for(let i=0;i<tiles.length;i++)for(let j=i+1;j<tiles.length;j++)if(tiles[i]>tiles[j])inversions++;return inversions%2===0}
+function readSnackState(value){if(!value||typeof value!=='object')return null;if(value.version===2&&validSnackBoard(value.board))return{board:value.board.slice(),earned:value.earned===true};return value.earned===true||value.crunch===5&&value.schoko===5?{board:SNACK_SOLVED.slice(),earned:true}:null}
 try{realSnackState=readSnackState(JSON.parse(localStorage.getItem('adv26-day14')||'null'))}catch(error){}
-function persistSnack(game){const state={crunch:game.crunch,schoko:game.schoko,earned:game.earned};if(game.progress===realOpened){realSnackState=state;try{localStorage.setItem('adv26-day14',JSON.stringify(state))}catch(error){}}else previewSnackState=state}
-function snackLater(game,fn,delay){const timer=setTimeout(()=>{game.timers.delete(timer);if(snackGame===game)fn()},delay);game.timers.add(timer);return timer}
-function clearSnackActivity(game){game.timers.forEach(clearTimeout);game.timers.clear();game.animations.forEach(animation=>animation.cancel());game.animations.clear();for(const item of [...game.items])removeSnackItem(game,item);$('snack-effects').innerHTML=''}
-function stopSnack(){const game=snackGame;if(game){game.running=false;persistSnack(game);clearSnackActivity(game)}snackGame=null}
-function renderSnack(){
-const game=snackGame;if(!game)return;
-for(const kind of ['crunch','schoko']){const meter=$('snack-meter-'+kind);meter.setAttribute('aria-valuenow',String(game[kind]));meter.setAttribute('aria-valuetext',`${game[kind]} von 5`);$('snack-fill-'+kind).style.width=game[kind]*20+'%';$('snack-count-'+kind).textContent=game[kind]+' / 5';meter.classList.toggle('snack-full',game[kind]===5)}
-$('snack-scene').classList.toggle('snack-done',game.done);$('snack-scene').classList.toggle('snack-restored',game.restored);$('snack-scene').classList.toggle('snack-calm',game.calm);
-$('snack-scene').classList.toggle('snack-ready',!game.started&&!game.done);
-$('snack-thoughtful').hidden=game.done;$('snack-happy').hidden=!game.done;$('snack-thought').hidden=game.done;
-$('snack-intro').hidden=game.done||game.running;$('snack-instruction').hidden=game.done;$('snack-reward').hidden=!game.done;
-$('snack-start-actions').hidden=game.running||game.done;
-$('snack-start').hidden=game.running||game.done;$('snack-start').disabled=game.loading;$('snack-start').textContent=game.started?'Weiter':'Los geht’s!';
-$('snack-calm').hidden=game.done||game.calm;$('snack-calm').disabled=game.loading;$('snack-again').hidden=!game.earned||game.running||game.loading;
+function shuffleSnack(){for(let attempt=0;attempt<25;attempt++){const board=SNACK_SOLVED.slice();let last=-1;for(let step=0;step<18;step++){const empty=board.indexOf(8),choices=snackNeighbors(empty).filter(index=>index!==last),index=choices[Math.floor(Math.random()*choices.length)];[board[empty],board[index]]=[board[index],board[empty]];last=empty}const distance=board.reduce((sum,tile,index)=>tile===8?sum:sum+Math.abs(tile%3-index%3)+Math.abs(Math.floor(tile/3)-Math.floor(index/3)),0);if(distance>=8)return board}return [1,2,5,0,8,4,3,6,7]}
+function persistSnack(game){const state={version:2,board:game.board.slice(),earned:game.earned};if(game.progress===realOpened){realSnackState=state;try{localStorage.setItem('adv26-day14',JSON.stringify(state))}catch(error){}}else previewSnackState=state}
+function stopSnack(){const game=snackGame;if(game){persistSnack(game);game.timers.forEach(clearTimeout);game.animations.forEach(animation=>animation.cancel())}snackGame=null;$('snack-effects').innerHTML=''}
+function snackLater(game,fn,delay){const id=setTimeout(()=>{game.timers.delete(id);if(snackGame===game)fn()},delay);game.timers.add(id)}
+function renderSnack(){const game=snackGame;if(!game)return;const empty=game.board.indexOf(8);
+$('snack-board').style.setProperty('--snack-picture',`url("${$('snack-picture').src||SNACK_PICTURE}")`);$('snack-board').classList.toggle('puzzle-done',game.done);$('snack-board').classList.toggle('puzzle-restored',game.restored);$('snack-board').setAttribute('aria-busy',String(game.busy));
+for(let tile=0;tile<9;tile++){const button=$('snack-tile-'+tile),position=game.board.indexOf(tile);button.style.left=position%3*100/3+'%';button.style.top=Math.floor(position/3)*100/3+'%';button.hidden=tile===8&&!game.done;button.disabled=game.done;button.setAttribute('aria-label',`Bildteil ${tile+1}, Zeile ${Math.floor(position/3)+1}, Spalte ${position%3+1}${snackNeighbors(empty).includes(position)?', ins freie Feld schieben':''}`)}
+$('snack-empty').style.left=empty%3*100/3+'%';$('snack-empty').style.top=Math.floor(empty/3)*100/3+'%';$('snack-empty').hidden=game.done;
+$('snack-reference').hidden=!game.hint||game.done;$('snack-tip').hidden=game.done;$('snack-tip').setAttribute('aria-expanded',String(game.hint));$('snack-tip').textContent=game.hint?'Bild ausblenden':'Ein kleiner Tipp?';$('snack-instruction').hidden=game.done;$('snack-reward').hidden=!game.done;$('snack-again').hidden=!game.done;
 }
-function startSnack(progress,replay=false){
-stopSnack();const state=progress===realOpened?realSnackState:previewSnackState;
-const fallback=progress.has(14)?5:0,crunch=replay?0:state?state.crunch:fallback,schoko=replay?0:state?state.schoko:fallback,done=crunch===5&&schoko===5;
-snackGame={progress,crunch,schoko,done,earned:done||progress.has(14)||Boolean(state?.earned),running:false,loading:false,started:false,restored:done,calm:matchMedia('(prefers-reduced-motion:reduce)').matches,reduced:matchMedia('(prefers-reduced-motion:reduce)').matches,items:[],cursor:0,lastSlot:-1,timers:new Set(),animations:new Set()};
-if(done&&!progress.has(14)){progress.add(14);save(progress)}
-$('snack-package').innerHTML=art(13);$('snack-status').textContent=done?'Crunch und Schoko sind komplett.':crunch||schoko?'Dein Fortschritt ist gespeichert. Bereit für den Rest?':'';renderSnack();
+function startSnack(progress,replay=false){stopSnack();const state=progress===realOpened?realSnackState:previewSnackState;
+const board=replay?shuffleSnack():state?state.board.slice():progress.has(14)?SNACK_SOLVED.slice():shuffleSnack(),done=snackSolved(board);
+snackGame={progress,board,done,earned:done||progress.has(14)||Boolean(state?.earned),busy:false,hint:false,restored:true,gesture:null,suppressClick:false,timers:new Set(),animations:new Set(),reduced:matchMedia('(prefers-reduced-motion:reduce)').matches};if(done&&!progress.has(14)){progress.add(14);save(progress)}
+// Set positions without animating from the previous day's board.
+$('snack-board').classList.add('puzzle-reset');renderSnack();void $('snack-board').offsetWidth;$('snack-board').classList.remove('puzzle-reset');$('snack-status').textContent=done?'Das Bild ist komplett.':state&&!replay?'Dein Puzzle ist gespeichert. Weiter geht’s!':'Schiebe ein benachbartes Teil ins freie Feld.';persistSnack(snackGame);
 }
-function removeSnackItem(game,item){if(item.expiry){clearTimeout(item.expiry);game.timers.delete(item.expiry)}if(document.activeElement===item.el)$('snack-field').focus({preventScroll:true});item.el.remove();game.items=game.items.filter(other=>other!==item)}
-function expireSnackItem(game,item){if(!game.running||!game.items.includes(item))return;if(document.activeElement===item.el){item.expiry=snackLater(game,()=>expireSnackItem(game,item),1000);return}removeSnackItem(game,item)}
-function snackKind(game){let kind=SNACK_PATTERN[game.cursor++%SNACK_PATTERN.length];if(kind!=='hantel'){if(game[kind]===5)kind=kind==='crunch'?'schoko':'crunch';if(Math.abs(game.crunch-game.schoko)>=2)kind=game.crunch<game.schoko?'crunch':'schoko'}return kind}
-function spawnSnack(game,forced){
-if(snackGame!==game||!game.running||game.done||game.items.length>=3)return null;
-let kind=forced||snackKind(game);if(!SNACK_ART[kind])return null;if(kind==='hantel'&&game.calm&&game.items.some(item=>item.kind==='hantel'))kind=game.crunch<=game.schoko?'crunch':'schoko';if(kind!=='hantel'&&game[kind]===5)kind=kind==='crunch'?'schoko':'crunch';
-const slots=SNACK_SLOTS.map((_,index)=>index).filter(index=>!game.items.some(item=>item.slot===index));const varied=slots.filter(index=>index!==game.lastSlot),choices=varied.length?varied:slots,slot=choices[Math.floor(Math.random()*choices.length)];game.lastSlot=slot;
-const el=document.createElement('button');el.type='button';el.className='snack-item snack-item-'+kind;el.setAttribute('aria-label',SNACK_LABELS[kind]);el.style.left=SNACK_SLOTS[slot][0]+'%';el.style.top=SNACK_SLOTS[slot][1]+'%';
-const image=document.createElement('img');image.src=SNACK_ART[kind];image.alt='';image.draggable=false;el.appendChild(image);
-const item={el,kind,slot,taken:false,expiry:null};el.onclick=()=>collectSnack(game,item);$('snack-field').appendChild(el);game.items.push(item);
-if(!game.calm){const total=game.crunch+game.schoko;item.expiry=snackLater(game,()=>expireSnackItem(game,item),total<5?5200:total<8?4600:4000)}return item;
+function winSnack(game){if(snackGame!==game||game.done||!snackSolved(game.board))return;game.done=true;game.earned=true;game.hint=false;game.progress.add(14);save(game.progress);persistSnack(game);grid();renderSnack();$('snack-status').textContent='Geschafft! Das Bild ist komplett.';
+if(!game.reduced){for(let i=0;i<12;i++){const spark=document.createElement('i');spark.className='snack-spark';spark.style.left=(15+Math.random()*70)+'%';spark.style.top=(15+Math.random()*70)+'%';$('snack-effects').appendChild(spark);const animation=spark.animate([{opacity:0,transform:'scale(.3)'},{opacity:1,offset:.25},{opacity:0,transform:'translateY(-30px) scale(.1)'}],{duration:850,delay:i*30});game.animations.add(animation);animation.onfinish=()=>{spark.remove();game.animations.delete(animation)}}}
+$('snack-reward').focus({preventScroll:true});$('snack-reward').scrollIntoView({block:'nearest'});
 }
-function scheduleSnack(game){if(!game.running||game.calm||game.done)return;const total=game.crunch+game.schoko;snackLater(game,()=>{spawnSnack(game);scheduleSnack(game)},total<5?3000:total<8?2700:2400)}
-function snackSparks(game,finale=false,slot=1){if(game.reduced)return;for(let i=0;i<(finale?18:6);i++){const node=document.createElement('i');node.className='snack-spark';node.style.left=(finale?68:SNACK_SLOTS[slot][0])+'%';node.style.top=(finale?74:SNACK_SLOTS[slot][1]*.45)+'%';$('snack-effects').appendChild(node);const dx=(Math.random()-.5)*(finale?140:50),dy=-20-Math.random()*(finale?90:30);const animation=node.animate([{opacity:1,transform:'translate(0,0) rotate(0)'},{opacity:0,transform:`translate(${dx}px,${dy}px) rotate(100deg) scale(.2)`}],{duration:finale?1100:550,easing:'ease-out'});game.animations.add(animation);animation.onfinish=()=>{node.remove();game.animations.delete(animation)}}}
-function winSnack(game){
-if(snackGame!==game||game.done||game.crunch!==5||game.schoko!==5)return;
-game.done=true;game.earned=true;game.restored=false;game.running=false;clearSnackActivity(game);game.progress.add(14);save(game.progress);persistSnack(game);grid();renderSnack();snackSparks(game,true);
-$('snack-status').textContent='Geschafft! Crunch und Schoko: jeweils 5 von 5.';$('snack-reward').focus({preventScroll:true});$('snack-reward').scrollIntoView({block:'nearest'});
-}
-function collectSnack(game,item){
-if(snackGame!==game||!game.running||game.done||item.taken||!game.items.includes(item))return;
-item.taken=true;const restoreFocus=document.activeElement===item.el;item.el.disabled=true;removeSnackItem(game,item);
-if(item.kind==='hantel'){
-const kind=game.crunch>=game.schoko?'crunch':'schoko';const deducted=game[kind]>0;if(deducted)game[kind]--;
-$('snack-status').textContent=deducted?`Die Hantel hat Pause! ${kind==='crunch'?'Crunch':'Schoko'} minus eins. Weiter geht’s!`:'Die Hantel hat Pause. Alles gut – weiter geht’s!';
-if(!game.reduced){const animation=$('snack-meters').animate([{transform:'translateX(0)'},{transform:'translateX(-3px)',background:'#e88a6a33'},{transform:'translateX(3px)'},{transform:'translateX(0)'}],{duration:260});game.animations.add(animation);animation.onfinish=()=>game.animations.delete(animation)}
-}else{game[item.kind]=Math.min(5,game[item.kind]+1);$('snack-status').textContent=`${item.kind==='crunch'?'Crunch':'Schoko'}: ${game[item.kind]} von 5.`;snackSparks(game,false,item.slot)}
-persistSnack(game);renderSnack();if(game.crunch===5&&game.schoko===5){winSnack(game);return}
-if(game.calm)spawnSnack(game);if(restoreFocus){const next=game.items.find(item=>item.kind!=='hantel')||game.items[0];if(next)next.el.focus({preventScroll:true});else $('snack-field').focus({preventScroll:true})}
-}
-function pauseSnack(){const game=snackGame;if(!game||!game.running)return;game.running=false;clearSnackActivity(game);persistSnack(game);renderSnack();$('snack-status').textContent='Dein Fortschritt bleibt gespeichert. Weiter, wenn du bereit bist.'}
-async function beginSnack(){
-const game=snackGame;if(!game||game.done||game.running||game.loading)return;game.loading=true;renderSnack();
-try{await Promise.all(['snack-thoughtful','snack-happy','snack-preload-crunch','snack-preload-schoko','snack-preload-hantel'].map(id=>{const img=$(id);return img.decode?img.decode():Promise.resolve()}))}catch(error){if(snackGame===game){game.loading=false;renderSnack();$('snack-status').textContent='Die Bilder laden noch. Bitte versuch es gleich noch einmal.'}return}
-if(snackGame!==game)return;game.loading=false;game.running=true;game.started=true;renderSnack();
-if(game.calm){for(const kind of ['crunch','schoko','hantel'])spawnSnack(game,kind)}else{spawnSnack(game);scheduleSnack(game)}
-$('snack-status').textContent=game.calm?'Die Gegenstände bleiben stehen. Sammle in deinem Tempo.':'Sammle Crunch und Schoko. Die Hanteln haben heute Pause!';
-if(game.calm&&game.items[0])game.items[0].el.focus({preventScroll:true});else $('snack-field').focus({preventScroll:true});
-}
-function initSnack(){
-$('snack-start').onclick=beginSnack;
-$('snack-calm').onclick=()=>{const game=snackGame;if(!game||game.done||game.loading)return;pauseSnack();game.calm=true;renderSnack();beginSnack()};
-$('snack-again').onclick=()=>{const game=snackGame;if(!game||game.loading)return;const progress=game.progress;startSnack(progress,true);persistSnack(snackGame);$('snack-start').focus({preventScroll:true});$('card').scrollTop=0};
-document.addEventListener('visibilitychange',()=>{if(document.hidden)pauseSnack()});
+function moveSnack(tile){const game=snackGame;if(!game||game.done||game.busy||game.hint||tile===8)return false;const from=game.board.indexOf(tile),empty=game.board.indexOf(8);if(!snackNeighbors(empty).includes(from)){$('snack-status').textContent='Nur ein Teil direkt neben dem freien Feld kann rutschen.';return false}
+[game.board[from],game.board[empty]]=[game.board[empty],game.board[from]];game.restored=false;game.busy=!game.reduced;persistSnack(game);renderSnack();$('snack-status').textContent=`Bildteil ${tile+1} verschoben.`;winSnack(game);if(game.busy)snackLater(game,()=>{game.busy=false;renderSnack()},190);return true}
+function initSnack(){for(let tile=0;tile<8;tile++)$('snack-tile-'+tile).onclick=()=>{if(snackGame?.suppressClick){snackGame.suppressClick=false;return}moveSnack(tile)};
+const board=$('snack-board');board.addEventListener('keydown',event=>{const game=snackGame;if(!game||game.done||game.hint)return;const empty=game.board.indexOf(8),delta={ArrowLeft:1,ArrowRight:-1,ArrowUp:3,ArrowDown:-3}[event.key];if(delta===undefined)return;event.preventDefault();const from=empty+delta;if(snackNeighbors(empty).includes(from))moveSnack(game.board[from])});
+board.addEventListener('pointerdown',event=>{const game=snackGame;if(!game||game.done||game.busy||game.hint||event.button>0||game.gesture)return;const target=event.target.closest?.('.snack-tile');if(!target)return;game.suppressClick=false;game.gesture={id:event.pointerId,x:event.clientX,y:event.clientY,tile:Number(target.dataset.tile)};target.setPointerCapture(event.pointerId)});
+board.addEventListener('pointerup',event=>{const game=snackGame,gesture=game?.gesture;if(!gesture||gesture.id!==event.pointerId)return;game.gesture=null;const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;if(Math.hypot(dx,dy)<18)return;game.suppressClick=true;const position=game.board.indexOf(gesture.tile),empty=game.board.indexOf(8),desired=Math.abs(dx)>Math.abs(dy)?dx>0?1:-1:dy>0?3:-3;if(position+desired===empty)moveSnack(gesture.tile);else $('snack-status').textContent='Schiebe das Teil in Richtung des freien Felds.';snackLater(game,()=>game.suppressClick=false,300)});
+for(const type of ['pointercancel','lostpointercapture'])board.addEventListener(type,()=>{if(snackGame)snackGame.gesture=null});
+$('snack-tip').onclick=()=>{const game=snackGame;if(!game||game.done)return;game.hint=!game.hint;renderSnack();$('snack-status').textContent=game.hint?'So sieht das fertige Bild aus. Blende es wieder aus, um weiterzuspielen.':'Weiter mit deinem Puzzle.'};
+$('snack-again').onclick=()=>{if(!snackGame)return;const progress=snackGame.progress;startSnack(progress,true);$('card').scrollTop=0;$('snack-tile-'+snackGame.board[snackNeighbors(snackGame.board.indexOf(8))[0]]).focus({preventScroll:true})};
 }

@@ -92,7 +92,7 @@ $('match-target-'+color).classList.toggle('is-complete',counts[color]>=MATCH_GOA
 $('match-board').setAttribute('aria-busy',String(game.busy));
 for(let i=0;i<MATCH_SIZE;i++){
 const button=game.buttons[i],selected=game.selected===i;
-if(button.dataset.color!==board[i]){button.dataset.color=board[i];game.images[i].src=MATCH_ROOT+'bear-'+board[i]+'.png'}
+if(button.dataset.color!==board[i]){button.dataset.color=board[i];game.images[i].src=MATCH_ROOT+'bear-'+board[i]+'.webp'}
 button.setAttribute('aria-label',`Zeile ${Math.floor(i/MATCH_COLS)+1}, Spalte ${i%MATCH_COLS+1}: ${MATCH_NAMES[board[i]]} Gummibärchen`);
 button.setAttribute('aria-pressed',String(selected));button.setAttribute('aria-disabled',String(game.busy||finished));
 button.tabIndex=game.focus===i?0:-1;button.classList.toggle('match-selected',selected);button.classList.toggle('match-removing',game.removing.has(i));button.classList.toggle('match-hinted',game.hint.includes(i));

@@ -560,31 +560,88 @@ body[data-t=g] .grid{gap:24px 12px}
 @keyframes locker-rattle{20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 @media(prefers-reduced-motion:reduce){.locker-door{transition:none!important;animation:none!important}}
 
-/* Day 14: stationary snack targets above Andre and the closed numbered parcel. */
-.snack-meters{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-radius:12px}
-.snack-meter{padding:8px 10px;background:#2a2233;border:1px solid #cfbacb33;border-radius:12px;text-align:left}
-.snack-meter>span{display:flex;justify-content:space-between;gap:6px;font:800 13px/1.4 Nunito,system-ui,sans-serif;color:var(--text)}
-.snack-meter b{color:var(--mint);white-space:nowrap}.snack-track{height:8px;margin-top:6px;border-radius:10px;background:#120d2044;overflow:hidden}
-.snack-track i{display:block;height:100%;width:0;background:var(--gold);border-radius:10px;transition:width .2s ease}
-#snack-fill-schoko{background:var(--rose)}.snack-full{border-color:var(--mint)}
-.snack-scene{height:325px;position:relative;overflow:hidden;isolation:isolate;border-radius:18px;background:radial-gradient(ellipse at 50% 72%,#73546e66,transparent 70%),linear-gradient(#2d243a,#3c2e48)}
-.snack-scene::after{content:"";position:absolute;bottom:0;left:0;right:0;height:24px;background:#b57a5733;z-index:-1;border-radius:50% 50% 0 0}
-.snack-scene.snack-ready{height:210px}
-.snack-scene.snack-done{height:195px}
-.snack-field{position:absolute;top:8px;left:8px;right:8px;height:150px;outline:none;z-index:4}
-.snack-item{position:absolute;width:60px;height:60px;min-width:44px;min-height:44px;padding:1px;border:1px solid #cfbacb22;border-radius:14px;background:#f8ecd80c;transform:translate(-50%,-50%);cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;animation:snack-appear .18s ease-out}
-.snack-item img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}.snack-item:focus-visible{outline:3px solid var(--gold);outline-offset:2px}.snack-item:active{background:#ffc87222}
-.snack-portrait{position:absolute;width:190px;height:190px;left:3%;bottom:1px;pointer-events:none}.snack-portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.snack-thought{position:absolute;left:42%;bottom:125px;width:67px;height:43px;border-radius:48% 52% 48% 45%;background:#f4e6cf;box-shadow:0 3px 8px #170e2922;display:grid;place-items:center;pointer-events:none}
-.snack-thought::before,.snack-thought::after{content:"";position:absolute;border-radius:50%;background:#f4e6cf}.snack-thought::before{left:0;bottom:-8px;width:12px;height:12px}.snack-thought::after{left:-8px;bottom:-17px;width:6px;height:6px}
-.snack-mystery{display:block;width:33px;height:21px;border-radius:44% 35% 48% 31%;background:#554350;transform:rotate(-15deg);box-shadow:inset 5px 2px 0 #695260}
-.snack-package{position:absolute;width:94px;height:94px;right:8%;bottom:5px;transform-origin:50% 100%;pointer-events:none}.snack-package svg{display:block;width:100%;height:100%}
-.snack-done .snack-package{animation:snack-package-hop .8s cubic-bezier(.2,.8,.3,1);filter:drop-shadow(0 0 13px #ffc87266)}
-.snack-restored .snack-package{animation:none}
-.snack-effects{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:hidden}
 .snack-spark{position:absolute;width:8px;height:8px;background:var(--gold);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
-.snack-reward{background:#2a2233;text-align:center;outline:none}.snack-reward p{margin:0}.snack-reward p+p{margin-top:12px;color:var(--gold);font-weight:800}
-.snack-portrait img[hidden],.snack-thought[hidden]{display:none}
-@keyframes snack-appear{from{opacity:0}to{opacity:1}}
-@keyframes snack-package-hop{0%,100%{transform:translateY(0) rotate(0)}40%{transform:translateY(-12px) rotate(-4deg)}70%{transform:translateY(0) rotate(3deg)}}
-@media(prefers-reduced-motion:reduce){.snack-track i{transition:none}.snack-item,.snack-package{animation:none!important}}
+/* Fixed-body lock also prevents background scrolling in iOS Safari. */
+html.has-open-gift{overflow:hidden;overscroll-behavior:none}
+body.gift-scroll-locked{position:fixed;top:var(--calendar-top,0px);left:0;right:0;overflow:hidden;padding-right:var(--calendar-gutter,0px)}
+#ov{overflow:hidden;overscroll-behavior:none}
+#ov .card{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.gift-loading-panel{width:100%;max-width:350px;flex-shrink:1;margin-top:22px;padding:24px 22px;background:var(--panel);border-radius:18px;text-align:center;color:var(--text);font:800 16px/1.5 Nunito,system-ui,sans-serif}
+.gift-loading-panel p{margin:0 0 14px}.gift-loading-panel .btn{margin-top:12px;border-radius:12px}
+.gift-loading-panel[hidden],#ov.gift-opening .gift-loading-panel{display:none}
+.gift-loading-panel [hidden]{display:none!important}
+.gift-loading-close{min-height:44px;border:0;background:none;color:var(--mute);font:800 14px Nunito,system-ui,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.gift-loading-close:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+/* Day 15: numbered sparks and a continuous SVG outline, no raster assets. */
+.tail-scene{position:relative;width:100%;aspect-ratio:260/460;isolation:isolate;border-radius:18px;background:radial-gradient(ellipse at 52% 43%,#75506a38,transparent 70%),#30263b;overflow:hidden}
+.tail-drawing,.tail-effects{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.tail-line{stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset .3s ease}
+.tail-fill{opacity:0;transition:opacity .35s ease .3s}
+.tail-done .tail-fill{opacity:1}.tail-done .tail-drawing{filter:drop-shadow(0 0 10px #ffc87255);animation:tail-flash .9s ease-out}
+.tail-point{position:absolute;transform:translate(-50%,-50%);width:44px;height:44px;min-width:44px;min-height:44px;padding:0 0 20px;border:0;border-radius:50%;background:transparent;color:var(--gold);font:800 11px Nunito,system-ui,sans-serif;cursor:pointer;touch-action:manipulation}
+.tail-point::after{content:"";position:absolute;left:18px;top:23px;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px #ffc87277;transform:translateY(-5px)}
+.tail-point:disabled{opacity:1;cursor:default}.tail-point.tail-found{color:var(--mint)}.tail-found::after{background:var(--mint);box-shadow:none}
+.tail-current::after{animation:tail-pulse 1.7s ease-in-out infinite}.tail-point:focus-visible{outline:2px solid var(--mint);outline-offset:-2px;background:#fff1}
+.tail-done .tail-point{visibility:hidden}.tail-restored .tail-drawing{animation:none}.tail-restored .tail-fill{transition:none}
+.tail-spark{position:absolute;width:12px;height:20px;background:var(--gold);clip-path:polygon(55% 0,15% 55%,48% 55%,32% 100%,90% 37%,58% 37%);opacity:0}
+.tail-reward{background:#2a2233;outline:none;text-align:center}.tail-reward p+p{margin-top:12px!important;color:var(--gold);font-weight:800}
+.tail-package{width:100px;height:100px;margin:0 auto 14px!important;filter:drop-shadow(0 0 12px #ffc87233)}.tail-package svg{width:100%;height:100%}
+@keyframes tail-pulse{50%{box-shadow:0 0 0 7px #ffc87219,0 0 14px #ffc87277}}
+@keyframes tail-flash{40%{filter:drop-shadow(0 0 20px #ffe9b099)}}
+@media(prefers-reduced-motion:reduce){.tail-line,.tail-fill{transition:none!important}.tail-current::after,.tail-done .tail-drawing{animation:none!important}}
+/* Keep the completed silhouette, closed parcel and replay together on phones. */
+.tail-scene.tail-done{aspect-ratio:auto;height:180px}
+.tail-reward{padding:16px}.tail-reward p{font-size:14px;line-height:1.5}.tail-package{width:72px;height:72px}
+
+/* Day 17: illustration, clipped vector syrup and toppings share one square. */
+.syrniki-scene{position:relative;width:100%;aspect-ratio:1;overflow:hidden;border-radius:16px;isolation:isolate;background:#80503e}
+.syrniki-scene>img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.syrniki-draw,.syrniki-berries,.syrniki-effects{position:absolute;inset:0;width:100%;height:100%}
+.syrniki-draw{touch-action:none;cursor:crosshair;outline:none;user-select:none;-webkit-user-select:none}
+.syrniki-draw:focus-visible{outline:3px solid var(--mint);outline-offset:-4px;border-radius:16px}
+.syrniki-berries,.syrniki-effects{pointer-events:none}.syrniki-berries[hidden],#syrniki-cursor[hidden]{display:none}
+.syrniki-berry{position:absolute;width:14%;height:14%;object-fit:contain;filter:drop-shadow(0 3px 2px #4c20394d);animation:syrniki-berry-in .5s ease-out}
+.berry-one{left:31%;top:29%}.berry-two{left:67%;top:34%;animation-delay:.08s}.berry-three{left:47%;top:68%;animation-delay:.16s}
+.syrniki-done .syrniki-draw{cursor:default;touch-action:pan-y}.syrniki-reward{background:#2a2233;text-align:center;outline:none}.syrniki-reward h2{color:var(--gold)}
+@keyframes syrniki-berry-in{from{opacity:0;transform:translateY(-8px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.syrniki-berry{animation:none}}
+
+.syrniki-done .syrniki-draw{touch-action:pan-y;cursor:default}
+
+/* Day 14: eight movable pieces share one lightweight square illustration. */
+.snack-puzzle-scene{position:relative;width:100%;aspect-ratio:1;isolation:isolate}
+.snack-board{position:relative;width:100%;height:100%;background:#2a2233;border-radius:14px;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.snack-tile,.snack-empty{position:absolute;width:calc(100% / 3);height:calc(100% / 3);min-height:44px;min-width:44px}
+.snack-tile{border:0;background:transparent;padding:0;cursor:pointer;transition:left .18s ease,top .18s ease;color:var(--text);-webkit-tap-highlight-color:transparent}
+.snack-tile-image{position:absolute;inset:2px;background-image:var(--snack-picture);background-size:300% 300%;border-radius:7px;box-shadow:inset 0 0 0 1px #f4e6cf33,0 2px 3px #160e2644;pointer-events:none}
+.snack-tile-number{position:absolute;left:7px;bottom:7px;min-width:18px;line-height:18px;text-align:center;font:800 11px/18px Nunito,system-ui,sans-serif;color:#ffe9b0;background:#231c32bf;border-radius:5px;pointer-events:none}
+.snack-tile:focus-visible{outline:3px solid var(--mint);outline-offset:-4px;z-index:2;border-radius:8px}.snack-tile:active .snack-tile-image{box-shadow:inset 0 0 0 2px var(--gold)}
+.snack-empty::after{content:"";position:absolute;inset:5px;border:1px dashed #cfbacb44;border-radius:9px}
+.snack-reference{position:absolute;inset:0;z-index:3;pointer-events:none}.snack-reference img{display:block;width:100%;height:100%;object-fit:contain}
+.snack-effects{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:4}
+.snack-reward{background:#2a2233;text-align:center;outline:none}.snack-reward h2{color:var(--gold)}.snack-reward p+p{color:var(--gold);font-weight:800;margin-top:12px!important}
+.puzzle-done .snack-tile-image{inset:0;border-radius:0;box-shadow:none}.puzzle-done .snack-tile-number{display:none}.puzzle-done{touch-action:pan-y;filter:drop-shadow(0 0 9px #ffc87233)}.puzzle-done .snack-tile{cursor:default}
+.puzzle-reset .snack-tile,.puzzle-restored .snack-tile{transition:none}
+@media(prefers-reduced-motion:reduce){.snack-tile{transition:none!important}}
+
+/* Day 18: three timing hits, an independent craft sprite and a calm alternative. */
+.rocket-scene{position:relative;width:100%;height:215px;isolation:isolate;overflow:hidden;border-radius:18px;background:radial-gradient(ellipse at 50% 80%,#80607655,transparent 65%),linear-gradient(#292438,#48334f)}
+.rocket-sky,.rocket-effects{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.rocket-craft{position:absolute;width:200px;height:200px;left:calc(50% - 100px);bottom:12px;transform-origin:50% 100%;pointer-events:none}
+.rocket-craft img{position:relative;width:100%;height:100%;object-fit:contain;display:block;z-index:1}
+.rocket-flame{position:absolute;width:20px;height:45px;left:calc(50% - 10px);bottom:-8px;border-radius:30% 30% 60% 60%;background:linear-gradient(#fff0,#ffe9b0 25%,#ffc872 60%,#e88a6a);opacity:0;transform-origin:50% 0;filter:drop-shadow(0 3px 6px #ffc87266)}
+.rocket-launching .rocket-craft{animation:rocket-takeoff 1.9s cubic-bezier(.3,.6,.3,1) forwards}.rocket-launching .rocket-flame{opacity:1;animation:rocket-flame .22s ease-in-out infinite alternate}
+.rocket-done .rocket-craft{transform:translate(34px,-44px) rotate(8deg) scale(.72)}.rocket-restored .rocket-craft{animation:none}
+.rocket-package{position:absolute;width:88px;height:88px;left:22px;bottom:10px;filter:drop-shadow(0 0 10px #ffc87244)}.rocket-package svg{display:block;width:100%;height:100%}
+.rocket-charge{padding:10px 12px;border:1px solid #cfbacb33;background:#2a2233;border-radius:12px}.rocket-charge>span{display:flex;justify-content:space-between;font:800 13px/1.4 Nunito,system-ui,sans-serif}.rocket-charge b{color:var(--mint)}.rocket-charge-track{height:8px;margin-top:8px;border-radius:10px;overflow:hidden;background:#120d2055}.rocket-charge-track i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s ease}
+.rocket-timing{position:relative;height:34px;margin:4px 8px 2px;border-radius:20px;background:#2a2233;border:1px solid #cfbacb44}
+.rocket-zone{position:absolute;top:0;bottom:0;left:38%;width:24%;border:1px solid #ffc872aa;border-radius:10px;background:#ffc8724d}.rocket-cursor{position:absolute;width:16px;height:16px;top:8px;left:0;border-radius:50%;transform:translateX(-50%);background:#fff2cf;box-shadow:0 0 10px #ffe9b088;pointer-events:none}
+.rocket-hit{outline:2px solid var(--mint)}.rocket-miss{outline:2px solid var(--rose)}.rocket-calm .rocket-zone{background:#c4dca144}
+.rocket-spark{position:absolute;width:8px;height:8px;background:var(--gold);clip-path:polygon(50% 0,65% 35%,100% 50%,65% 65%,50% 100%,35% 65%,0 50%,35% 35%)}
+.rocket-reward{background:#2a2233;text-align:center;outline:none}.rocket-reward h2{color:var(--gold)}.rocket-reward p{margin-top:12px!important}
+@keyframes rocket-takeoff{0%,20%{transform:translate(0,0) rotate(0)}8%{transform:translate(-3px,0) rotate(-2deg)}15%{transform:translate(3px,0) rotate(2deg)}45%{transform:translate(0,-8px) rotate(-2deg)}100%{transform:translate(34px,-44px) rotate(8deg) scale(.72)}}
+@keyframes rocket-flame{to{transform:scaleY(.75) scaleX(1.15)}}
+@media(prefers-reduced-motion:reduce){.rocket-craft,.rocket-flame{animation:none!important}.rocket-charge-track i{transition:none}}
+.rocket-flame{opacity:0}.rocket-launching .rocket-flame{opacity:1;animation:rocket-flame .18s ease-in-out infinite}
+.rocket-flame{opacity:0}.rocket-launching .rocket-flame{opacity:1;animation:rocket-flame .22s ease-in-out infinite alternate}

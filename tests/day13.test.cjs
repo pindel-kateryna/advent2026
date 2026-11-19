@@ -4,7 +4,7 @@ const {setup}=require('./helpers.cjs');
 const code=game=>game.run('setLockerDigit(0,1,true);setLockerDigit(1,5,true);setLockerDigit(2,0,true)');
 
 test('day thirteen loads its painted door and only the correct combination opens it',async()=>{
-const game=setup();game.run('openDay(13)');assert.equal(game.run('opened.has(13)'),false);assert.equal(game.ids.ch.parent.attrs.id,'locker-task');assert.equal(game.ids.card.dataset.kind,'game');assert.deepEqual(game.requests,['assets/day-13/locker-door-flat-v2.png']);assert.equal(game.ids['locker-interior'].getAttribute('aria-hidden'),'true');
+const game=setup();game.run('openDay(13)');assert.equal(game.run('opened.has(13)'),false);assert.equal(game.ids.ch.parent.attrs.id,'locker-task');assert.equal(game.ids.card.dataset.kind,'game');assert.deepEqual(game.requests,['assets/day-13/locker-door-flat-v2.webp']);assert.equal(game.ids['locker-interior'].getAttribute('aria-hidden'),'true');
 await game.run('submitLocker()');assert.equal(game.run('lockerGame.done'),false);code(game);await game.run('submitLocker()');assert.equal(game.run('opened.has(13)'),true);assert.equal(game.ids['locker-interior'].getAttribute('aria-hidden'),'false');assert.equal(game.ids['locker-go'].hidden,true);assert.equal(game.ids['locker-again'].hidden,false);assert.equal(game.timers.size,0);assert.equal(game.run('lockerGame.animations.size'),0);assert.equal(game.run('sound'),false);
 });
 

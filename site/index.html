@@ -7,18 +7,22 @@
 <title>Honeys Adventskalender</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&family=Fraunces:wght@600;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=20261117-snack">
-<script defer src="js/content.js?v=20261117-snack"></script>
-<script defer src="js/day01.js?v=20261117-snack"></script>
-<script defer src="js/day04.js?v=20261117-snack"></script>
-<script defer src="js/day08.js"></script>
-<script defer src="js/day09.js?v=20261115-sofa-clean"></script>
-<script defer src="js/day10.js?v=20261115-match-no-labels"></script>
-<script defer src="js/day11.js?v=20261117-snack"></script>
-<script defer src="js/day12.js?v=20261117-snack"></script>
-<script defer src="js/day13.js?v=20261117-snack"></script>
-<script defer src="js/day14.js?v=20261117-snack"></script>
-<script defer src="js/app.js?v=20261117-snack"></script>
+<link rel="stylesheet" href="css/styles.css?v=20261119-rocket18-3">
+<script defer src="js/media.js?v=20261119-rocket18-3"></script>
+<script defer src="js/content.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day01.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day04.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day08.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day09.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day10.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day11.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day12.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day13.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day14.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day15.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day17.js?v=20261119-rocket18-3"></script>
+<script defer src="js/day18.js?v=20261119-rocket18-3"></script>
+<script defer src="js/app.js?v=20261119-rocket18-3"></script>
 </head>
 <body>
 <div class="wrap">
@@ -45,6 +49,7 @@
 <div class="toast px" id="toast" role="status"></div>
 <div id="ov" role="dialog" aria-modal="true" aria-label="Geöffnetes Fundstück">
 <div class="stage" id="stage"></div>
+<div class="gift-loading-panel" id="gift-loading" role="status" aria-live="polite" aria-busy="false" hidden><p id="gift-loading-message">Dein Fundstück lädt …</p><button class="btn" id="gift-loading-retry" type="button" hidden>Erneut versuchen</button><button class="gift-loading-close" id="gift-loading-close" type="button">Schließen</button></div>
 <div class="card px" id="card">
 <div class="gift-card-header"><p class="n">NEUES FUNDSTÜCK</p><p class="big" id="cn"></p><button class="x" id="x" aria-label="Schließen">X</button></div>
 <div class="gift-task" id="gift-generic-task"><p class="h" id="ch"></p></div>
@@ -52,8 +57,8 @@
 <div class="gift-task" id="pirate-task"></div>
 
 <div class="pirate-scene" id="pirate-scene" role="group" aria-label="Andre und seine Verwandlung">
-<img class="pirate-person" id="pirate-before" data-src="assets/day-01/andre-before.png" alt="Andre im dunkelblauen Pullover" width="960" height="960" decoding="async" draggable="false">
-<img class="pirate-person" id="pirate-after" data-src="assets/day-01/andre-pirate.png" alt="Andre als Strohhut-Pirat mit roter Weste" width="960" height="960" decoding="async" draggable="false" hidden>
+<img class="pirate-person" id="pirate-before" data-src="assets/day-01/andre-before.webp" alt="Andre im dunkelblauen Pullover" width="960" height="960" decoding="async" draggable="false">
+<img class="pirate-person" id="pirate-after" data-src="assets/day-01/andre-pirate.webp" alt="Andre als Strohhut-Pirat mit roter Weste" width="960" height="960" decoding="async" draggable="false" hidden>
 <div class="pirate-cloud" aria-hidden="true"></div><div class="pirate-dust" id="pirate-dust" aria-hidden="true"></div>
 </div>
 <p class="gift-feedback pirate-status" id="pirate-status" role="status" aria-live="polite" aria-atomic="true"></p>
@@ -66,11 +71,11 @@
 <p class="tree-help gift-instructions" id="tree-help" data-copy="treeInstructions"></p>
 <p class="tree-count gift-progress" id="tree-count">0 / 3</p>
 <div class="tree-scene" id="tree-scene" role="group" aria-label="Weihnachtsbaum mit drei kleinen Sternen">
-<img class="tree-image tree-unlit" data-src="assets/day-08/tree-unlit.png" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
-<img class="tree-image tree-light" id="tree-light-upper" data-src="assets/day-08/tree-lit.png" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
-<img class="tree-image tree-light" id="tree-light-middle" data-src="assets/day-08/tree-lit.png" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
-<img class="tree-image tree-light" id="tree-light-lower" data-src="assets/day-08/tree-lit.png" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
-<img class="tree-image tree-full" data-src="assets/day-08/tree-lit.png" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
+<img class="tree-image tree-unlit" data-src="assets/day-08/tree-unlit.webp" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
+<img class="tree-image tree-light" id="tree-light-upper" data-src="assets/day-08/tree-lit.webp" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
+<img class="tree-image tree-light" id="tree-light-middle" data-src="assets/day-08/tree-lit.webp" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
+<img class="tree-image tree-light" id="tree-light-lower" data-src="assets/day-08/tree-lit.webp" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
+<img class="tree-image tree-full" data-src="assets/day-08/tree-lit.webp" alt="" width="1086" height="1448" decoding="async" aria-hidden="true" draggable="false">
 <div class="tree-package" id="tree-package" aria-hidden="true"><svg viewBox="0 0 100 100" focusable="false"><path d="M50 24Q23 1 22 17Q27 28 50 24Q77 1 78 17Q73 28 50 24Z" fill="#ffc872"/><rect x="13" y="34" width="74" height="59" rx="2" fill="#e88a6a"/><rect x="13" y="34" width="9" height="59" fill="#fff2"/><rect x="44" y="34" width="12" height="59" fill="#ffc872"/><rect x="8" y="24" width="84" height="14" rx="2" fill="#e88a6a"/><path d="M8 26H92M13 39H87" stroke="#0002" stroke-width="3"/><rect x="44" y="24" width="12" height="14" fill="#ffc872"/><rect x="29" y="52" width="42" height="30" rx="3" fill="#463550"/><text x="50" y="75" text-anchor="middle" fill="#ffc872" font-size="24" font-weight="800" font-family="Nunito,system-ui,sans-serif">08</text></svg></div>
 <div class="tree-sparks" id="tree-sparks" aria-hidden="true"></div>
 <button class="tree-star" id="tree-star-upper" type="button" aria-label="Ersten Stern finden" aria-disabled="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.8 15.1 8.1 22 9.1 17 14 18.2 20.9 12 17.6 5.8 20.9 7 14 2 9.1 8.9 8.1Z"/></svg></button>
@@ -86,13 +91,13 @@
 <p class="movie-help gift-instructions" data-copy="movieInstructions"></p>
 <p class="movie-count gift-progress" id="movie-count">0 / 3</p>
 <div class="movie-room" id="movie-room" role="group" aria-label="Unser gemütliches Wohnzimmer">
-<img class="movie-decor movie-background" data-src="assets/day-07/room-light-on.jpg" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
-<img class="movie-decor movie-background movie-dark" data-src="assets/day-07/room-light-off.jpg" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
+<img class="movie-decor movie-background" data-src="assets/day-07/room-light-on.webp" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
+<img class="movie-decor movie-background movie-dark" data-src="assets/day-07/room-light-off.webp" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
 <div class="movie-decor movie-screen" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4L21 12 7 20Z"/></svg><span data-copy="movieScreenLabel"></span></div>
-<div class="movie-decor movie-couple-stack" aria-hidden="true"><img class="movie-couple-main" id="movie-couple" data-src="assets/day-07/couple-before-v2.png" alt="" width="1312" height="1199" draggable="false" decoding="async"><img class="movie-cuddle" data-src="assets/day-07/couple-cuddle-v2.png" alt="" width="1312" height="1199" draggable="false" decoding="async"></div>
-<img class="movie-decor movie-table" data-src="assets/day-07/room-light-on.jpg" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
-<img class="movie-decor movie-table movie-dark" data-src="assets/day-07/room-light-off.jpg" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
-<img class="movie-decor movie-mugs" id="movie-mugs" data-src="assets/day-07/mugs.png" alt="" width="1774" height="887" aria-hidden="true" draggable="false" decoding="async">
+<div class="movie-decor movie-couple-stack" aria-hidden="true"><img class="movie-couple-main" id="movie-couple" data-src="assets/day-07/couple-before-v2.webp" alt="" width="1312" height="1199" draggable="false" decoding="async"><img class="movie-cuddle" data-src="assets/day-07/couple-cuddle-v2.webp" alt="" width="1312" height="1199" draggable="false" decoding="async"></div>
+<img class="movie-decor movie-table" data-src="assets/day-07/room-light-on.webp" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
+<img class="movie-decor movie-table movie-dark" data-src="assets/day-07/room-light-off.webp" alt="" width="1086" height="1448" aria-hidden="true" draggable="false" decoding="async">
+<img class="movie-decor movie-mugs" id="movie-mugs" data-src="assets/day-07/mugs.webp" alt="" width="1774" height="887" aria-hidden="true" draggable="false" decoding="async">
 <span class="movie-decor movie-steam" aria-hidden="true"><i></i><i></i></span><span class="movie-decor movie-steam second" aria-hidden="true"><i></i><i></i></span>
 <span class="movie-decor movie-heart" aria-hidden="true">♥</span>
 <button class="movie-hotspot" id="movie-lampOff" data-find="lampOff" type="button" aria-label="Lampe ausschalten" aria-disabled="false"></button>
@@ -105,19 +110,19 @@
 <div class="gift-actions"><button class="movie-tip gift-hint" id="movie-tip" type="button">Ein kleiner Tipp?</button>
 <button class="btn movie-again gift-repeat" id="movie-again" type="button" hidden>Nochmal entdecken</button></div>
 </section>
-<figure class="massage gift-panel" id="massage" hidden><img data-src="assets/day-06/massage.jpg" alt="Andre genießt eine Kopfmassage, mit entspanntem Gesicht und gekreuzten Tierpfötchen" width="1086" height="1448" decoding="async"><figcaption class="gift-caption" data-copy="massageCaption"></figcaption></figure>
+<figure class="massage gift-panel" id="massage" hidden><img data-src="assets/day-06/massage.webp" alt="Andre genießt eine Kopfmassage, mit entspanntem Gesicht und gekreuzten Tierpfötchen" width="1086" height="1448" decoding="async"><figcaption class="gift-caption" data-copy="massageCaption"></figcaption></figure>
 <section class="lotus gift-panel" id="lotus" aria-label="Deinen Lotus-Cheesecake zusammenstellen" hidden>
 <div class="gift-task" id="lotus-task"></div>
 <p class="lotus-help gift-instructions" id="lotus-help"><span data-copy="lotusInstructions"></span><span class="lotus-touch-help"><span data-copy="lotusTouchGuide"></span></span></p>
 <ol class="lotus-progress gift-progress" aria-label="Fortschritt: drei Schritte"><li id="lotus-progress-0">1</li><li id="lotus-progress-1">2</li><li id="lotus-progress-2">3</li></ol>
 <div class="lotus-plate" id="lotus-plate" role="group" aria-label="Teller: Zutaten hier ablegen">
-<img id="lotus-image" data-src="assets/day-05/stage-0-plate-illustrated.png" alt="Leerer Teller" width="1254" height="1254" draggable="false" decoding="async">
+<img id="lotus-image" data-src="assets/day-05/stage-0-plate-illustrated.webp" alt="Leerer Teller" width="1254" height="1254" draggable="false" decoding="async">
 <div class="lotus-effects" id="lotus-effects" aria-hidden="true"></div>
 </div>
 <div class="lotus-ingredients" id="lotus-ingredients" aria-label="Zutaten">
-<button class="lotus-ingredient" id="lotus-ingredient-0" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-biscuits-illustrated.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Kekse</span></button>
-<button class="lotus-ingredient" id="lotus-ingredient-1" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-cream-illustrated.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Creme</span></button>
-<button class="lotus-ingredient" id="lotus-ingredient-2" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-lotus-illustrated.png" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Lotus-Aufstrich</span></button>
+<button class="lotus-ingredient" id="lotus-ingredient-0" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-biscuits-illustrated.webp" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Kekse</span></button>
+<button class="lotus-ingredient" id="lotus-ingredient-1" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-cream-illustrated.webp" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Creme</span></button>
+<button class="lotus-ingredient" id="lotus-ingredient-2" type="button" draggable="true" aria-describedby="lotus-status"><span class="lotus-check" aria-hidden="true">✓</span><img data-src="assets/day-05/ingredient-lotus-illustrated.webp" alt="" width="1254" height="1254" draggable="false" decoding="async"><span>Lotus-Aufstrich</span></button>
 </div>
 <p class="lotus-status gift-feedback sr-only" id="lotus-status" role="status" aria-live="polite" aria-atomic="true"></p>
 <article class="lotus-voucher gift-reward" id="lotus-voucher" hidden aria-labelledby="lotus-voucher-title"><h2 id="lotus-voucher-title" data-copy="lotusVoucherTitle"></h2><p data-copy="lotusVoucherCopy"></p></article>
@@ -131,7 +136,7 @@
 <div class="elixir-scene" id="elixir-scene">
 <div class="elixir-vessel" id="elixir-stage-label" role="img" aria-label="Elixier: 0 von 3 Zutaten">
 <svg class="elixir-fill" viewBox="0 0 100 133.333" aria-hidden="true" focusable="false"><defs><clipPath id="elixir-liquid-clip" clipPathUnits="userSpaceOnUse"><path d="M43 19H57V35Q57 39 65 43C86 56 88 72 75 83Q50 91 25 83C12 72 14 56 35 43Q43 39 43 35Z"/></clipPath></defs><svg viewBox="0 0 100 100" width="100" height="133.333" preserveAspectRatio="none"><g clip-path="url(#elixir-liquid-clip)"><rect id="elixir-liquid" x="0" y="94" width="100" height="100" fill="#6ab8ff"/><g class="elixir-bubbles" fill="#fff7"><circle cx="35" cy="75" r="1.4"/><circle cx="54" cy="65" r="1.8"/><circle cx="66" cy="79" r="1"/><circle cx="44" cy="81" r="1.1"/></g></g></svg></svg>
-<img id="elixir-flask" data-src="assets/day-04/elixir-flask.png" alt="" width="720" height="960" decoding="async" draggable="false">
+<img id="elixir-flask" data-src="assets/day-04/elixir-flask.webp" alt="" width="720" height="960" decoding="async" draggable="false">
 </div>
 <div class="elixir-effects" id="elixir-effects" aria-hidden="true"></div>
 <div class="elixir-result" id="elixir-result" role="group" tabindex="-1" aria-label="Dein Päckchen" aria-hidden="true" hidden><span>Such dein Päckchen Nummer</span><b>04</b></div>
@@ -145,9 +150,9 @@
 <section class="bear gift-panel gift-animation" id="bear" aria-label="Schokoladenbär mit Überraschung" hidden>
 <div class="gift-task" id="bear-task"></div>
 <div class="gift-animation-viewport"><button type="button" class="bear-scene" id="bear-scene" aria-label="Schokoladenbär antippen" aria-describedby="ch" aria-disabled="false">
-<span class="bear-layer bear-body" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear-illustrated.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
-<span class="bear-layer bear-katya-head" aria-hidden="true"><img data-src="assets/day-03/katya-head-illustrated.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
-<span class="bear-layer bear-chocolate-head" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear-illustrated.png" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
+<span class="bear-layer bear-body" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear-illustrated.webp" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
+<span class="bear-layer bear-katya-head" aria-hidden="true"><img data-src="assets/day-03/katya-head-illustrated.webp" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
+<span class="bear-layer bear-chocolate-head" aria-hidden="true"><img data-src="assets/day-03/chocolate-bear-illustrated.webp" alt="" width="1086" height="1448" draggable="false" decoding="async"></span>
 </button></div>
 <p class="gift-feedback sr-only" id="bear-status" role="status" aria-live="polite" aria-atomic="true"></p>
 <div class="gift-actions"><button type="button" class="btn" id="bear-start" aria-controls="bear-scene" aria-disabled="false">Überraschung öffnen</button>
@@ -166,14 +171,14 @@
 <div id="energy-play" class="energy-play">
 <div class="energy-progress"><div class="energy-meter" id="energy-meter" role="progressbar" aria-label="Andres Ladestand" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><i id="energy-cell-0"></i><i id="energy-cell-1"></i><i id="energy-cell-2"></i><i id="energy-cell-3"></i><i id="energy-cell-4"></i></div><span class="gift-progress" id="energy-count">0 / 5 · 3 %</span></div>
 <div class="energy-scene" id="energy-scene" tabindex="0" role="group" aria-label="Spielfeld: fallende Batterien antippen" aria-describedby="energy-help">
-<img class="energy-backdrop" data-src="assets/day-07/room-light-on.jpg" alt="" width="720" height="960" draggable="false" decoding="async">
+<img class="energy-backdrop" data-src="assets/day-07/room-light-on.webp" alt="" width="720" height="960" draggable="false" decoding="async">
 <div class="energy-player" id="energy-player" role="img" aria-label="Andre schläft auf dem Sofa">
-<img id="energy-sleepy" data-src="assets/day-09/andre-sleepy.png" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true">
-<img id="energy-awake" data-src="assets/day-09/andre-awake.png" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true" hidden>
-<img id="energy-happy" data-src="assets/day-09/andre-happy.png" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true" hidden>
-<img id="energy-cheer" data-src="assets/day-09/andre-cheer.png" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true" hidden>
+<img id="energy-sleepy" data-src="assets/day-09/andre-sleepy.webp" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true">
+<img id="energy-awake" data-src="assets/day-09/andre-awake.webp" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true" hidden>
+<img id="energy-happy" data-src="assets/day-09/andre-happy.webp" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true" hidden>
+<img id="energy-cheer" data-src="assets/day-09/andre-cheer.webp" alt="" width="960" height="960" draggable="false" decoding="async" aria-hidden="true" hidden>
 </div>
-<img class="energy-table" data-src="assets/day-07/room-light-on.jpg" alt="" width="720" height="960" draggable="false" decoding="async" aria-hidden="true">
+<img class="energy-table" data-src="assets/day-07/room-light-on.webp" alt="" width="720" height="960" draggable="false" decoding="async" aria-hidden="true">
 <div class="energy-drops" id="energy-drops"></div><div class="energy-effects" id="energy-effects" aria-hidden="true"></div>
 <button class="energy-start" id="energy-start" type="button">Aufladen!</button>
 </div>
@@ -187,8 +192,8 @@
 <p class="gift-instructions">Tausche zwei Nachbarn und bilde Reihen aus mindestens drei gleichen Bärchen. Tippe oder wische.</p>
 <div class="match-play" id="match-play">
 <div class="match-goals" role="group" aria-label="Sammelziele">
-<div class="match-target" id="match-target-red"><img data-src="assets/day-10/bear-red.png" alt="" width="512" height="512" draggable="false"><span>Rot <b id="match-goal-red">0 / 5</b></span></div>
-<div class="match-target" id="match-target-yellow"><img data-src="assets/day-10/bear-yellow.png" alt="" width="512" height="512" draggable="false"><span>Gelb <b id="match-goal-yellow">0 / 10</b></span></div>
+<div class="match-target" id="match-target-red"><img data-src="assets/day-10/bear-red.webp" alt="" width="512" height="512" draggable="false"><span>Rot <b id="match-goal-red">0 / 5</b></span></div>
+<div class="match-target" id="match-target-yellow"><img data-src="assets/day-10/bear-yellow.webp" alt="" width="512" height="512" draggable="false"><span>Gelb <b id="match-goal-yellow">0 / 10</b></span></div>
 </div>
 <div class="match-board" id="match-board" role="grid" aria-label="Bärchenfeld: Pfeiltasten zum Bewegen, Enter zum Auswählen" aria-rowcount="6" aria-colcount="5"></div>
 </div>
@@ -214,8 +219,8 @@
 <div class="cookie-stage" id="cookie-stage">
 <div class="cookie-message" id="cookie-message" role="group" aria-label="Dein Päckchen" tabindex="-1" aria-hidden="true"><span>Such dein Geschenk unter der Nummer</span><b>12</b></div>
 <button class="cookie-tap" id="cookie-tap" type="button" aria-label="Keks antippen: 0 von 3">
-<span class="cookie-half cookie-left" aria-hidden="true"><img data-src="assets/day-05/ingredient-biscuits-illustrated.png" alt="" width="960" height="960" draggable="false"></span>
-<span class="cookie-half cookie-right" aria-hidden="true"><img data-src="assets/day-05/ingredient-biscuits-illustrated.png" alt="" width="960" height="960" draggable="false"></span>
+<span class="cookie-half cookie-left" aria-hidden="true"><img data-src="assets/day-05/ingredient-biscuits-illustrated.webp" alt="" width="960" height="960" draggable="false"></span>
+<span class="cookie-half cookie-right" aria-hidden="true"><img data-src="assets/day-05/ingredient-biscuits-illustrated.webp" alt="" width="960" height="960" draggable="false"></span>
 <svg class="cookie-cracks" viewBox="0 0 100 100" aria-hidden="true"><g fill="none" stroke="#663b21" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path class="cookie-crack crack-one" d="M50 24L54 34L47 44"/><path class="cookie-crack crack-two" d="M47 44L55 54L48 65"/><path class="cookie-crack crack-three" d="M48 65L53 75L50 84"/></g></svg>
 </button>
 <div class="cookie-crumbs" id="cookie-crumbs" aria-hidden="true"></div>
@@ -228,7 +233,7 @@
 <div class="locker-scene" id="locker-scene">
 <div class="locker-frame">
 <div class="locker-interior" id="locker-interior" role="group" tabindex="-1" aria-label="Dein geöffnetes Päckchen" aria-hidden="true"><svg viewBox="0 0 100 80" aria-hidden="true" focusable="false"><path d="M50 30V22a7 7 0 1 1 7-7M50 30L10 62H90Z" fill="none" stroke="#e4c99c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Such dein Päckchen Nummer</span><b>13</b></div>
-<div class="locker-door" id="locker-door"><img id="locker-art" data-src="assets/day-13/locker-door-flat-v2.png" alt="" width="640" height="960" draggable="false" decoding="async"><span class="locker-tag" aria-hidden="true">HONEY</span><div class="locker-panel" role="group" aria-label="Dreistelliger Code">
+<div class="locker-door" id="locker-door"><img id="locker-art" data-src="assets/day-13/locker-door-flat-v2.webp" alt="" width="640" height="960" draggable="false" decoding="async"><span class="locker-tag" aria-hidden="true">HONEY</span><div class="locker-panel" role="group" aria-label="Dreistelliger Code">
 <div class="locker-wheel"><button id="locker-up-0" type="button" aria-label="Ziffer 1 erhöhen">▲</button><div class="locker-digit" id="locker-digit-0" role="spinbutton" tabindex="0" aria-label="Ziffer 1" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0">0</div><button id="locker-down-0" type="button" aria-label="Ziffer 1 verringern">▼</button></div>
 <div class="locker-wheel"><button id="locker-up-1" type="button" aria-label="Ziffer 2 erhöhen">▲</button><div class="locker-digit" id="locker-digit-1" role="spinbutton" tabindex="0" aria-label="Ziffer 2" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0">0</div><button id="locker-down-1" type="button" aria-label="Ziffer 2 verringern">▼</button></div>
 <div class="locker-wheel"><button id="locker-up-2" type="button" aria-label="Ziffer 3 erhöhen">▲</button><div class="locker-digit" id="locker-digit-2" role="spinbutton" tabindex="0" aria-label="Ziffer 3" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0">0</div><button id="locker-down-2" type="button" aria-label="Ziffer 3 verringern">▼</button></div>
@@ -237,26 +242,78 @@
 <p class="locker-hint gift-feedback" id="locker-hint" hidden></p>
 <div class="gift-actions"><button class="btn gift-repeat" id="locker-again" type="button" hidden>Nochmal knacken</button></div>
 </section>
-<section class="snack gift-panel" id="snack" aria-label="Andres geheime Snack-Mission" hidden>
+<section class="snack gift-panel" id="snack" aria-label="Schiebepuzzle: ein geheimer Genuss" hidden>
 <div class="gift-task" id="snack-task"></div>
-<p class="gift-instructions" id="snack-intro">Training geschafft. Aber irgendetwas fehlt noch … 🤔</p>
-<p class="gift-instructions" id="snack-instruction">Sammle Crunch und Schoko. Die Hanteln haben heute Pause!</p>
-<div class="snack-meters" id="snack-meters">
-<div class="snack-meter" id="snack-meter-crunch" role="progressbar" aria-label="Crunch" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span>Crunch <b id="snack-count-crunch">0 / 5</b></span><div class="snack-track"><i id="snack-fill-crunch"></i></div></div>
-<div class="snack-meter" id="snack-meter-schoko" role="progressbar" aria-label="Schoko" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span>Schoko <b id="snack-count-schoko">0 / 5</b></span><div class="snack-track"><i id="snack-fill-schoko"></i></div></div>
+<p class="gift-instructions" id="snack-instruction">Schiebe die Teile ins freie Feld und setze das Bild zusammen.</p>
+<div class="snack-puzzle-scene">
+<div class="snack-board" id="snack-board" role="group" aria-label="Schiebepuzzle mit acht Bildteilen und einem freien Feld" aria-describedby="snack-keyboard">
+<div class="snack-empty" id="snack-empty" aria-hidden="true"></div>
+<button class="snack-tile" id="snack-tile-0" type="button" data-tile="0"><span class="snack-tile-image" style="background-position:0% 0%"></span><span class="snack-tile-number" aria-hidden="true">1</span></button>
+<button class="snack-tile" id="snack-tile-1" type="button" data-tile="1"><span class="snack-tile-image" style="background-position:50% 0%"></span><span class="snack-tile-number" aria-hidden="true">2</span></button>
+<button class="snack-tile" id="snack-tile-2" type="button" data-tile="2"><span class="snack-tile-image" style="background-position:100% 0%"></span><span class="snack-tile-number" aria-hidden="true">3</span></button>
+<button class="snack-tile" id="snack-tile-3" type="button" data-tile="3"><span class="snack-tile-image" style="background-position:0% 50%"></span><span class="snack-tile-number" aria-hidden="true">4</span></button>
+<button class="snack-tile" id="snack-tile-4" type="button" data-tile="4"><span class="snack-tile-image" style="background-position:50% 50%"></span><span class="snack-tile-number" aria-hidden="true">5</span></button>
+<button class="snack-tile" id="snack-tile-5" type="button" data-tile="5"><span class="snack-tile-image" style="background-position:100% 50%"></span><span class="snack-tile-number" aria-hidden="true">6</span></button>
+<button class="snack-tile" id="snack-tile-6" type="button" data-tile="6"><span class="snack-tile-image" style="background-position:0% 100%"></span><span class="snack-tile-number" aria-hidden="true">7</span></button>
+<button class="snack-tile" id="snack-tile-7" type="button" data-tile="7"><span class="snack-tile-image" style="background-position:50% 100%"></span><span class="snack-tile-number" aria-hidden="true">8</span></button>
+<button class="snack-tile" id="snack-tile-8" type="button" data-tile="8" aria-hidden="true" tabindex="-1"><span class="snack-tile-image" style="background-position:100% 100%"></span></button>
+<div class="snack-reference" id="snack-reference" hidden><img id="snack-picture" data-src="assets/day-14/secret-snack-puzzle.webp" alt="Andre entspannt auf dem Sofa. Auf dem Tisch wartet ein verdeckter Teller mit einer kleinen süßen Überraschung." width="960" height="960" draggable="false" decoding="async"></div>
 </div>
-<div class="gift-actions" id="snack-start-actions"><button class="btn" id="snack-start" type="button">Los geht’s!</button></div>
-<div class="snack-scene" id="snack-scene">
-<div class="snack-field" id="snack-field" role="group" tabindex="-1" aria-label="Spielfeld: Knusper-Kekse und Schokostücke sammeln, Hanteln auslassen"></div>
-<div class="snack-portrait" aria-hidden="true"><img id="snack-thoughtful" data-src="assets/day-14/andre-thoughtful.png" alt="" width="960" height="960" draggable="false" decoding="async"><img id="snack-happy" data-src="assets/day-01/andre-before.png" alt="" width="960" height="960" draggable="false" decoding="async" hidden></div>
-<div class="snack-thought" id="snack-thought" role="img" aria-label="Andre denkt an einen unbekannten Snack"><span class="snack-mystery"></span></div>
-<div class="snack-package" id="snack-package" role="img" aria-label="Geschlossenes Päckchen Nummer 14"></div>
 <div class="snack-effects" id="snack-effects" aria-hidden="true"></div>
 </div>
+<p class="sr-only" id="snack-keyboard">Enter oder Leertaste schiebt ein benachbartes Bildteil. Mit den Pfeiltasten schiebst du ein Teil in Pfeilrichtung ins freie Feld.</p>
 <p class="sr-only" id="snack-status" role="status" aria-live="polite" aria-atomic="true"></p>
-<div class="gift-actions"><button class="gift-hint" id="snack-calm" type="button">In Ruhe spielen</button><button class="btn gift-repeat" id="snack-again" type="button" hidden>Nochmal spielen</button></div>
-<div class="gift-reward snack-reward" id="snack-reward" role="group" aria-label="Deine Snack-Mission ist geschafft" tabindex="-1" hidden><p>Ein bisschen Crunch, ein bisschen Schoko — ganz viel Honey-Power!</p><p>Jetzt darfst du Päckchen Nr. 14 öffnen. 🤎</p></div>
-<div id="snack-preload" hidden aria-hidden="true"><img id="snack-preload-crunch" data-src="assets/day-05/ingredient-biscuits-illustrated.png" alt="" width="960" height="960" decoding="async"><img id="snack-preload-schoko" data-src="assets/day-14/chocolate.png" alt="" width="512" height="512" decoding="async"><img id="snack-preload-hantel" data-src="assets/day-14/dumbbell.png" alt="" width="512" height="512" decoding="async"></div>
+<div class="gift-actions"><button class="gift-hint" id="snack-tip" type="button" aria-expanded="false" aria-controls="snack-reference">Ein kleiner Tipp?</button></div>
+<div class="gift-reward snack-reward" id="snack-reward" tabindex="-1" hidden><h2>Ein kleines Genuss-Geheimnis</h2><p>Jetzt darfst du Päckchen Nr. 14 öffnen.</p></div>
+<div class="gift-actions"><button class="btn gift-repeat" id="snack-again" type="button" hidden>Nochmal spielen</button></div>
+</section>
+<section class="tail gift-panel" id="tail" aria-label="Die geheime Form entdecken" hidden>
+<div class="gift-task" id="tail-task"></div>
+<p class="gift-instructions" id="tail-intro">Was versteckt sich hier? Folge den Funken!</p>
+<p class="gift-progress" id="tail-progress">0 / 12</p>
+<div class="tail-scene" id="tail-scene">
+<svg class="tail-drawing" viewBox="0 0 260 460" aria-hidden="true" focusable="false"><defs><linearGradient id="tail-gold" x2=".5" y2="1"><stop stop-color="#ffe9b0"/><stop offset=".45" stop-color="#ffd05c"/><stop offset="1" stop-color="#e9a34c"/></linearGradient></defs><path class="tail-fill" id="tail-fill" fill="url(#tail-gold)"/><path class="tail-line" id="tail-line" pathLength="100" fill="none" stroke="#ffc872" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div id="tail-points" role="group" aria-label="Zwölf Punkte in nummerierter Reihenfolge verbinden"></div>
+<div class="tail-effects" id="tail-effects" aria-hidden="true"></div>
+</div>
+<p class="sr-only" id="tail-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="gift-reward tail-reward" id="tail-reward" tabindex="-1" hidden>
+<div class="tail-package" id="tail-package" role="img" aria-label="Geschlossenes Päckchen Nummer 15"></div>
+<p>Pika Pika! Eine kleine Überraschung wartet auf dich.</p>
+</div>
+<div class="gift-actions"><button class="btn gift-repeat" id="tail-again" type="button" hidden>Nochmal spielen</button></div>
+</section>
+<section class="syrniki gift-panel" id="syrniki" aria-label="Syrniki verzieren" hidden>
+<div class="gift-task" id="syrniki-task"></div>
+<p class="gift-instructions" id="syrniki-instruction">Verziere die Syrniki mit Schokolade.</p>
+<div class="syrniki-scene" id="syrniki-scene">
+<img data-src="assets/day-17/syrniki-scene.webp" alt="Drei goldene Syrniki auf einem Teller, daneben eine Schale Himbeeren, eine Gabel und eine Serviette" width="960" height="960" draggable="false" decoding="async">
+<svg id="syrniki-draw" class="syrniki-draw" viewBox="0 0 1000 1000" tabindex="0" role="application" aria-label="Schokolade auf die Syrniki malen" aria-describedby="syrniki-keyboard"><defs><clipPath id="syrniki-mask" clipPathUnits="userSpaceOnUse"></clipPath></defs><g id="syrniki-lines" clip-path="url(#syrniki-mask)" stroke-linecap="round" stroke-linejoin="round"></g><circle id="syrniki-cursor" cx="298" cy="353" r="18" fill="none" stroke="#fff3d3" stroke-width="6" hidden/></svg>
+<div class="syrniki-berries" id="syrniki-berries" aria-hidden="true" hidden>
+<img class="syrniki-berry berry-one" data-src="assets/day-17/raspberry.webp" alt="" width="256" height="256" draggable="false" decoding="async"><img class="syrniki-berry berry-two" data-src="assets/day-17/raspberry.webp" alt="" width="256" height="256" draggable="false" decoding="async"><img class="syrniki-berry berry-three" data-src="assets/day-17/raspberry.webp" alt="" width="256" height="256" draggable="false" decoding="async">
+</div>
+<div class="syrniki-effects" id="syrniki-effects" aria-hidden="true"></div>
+</div>
+<p class="sr-only" id="syrniki-keyboard">Tastatur: Mit den Pfeiltasten den Pinsel bewegen. Leertaste oder Enter beginnt und beendet einen Strich. Male mindestens drei längere Striche.</p>
+<p class="gift-progress" id="syrniki-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="gift-actions" id="syrniki-edit-actions"><button class="btn" id="syrniki-finish" type="button" hidden>Fertig!</button><button class="btn gift-repeat" id="syrniki-clear" type="button">Neu anfangen</button></div>
+<div class="gift-reward syrniki-reward" id="syrniki-reward" tabindex="-1" hidden><h2>Dein Meisterwerk ist fertig!</h2><p>Jetzt darfst du Päckchen Nr. 17 öffnen.</p></div>
+<div class="gift-actions"><button class="btn gift-repeat" id="syrniki-again" type="button" hidden>Nochmal spielen</button></div>
+</section>
+<section class="rocket gift-panel" id="rocket" aria-label="Andres kleiner Höhenflug" hidden>
+<div class="gift-task" id="rocket-task"></div>
+<p class="gift-instructions" id="rocket-instruction">Tippe, wenn der Funke die goldene Zone erreicht. Drei Treffer starten die Rakete!</p>
+<div class="rocket-scene" id="rocket-scene">
+<svg class="rocket-sky" viewBox="0 0 300 310" aria-hidden="true" focusable="false"><g fill="#ffc872" opacity=".7"><path d="m28 48 2-7 2 7 7 2-7 2-2 7-2-7-7-2z"/><path d="m253 84 2-7 2 7 7 2-7 2-2 7-2-7-7-2z"/><path d="m62 158 2-5 2 5 5 2-5 2-2 5-2-5-5-2z"/><circle cx="87" cy="29" r="2"/><circle cx="225" cy="25" r="2"/><circle cx="275" cy="175" r="2"/><circle cx="21" cy="220" r="2"/></g><ellipse cx="150" cy="293" rx="85" ry="7" fill="#bfa6c522"/></svg>
+<div class="rocket-craft" id="rocket-craft"><span class="rocket-flame" aria-hidden="true"></span><img data-src="assets/day-18/andre-rocket.webp" width="960" height="960" alt="Andre sitzt lächelnd in einer kleinen Rakete" draggable="false" decoding="async"></div>
+<div class="rocket-package" id="rocket-package" role="img" aria-label="Geschlossenes Päckchen Nummer 18" hidden></div>
+<div class="rocket-effects" id="rocket-effects" aria-hidden="true"></div>
+</div>
+<div class="rocket-charge" id="rocket-charge" role="progressbar" aria-label="Motor-Energie" aria-valuemin="0" aria-valuemax="3" role="progressbar" aria-label="Motor-Energie" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><span>Motor-Energie <b id="rocket-progress">0 / 3</b></span><div class="rocket-charge-track"><i id="rocket-charge-fill"></i></div></div>
+<div class="gift-actions" id="rocket-play"><div class="rocket-timing" id="rocket-timing" aria-hidden="true"><span class="rocket-zone"></span><span class="rocket-cursor" id="rocket-cursor"></span></div><button class="btn" id="rocket-tap" type="button">Jetzt laden!</button><button class="gift-hint" id="rocket-calm" type="button">In Ruhe spielen</button></div>
+<p class="gift-progress" id="rocket-status" role="status" aria-live="polite" aria-atomic="true"></p>
+<div class="gift-reward rocket-reward" id="rocket-reward" tabindex="-1" hidden><h2>Neue Energie. Nächstes Abenteuer.</h2><p>Jetzt darfst du Päckchen Nr. 18 öffnen!</p></div>
+<div class="gift-actions"><button class="btn gift-repeat" id="rocket-again" type="button" hidden>Nochmal spielen</button></div>
 </section>
 <div class="gift-actions" id="gift-default-actions"><button class="btn" id="yes">Да, канєшно 💛</button></div>
 <div class="where gift-reward" id="wh"></div>
